@@ -1,0 +1,8 @@
+--- PARSING ---
+
+- skip les lignes qui ne commencent pas par un 1 (sans compter les espaces)
+- verifier .cub OK
+- verfier les types de char 0 1 N S E W OK
+- verifier que tous les contour sont des murs 
+- ouvrir la map OK
+
