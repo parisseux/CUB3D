@@ -12,7 +12,6 @@
 typedef struct s_data {
     char **map;
     int fd_map;
-
 } t_data;
 
 

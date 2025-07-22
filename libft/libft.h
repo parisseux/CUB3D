@@ -83,13 +83,13 @@ void	ft_lstiter(t_list *lst, void (*f)(void*));
 t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
 
 // get_next_line
-size_t	ft_fin(const char *s);
-size_t	ft_strlen(const char *s);
+size_t	ft_fin_gnl(const char *s);
+size_t	ft_strlen_gnl(const char *s);
 
-char	*ft_substr(char const *s, unsigned int start, size_t len);
-char	*ft_strchr(const char *s, int c);
+char	*ft_substr_gnl(char const *s, unsigned int start, size_t len);
+char	*ft_strchr_gnl(const char *s, int c);
 char	*get_next_line(int fd);
-char	*ft_strjoin(char const *s1, char const *s2);
-char	*ft_strdup(const char *src);
+char	*ft_strjoin_gnl(char const *s1, char const *s2);
+char	*ft_strdup_gnl(const char *src);
 
 #endif

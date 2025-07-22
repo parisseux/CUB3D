@@ -12,7 +12,7 @@
 
 #include "libft.h"
 
-size_t	ft_fin(const char *s)
+size_t	ft_fin_gnl(const char *s)
 {
 	int	i;
 
@@ -26,7 +26,7 @@ size_t	ft_fin(const char *s)
 	return (0);
 }
 
-size_t	ft_strlen(const char *s)
+size_t	ft_strlen_gnl(const char *s)
 {
 	int	i;
 
@@ -36,7 +36,7 @@ size_t	ft_strlen(const char *s)
 	return (i);
 }
 
-char	*ft_strjoin(char const *s1, char const *s2)
+char	*ft_strjoin_gnl(char const *s1, char const *s2)
 {
 	int		i;
 	int		j;
@@ -60,7 +60,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	return (mixmix);
 }
 
-char	*ft_strdup(const char *src)
+char	*ft_strdup_gnl(const char *src)
 {
 	int		i;
 	char	*cpy;
@@ -80,7 +80,7 @@ char	*ft_strdup(const char *src)
 	return (cpy);
 }
 
-char	*ft_strchr(const char *s, int c)
+char	*ft_strchr_gnl(const char *s, int c)
 {
 	int	i;
 

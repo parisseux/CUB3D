@@ -20,10 +20,10 @@ char	*ft_substr_gnl(char const *s, unsigned int start, size_t len)
 	i = 0;
 	if (!s)
 		return (NULL);
-	if (ft_strlen(s) < start)
-		return (ft_strdup(""));
-	if (len > ft_strlen(s + start))
-		len = ft_strlen(s + start);
+	if (ft_strlen_gnl(s) < start)
+		return (ft_strdup_gnl(""));
+	if (len > ft_strlen_gnl(s + start))
+		len = ft_strlen_gnl(s + start);
 	new_s = (char *)malloc((len + 1) * sizeof(char));
 	if (new_s == 0)
 		return (NULL);
@@ -55,12 +55,12 @@ static char	*line_reader(int fd, char *reste, char *buff)
 			break ;
 		buff[check_read] = '\0';
 		if (!reste)
-			reste = ft_strdup("");
+			reste = ft_strdup_gnl("");
 		send_help = reste;
-		reste = ft_strjoin(reste, buff);
+		reste = ft_strjoin_gnl(reste, buff);
 		free(send_help);
 		send_help = NULL;
-		if (ft_strchr(buff, '\n'))
+		if (ft_strchr_gnl(buff, '\n'))
 			break ;
 	}
 	return (reste);
@@ -76,7 +76,7 @@ static char	*line_cleaner(char *line)
 		i++;
 	if (line[i] == 0)
 		return (0);
-	new_reste = ft_substr_gnl(line, i + 1, ft_strlen(line) - i);
+	new_reste = ft_substr_gnl(line, i + 1, ft_strlen_gnl(line) - i);
 	if (*new_reste == 0)
 	{
 		free(new_reste);
