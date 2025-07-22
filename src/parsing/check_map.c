@@ -1,4 +1,5 @@
-#include "cub3d.h"
+#include "../../inc/cub3d.h"
+
 
 int	ft_check_format_cub(char *file_name)
 {
@@ -10,15 +11,6 @@ int	ft_check_format_cub(char *file_name)
 	if (ft_strncmp(ext, ".cub", 5) != 0)
 		return (0);
 	return (1);
-}
-
-int is_space(char c)
-{
-    if (c == '\t' || c == '\n' || c == '\v' || c == '\f' || c == '\r' || c ==' ')
-        return (1);
-    else 
-        return (0);
-
 }
 
 int	ft_check_tiles(t_data *game)
@@ -40,5 +32,13 @@ int	ft_check_tiles(t_data *game)
 		}
 		i++;
 	}
+	return (1);
+}
+int	ft_check_map(t_data *game, char *file_name)
+{
+	if (ft_check_format_cub(file_name) == 0)
+		return (0);
+	if (ft_check_tiles(game) == 0)
+		return (0);
 	return (1);
 }

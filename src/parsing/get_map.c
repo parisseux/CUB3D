@@ -1,13 +1,21 @@
 
-#include "cub3d.h"
+#include "../../inc/cub3d.h"
 
-int	ft_check_map(t_data *game, char *file_name)
+bool  start_of_map(char *line)
 {
-	if (ft_check_format_cub(file_name) == 0)
-		return (0);
-	if (ft_check_tiles(game) == 0)
-		return (0);
-	return (1);
+	int i;
+
+	i = 0;
+	while (line[i])
+	{
+		if (is_space(line[i] == 1))
+			i++;
+		else if (line[i] != '1')
+			return (false);
+		else if (line[i] == '1')
+			break ;
+	}
+	return (true);
 }
 
 char	*ft_read_and_join(int fd)
@@ -18,6 +26,11 @@ char	*ft_read_and_join(int fd)
 
 	map_temp = NULL;
 	line = get_next_line(fd);
+	while (start_of_map(line) == false)
+	{
+		free(line);
+		line = get_next_line(fd);
+	}
 	while (line)
 	{
 		if (map_temp == NULL)
