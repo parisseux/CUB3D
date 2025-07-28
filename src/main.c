@@ -12,7 +12,7 @@ int main(int ac, char **av)
     ft_bzero(game, sizeof(t_data));
     game->map = ft_get_map(av[1], game);
     if (ft_check_map(game, av[1]) == 0)
-		return (mess_error(1, "invalid map"));
+		  return (mess_error(1, "invalid map"));
     int i = 0;
     while (game->map[i])
     {

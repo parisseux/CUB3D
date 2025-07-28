@@ -11,8 +11,6 @@
 # include <sys/types.h>
 # include <sys/stat.h>
 # include <unistd.h>
-# include <X11/keysym.h>
-# include <X11/X.h>
 # include "../libft/libft.h"
 # include <sys/types.h>
 # include <sys/stat.h>
@@ -22,6 +20,7 @@
 typedef struct s_data {
     char **map;
     int fd_map;
+    int height_map;
 } t_data;
 
 

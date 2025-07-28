@@ -18,18 +18,19 @@ bool  start_of_map(char *line)
 	return (true);
 }
 
-char	*ft_read_and_join(int fd)
+char	*ft_read_and_join(t_data *game)
 {
 	char	*line;
 	char	*map_temp;
 	char	*temp;
+	int height = 0;
 
 	map_temp = NULL;
-	line = get_next_line(fd);
+	line = get_next_line(game->fd_map);
 	while (start_of_map(line) == false)
 	{
 		free(line);
-		line = get_next_line(fd);
+		line = get_next_line(game->fd_map);
 	}
 	while (line)
 	{
@@ -42,8 +43,10 @@ char	*ft_read_and_join(int fd)
 			free(temp);
 		}
 		free(line);
-		line = get_next_line(fd);
+		height++;
+		line = get_next_line(game->fd_map);
 	}
+	game->height_map = height;
 	return (map_temp);
 }
 
@@ -57,7 +60,7 @@ char	**ft_get_map(char *file_path, t_data *game)
         perror("Error");
         exit (1);
     }
-	map_temp = ft_read_and_join(game->fd_map);
+	map_temp = ft_read_and_join(game);
 	close(game->fd_map);
     if (!map_temp)
     {
