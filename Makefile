@@ -4,6 +4,8 @@ HEADERS = ./inc
 SRC_DIR = ./src
 PARSING_DIR = $(SRC_DIR)/parsing
 MLX_DIRR = $(SRC_DIR)/mlx
+PLAYER_DIR = $(SRC_DIR)/player
+RAYCASTING_DIR = $(SRC_DIR)/raycasting
 LIBFT_DIR = ./libft
 OBJ_DIR = ./obj
 
@@ -26,7 +28,7 @@ endif
 
 # === SOURCES ===
 
-SRC_DIRS = $(SRC_DIR) $(PARSING_DIR) $(MLX_DIRR)
+SRC_DIRS = $(SRC_DIR) $(PARSING_DIR) $(MLX_DIRR) $(PLAYER_DIR) $(RAYCASTING_DIR)
 SRC_FILES = $(sort $(foreach dir,$(SRC_DIRS),$(shell find $(dir) -name '*.c')))
 
 OBJ_FILES = $(SRC_FILES:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)

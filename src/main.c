@@ -17,8 +17,10 @@ int main(int ac, char **av)
         return (mess_error(1, "invalid map"));
     }
     init_mlx(game);
-    mlx_hook(game->mlx.win_ptr, 2, 1L<<0, key_hook, game); // Touches
-    mlx_hook(game->mlx.win_ptr, 17, 0, close_window, game); // Croix rouge
+    init_camera(game);
+    mlx_hook(game->mlx.win_ptr, 2, 1L<<0, key_press, game);
+    mlx_hook(game->mlx.win_ptr, 3, 1L<<1, key_release, game);
+    mlx_hook(game->mlx.win_ptr, 17, 0, close_window, game);
     mlx_loop(game->mlx.mlx_ptr);
     return (0);
 }

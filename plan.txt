@@ -9,30 +9,27 @@
 - ouvrir la map OK
 
 1. INITIALISATION DE MINILIBX
-[] Configurer l’initialisation de MiniLibX 
+[x] Configurer l’initialisation de MiniLibX 
 
-[] Ajouter une structure t_mlx dans t_data pour gérer mlx_ptr, win_ptr, img_ptr, etc.
-[] Initialiser MiniLibX (mlx_init) et créer une fenêtre (mlx_new_window)
-[] Créer une image buffer (mlx_new_image) pour un rendu fluide
-[] Mettre en place la boucle principale de MiniLibX
-[] Ajouter mlx_loop pour maintenir la fenêtre ouverte
-[] Configurer un hook pour gérer la fermeture de la fenêtre (croix rouge)
-[] Configurer un hook pour la touche ESC pour quitter proprement
+[x] Ajouter struct t_mlx dans t_data
+[x] Initialiser MiniLibX et créer une window
+[x] Créer une image buffer ->mlx_new_image pour rendu fluide
+[x] Boucle principale de MiniLibX
+[x] Ajouter mlx_loop pour maintenir la fenêtre ouverte (main)
+[x] Hook pour la fermeture de la fenêtre (croix rouge + ESC)
 
 2. PARSING DES ÉLÉMENTS MANQUANTS
-[] Parser les textures et couleurs du fichier .cub
+[x] Parser les textures et couleurs du fichier .cub
 
-[] Extraire les identifiants NO, SO, WE, EA (chemins des textures) avant la carte
-[] Extraire les couleurs F (sol) et C (plafond) au format RGB
-[] Stocker ces informations dans t_data (ajouter des champs comme no_texture, floor_color, etc.)
-[] Valider la position du joueur
-[] Trouver exactement un caractère N, S, E, ou W dans la carte
-[] Stocker la position et l’orientation du joueur dans une structure t_player
-[] Remplacer le caractère du joueur par 0 dans la carte
-[] Améliorer la validation de la carte
-[] Vérifier qu’il n’y a qu’un seul joueur
-[] Gérer les lignes vides ou espaces dans la carte correctement
-[] Vérifier que les textures et couleurs sont bien définies avant la carte
+[x] Vérifier que les textures et couleurs sont bien définies avant la carte
+[x] Extraire les identifiants NO, SO, WE, EA (chemins des textures) avant la carte
+[x] Extraire les couleurs F (sol) et C (plafond) au format RGB
+[x] -->Stocker ces infos dans t_data
+[x] Valider pos du joueur
+[x] Trouver UN SEUL N, S, E, ou W dans la carte = un seul joueur
+[x] Stocker pos + orientation du joueur dans une structure t_player
+[x] Remplacer le caractère du joueur par 0 dans la carte
+[x] Gérer les lignes vides ou espaces dans la carte correctement
 
 3. IMPLÉMENTATION DU RAY-CASTING
 [] Mettre en place la structure du joueur
