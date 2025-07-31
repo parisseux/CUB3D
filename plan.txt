@@ -8,3 +8,95 @@
 - verifier que tous les contour sont des murs OK
 - ouvrir la map OK
 
+1. INITIALISATION DE MINILIBX
+[] Configurer l’initialisation de MiniLibX 
+
+[] Ajouter une structure t_mlx dans t_data pour gérer mlx_ptr, win_ptr, img_ptr, etc.
+[] Initialiser MiniLibX (mlx_init) et créer une fenêtre (mlx_new_window)
+[] Créer une image buffer (mlx_new_image) pour un rendu fluide
+[] Mettre en place la boucle principale de MiniLibX
+[] Ajouter mlx_loop pour maintenir la fenêtre ouverte
+[] Configurer un hook pour gérer la fermeture de la fenêtre (croix rouge)
+[] Configurer un hook pour la touche ESC pour quitter proprement
+
+2. PARSING DES ÉLÉMENTS MANQUANTS
+[] Parser les textures et couleurs du fichier .cub
+
+[] Extraire les identifiants NO, SO, WE, EA (chemins des textures) avant la carte
+[] Extraire les couleurs F (sol) et C (plafond) au format RGB
+[] Stocker ces informations dans t_data (ajouter des champs comme no_texture, floor_color, etc.)
+[] Valider la position du joueur
+[] Trouver exactement un caractère N, S, E, ou W dans la carte
+[] Stocker la position et l’orientation du joueur dans une structure t_player
+[] Remplacer le caractère du joueur par 0 dans la carte
+[] Améliorer la validation de la carte
+[] Vérifier qu’il n’y a qu’un seul joueur
+[] Gérer les lignes vides ou espaces dans la carte correctement
+[] Vérifier que les textures et couleurs sont bien définies avant la carte
+
+3. IMPLÉMENTATION DU RAY-CASTING
+[] Mettre en place la structure du joueur
+
+[] Ajouter t_player dans t_data avec pos_x, pos_y, dir_x, dir_y, plane_x, plane_y
+[] Initialiser la direction et le plan de la caméra selon l’orientation (N, S, E, W)
+[] Implémenter l’algorithme de ray-casting
+[] Calculer les rayons pour chaque colonne de l’écran
+[] Utiliser l’algorithme DDA pour détecter les collisions avec les murs
+[] Calculer la distance perpendiculaire pour éviter l’effet fisheye
+[] Calculer la hauteur des murs pour le rendu 3D
+[] Rendu des murs, sol et plafond
+[] Dessiner des bandes verticales pour les murs dans l’image buffer
+[] Appliquer les couleurs du sol (F) et du plafond (C)
+[] Afficher l’image buffer dans la fenêtre avec mlx_put_image_to_window
+
+4. CHARGEMENT DES TEXTURES
+[] Charger les textures avec MiniLibX
+
+[] Utiliser mlx_xpm_file_to_image pour charger les textures NO, SO, WE, EA
+[] Stocker les pointeurs d’image dans t_data
+[] Vérifier que les textures sont valides (gérer les erreurs)
+[] Appliquer les textures aux murs
+[] Identifier la direction du mur touché (Nord, Sud, Est, Ouest) pendant le ray-casting
+[] Extraire les pixels de la texture correspondante pour le rendu
+[] Intégrer les textures dans le rendu des bandes verticales
+
+5. MOUVEMENT ET ROTATION DU JOUEUR
+[] Configurer les hooks pour les entrées clavier
+
+[] Ajouter un hook pour les touches W, A, S, D (mouvement)
+[] Ajouter un hook pour les flèches gauche/droite (rotation)
+[] Implémenter les fonctions de mouvement
+[] Déplacement avant/arrière (W/S) en fonction de la direction du joueur
+[] Déplacement latéral (A/D) en utilisant le vecteur perpendiculaire
+[] Vérifier les collisions pour éviter de traverser les murs
+[] Implémenter la rotation
+[] Rotation à gauche/droite avec les flèches, en utilisant une matrice de rotation
+[] Mettre à jour dir_x, dir_y, plane_x, plane_y
+[] Rafraîchir l’affichage après chaque mouvement
+[] Appeler la fonction de ray-casting après chaque action pour redessiner
+
+6. GESTION DES ÉVÉNEMENTS DE FENÊTRE
+[] Gérer la fermeture propre du programme
+
+[] Quitter avec la touche ESC
+[] Quitter avec la croix rouge de la fenêtre
+[] Gérer la minimisation de la fenêtre
+[] Tester que la fenêtre se minimise/restaure correctement
+[] Nettoyer les ressources
+[] Libérer la mémoire allouée (game, map, textures, etc.)
+[] Détruire les objets MiniLibX (img_ptr, win_ptr, mlx_ptr)
+
+7. VALIDATION ET TESTS
+[] Tester avec des cartes valides
+
+[] Tester avec l’exemple du sujet (11111\n10010\n10100\n100E1\n11111)
+[] Tester avec map1.cub (en corrigeant si nécessaire)
+[] Créer des cartes variées pour tester différents cas
+[] Tester les cas d’erreur
+[] Tester une carte sans joueur ou avec plusieurs joueurs
+[] Tester une carte non entourée de murs
+[] Tester un fichier .cub sans textures ou couleurs
+[] Vérifier la conformité à la Norme
+[] Exécuter norminette *.c *.h pour vérifier le respect de la Norme
+[] Vérifier l’absence de fuites mémoire
+[] Utiliser valgrind pour tester les leaks (valgrind ./cub3D map1.cub)
