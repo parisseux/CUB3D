@@ -1,19 +1,18 @@
-
 #include "../../inc/cub3d.h"
 
-bool  start_of_map(char *line)
+bool	start_of_map(char *line)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (line[i])
 	{
-		if (is_space(line[i] == 1))
+		if (is_space(line[i]))
 			i++;
 		else if (line[i] != '1')
 			return (false);
 		else if (line[i] == '1')
-			break ;
+			break;
 	}
 	return (true);
 }
@@ -23,11 +22,12 @@ char	*ft_read_and_join(t_data *game)
 	char	*line;
 	char	*map_temp;
 	char	*temp;
-	int height = 0;
+	int		height;
 
+	height = 0;
 	map_temp = NULL;
 	line = get_next_line(game->fd_map);
-	while (start_of_map(line) == false)
+	while (line && start_of_map(line) == false)
 	{
 		free(line);
 		line = get_next_line(game->fd_map);
@@ -54,19 +54,26 @@ char	**ft_get_map(char *file_path, t_data *game)
 {
 	char	*map_temp;
 
+	game->floor_color = -1;
+	game->ceiling_color = -1;
+	if (!parse_elements(game, file_path))
+	{
+		perror("Error");
+		exit(1);
+	}
 	game->fd_map = open(file_path, O_RDONLY);
 	if (game->fd_map < 0)
-    {
-        perror("Error");
-        exit (1);
-    }
+	{
+		perror("Error");
+		exit(1);
+	}
 	map_temp = ft_read_and_join(game);
 	close(game->fd_map);
-    if (!map_temp)
-    {
-        perror("Error");
-        exit(1);
-    }
+	if (!map_temp)
+	{
+		perror("Error");
+		exit(1);
+	}
 	game->map = ft_split(map_temp, '\n');
 	free(map_temp);
 	return (game->map);
