@@ -12,27 +12,28 @@ static int	parse_color(char *line, int *color)
 	char	**rgb;
 	int r, g, b;
 
-	trimmed = ft_strtrim(line + 2, " \t\n");
-	if (!trimmed)
-		return (0);
-	rgb = ft_split(trimmed, ',');
-	free(trimmed);
-	if (!rgb || !rgb[0] || !rgb[1] || !rgb[2] || rgb[3])
-	{
-		ft_free_split(rgb);
-		return (0);
-	}
-	r = ft_atoi(rgb[0]);
-	g = ft_atoi(rgb[1]);
-	b = ft_atoi(rgb[2]);
-	if (!is_valid_rgb(r, g, b))
-	{
-		ft_free_split(rgb);
-		return (0);
-	}
-	*color = (r << 16) | (g << 8) | b; // Convertir en int (format RGB)
-	ft_free_split(rgb);
-	return (1);
+    trimmed = ft_strtrim(line + 2, " \t\n");
+    if (!trimmed)
+        return (0);
+    rgb = ft_split(trimmed, ',');
+    free(trimmed);
+    if (!rgb || !rgb[0] || !rgb[1] || !rgb[2] || rgb[3])
+    {
+        ft_free_split(rgb);
+        return (0);
+    }
+    r = ft_atoi(rgb[0]);
+    g = ft_atoi(rgb[1]);
+    b = ft_atoi(rgb[2]);
+    if (!is_valid_rgb(r, g, b))
+    {
+        ft_free_split(rgb);
+        return (0);
+    }
+    *color = (r << 16) | (g << 8) | b;
+    printf("Parsed color: R=%d, G=%d, B=%d, color=0x%X\n", r, g, b, *color); // Débogage
+    ft_free_split(rgb);
+    return (1);
 }
 
 static int	parse_texture(char *line, char **texture)

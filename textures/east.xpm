@@ -1,0 +1,9 @@
+/* XPM */
+static char *east_xpm[] = {
+"4 4 1 1",
+"c c #220000",
+"cccc",
+"cccc",
+"cccc",
+"cccc"
+};

@@ -21,6 +21,11 @@
 # include "../minilibx_linux/mlx.h"
 #endif
 
+# define WINDOW_WIDTH    1280
+# define WINDOW_HEIGHT   720
+# define MOVE_SPEED      0.04
+# define ROT_SPEED       0.025
+
 typedef struct s_mlx {
 	void	*mlx_ptr;
 	void	*win_ptr;
@@ -64,19 +69,34 @@ typedef struct s_ray {
 	double	perp_dist;
 } t_ray;
 
+typedef struct s_texture {
+    void    *img_ptr;
+    char    *data;
+    int     width;
+    int     height;
+    int     bpp;
+    int     size_line;
+    int     endian;
+} t_texture;
+
 typedef struct s_data {
-	char		**map;
-	int			fd_map;
-	int			height_map;
-	t_mlx		mlx;
-	t_player	player;
-	t_keys		keys;
-	char		*no_texture;
-	char		*so_texture;
-	char		*we_texture;
-	char		*ea_texture;
-	int			floor_color;
-	int			ceiling_color;
+    char        **map;
+    int         fd_map;
+    int         height_map;
+    t_mlx       mlx;
+    t_player    player;
+    t_keys      keys;
+    t_ray       ray;
+    char        *no_texture;
+    char        *so_texture;
+    char        *we_texture;
+    char        *ea_texture;
+    t_texture   tex_north;
+    t_texture   tex_south;
+    t_texture   tex_west;
+    t_texture   tex_east;
+    int         floor_color;
+    int         ceiling_color;
 } t_data;
 
 // utils.c
@@ -115,10 +135,13 @@ void	move_player(t_data *data);
 void	rotate_player(t_data *data);
 
 // raycasting/render.c
-void	draw_column(t_data *data, int x, int start, int end);
-int		render_frame(t_data *data);
+void    draw_column(t_data *data, int x, int start, int end, t_texture *tex);
+int     render_frame(t_data *data);
 
 // raycasting/pixel.c
-void	draw_pixel(t_mlx *mlx, int x, int y, int color);
+void    draw_pixel(t_mlx *mlx, int x, int y, int color);
+
+// raycasting/update.c
+int     update(t_data *data);
 
 #endif
