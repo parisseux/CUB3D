@@ -5,11 +5,11 @@
 //		-> Centre de la case
 // game->map[i][j] = '0'
 //		-> Remplacer par 0 le joueur
-int init_player(t_data *game)
+int	init_player(t_data *game)
 {
-	int i;
-	int j;
-	int player_count;
+	int	i;
+	int	j;
+	int	player_count;
 
 	player_count = 0;
 	i = 0;
