@@ -11,3 +11,18 @@ int mess_error(int exit_code, char *message)
     ft_putstr_fd("\n", 2);
     return (exit_code);
 }
+
+void	ft_free_split(char **split)
+{
+	int	i;
+
+	if (!split)
+		return ;
+	i = 0;
+	while (split[i])
+	{
+		free(split[i]);
+		i++;
+	}
+	free(split);
+}
