@@ -1,7 +1,31 @@
 #include "../../inc/cub3d.h"
 
-#define WINDOW_WIDTH 1280
-#define WINDOW_HEIGHT 720
+void get_screen_size(t_data *data)
+{
+    typedef struct {
+        char *name;
+        int width;
+        int height;
+        char *description;
+    } t_resolution_profile;
+    
+    t_resolution_profile profiles[] = {
+        {"tryhard", 800, 600, "Performance max"},
+        {"balanced", 1280, 720, "Équilibrée"},
+        {"quality", 1440, 900, "Deustsche qualität"},
+        {"fullscreen", 1920, 1080, "Peut lag, mais à peu pres taille pc école je pense"}
+    };
+    
+    int choisis_la_resolution_chacal = 2;
+    
+    data->screen.width = profiles[choisis_la_resolution_chacal].width;
+    data->screen.height = profiles[choisis_la_resolution_chacal].height;
+    
+    printf("Resolution profile: %s (%s)\n", 
+           profiles[choisis_la_resolution_chacal].name, 
+           profiles[choisis_la_resolution_chacal].description);
+    printf("Window size: %dx%d\n", data->screen.width, data->screen.height);
+}
 
 static void load_texture(t_data *data, t_texture *tex, char *path)
 {
@@ -34,17 +58,22 @@ void init_mlx(t_data *data)
     data->mlx.mlx_ptr = mlx_init();
     if (!data->mlx.mlx_ptr)
         mess_error(1, "MLX init failed");
+    
+    // Configurer la résolution
+    get_screen_size(data);
+    
     load_texture(data, &data->tex_north, data->no_texture);
     load_texture(data, &data->tex_south, data->so_texture);
     load_texture(data, &data->tex_west, data->we_texture);
     load_texture(data, &data->tex_east, data->ea_texture);
-    data->mlx.win_ptr = mlx_new_window(data->mlx.mlx_ptr, WINDOW_WIDTH, WINDOW_HEIGHT, "cub3D");
+    
+    data->mlx.win_ptr = mlx_new_window(data->mlx.mlx_ptr, data->screen.width, data->screen.height, "cub3D");
     if (!data->mlx.win_ptr)
     {
         cleanup(data);
         mess_error(1, "Window creation failed");
     }
-    data->mlx.img_ptr = mlx_new_image(data->mlx.mlx_ptr, WINDOW_WIDTH, WINDOW_HEIGHT);
+    data->mlx.img_ptr = mlx_new_image(data->mlx.mlx_ptr, data->screen.width, data->screen.height);
     if (!data->mlx.img_ptr)
     {
         cleanup(data);

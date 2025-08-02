@@ -1,103 +1,114 @@
 #include "../../inc/cub3d.h"
 
-static void get_wall_dir(t_ray *ray, double ray_x, double ray_y, t_data *data, t_texture **tex)
+// Dit quelle texture afficher (N/S/E/O) en fonction de la dir
+// du rayon et du côté du mur touché (horizontal ou vertical)
+// Si le mur est vertical (side = 0), on regarde ray_x
+// Si horizontal (side = 1), on regarde ray_y
+// Exemple : ray->side == 0 && ray_x > 0 => mur Est
+static void	get_wall_dir(t_ray *ray, double ray_x, double ray_y, t_data *data, t_texture **tex)
 {
-    if (ray->side == 0)
-    {
-        if (ray_x > 0)
-            *tex = &data->tex_east;
-        else
-            *tex = &data->tex_west;
-    }
-    else
-    {
-        if (ray_y > 0)
-            *tex = &data->tex_south;
-        else
-            *tex = &data->tex_north;
-    }
+	if (ray->side == 0)
+	{
+		if (ray_x > 0)
+			*tex = &data->tex_east;
+		else
+			*tex = &data->tex_west;
+	}
+	else
+	{
+		if (ray_y > 0)
+			*tex = &data->tex_south;
+		else
+			*tex = &data->tex_north;
+	}
 }
 
-static int get_tex_color(t_texture *tex, int tex_x, int tex_y)
+// Récupère la couleur d'un pixel dans une texture à la position (tex_x, tex_y).
+// On calcule l'adresse mémoire du pixel (data + offset).
+// Si endian = 0 (little endian), on lit R,G,B à la main.
+// Sinon, on lit 4 octets directement (big endian).
+// Défaut : si color=0 → rouge ; hors limites → gris.
+static int	get_tex_color(t_texture *tex, int tex_x, int tex_y)
 {
-    char *dst;
-    int color;
+	char	*dst;
+	int		color;
 
-    if (!tex->data)
-    {
-        printf("Error: Texture data is NULL\n");
-        return (0xFF0000); // Rouge par défaut
-    }
-    if (tex_x >= 0 && tex_x < tex->width && tex_y >= 0 && tex_y < tex->height)
-    {
-        dst = tex->data + (tex_y * tex->size_line + tex_x * (tex->bpp / 8));
-        if (tex->endian == 0)
-        {
-            // Little-endian: ARGB
-            unsigned char *pixel = (unsigned char *)dst;
-            color = (pixel[2] << 16) | (pixel[1] << 8) | pixel[0];
-        }
-        else
-        {
-            // Big-endian: RGBA
-            color = *(unsigned int *)dst;
-        }
-        if (color == 0)
-        {
-            printf("Warning: Black pixel at (%d,%d), forcing red\n", tex_x, tex_y);
-            color = 0xFF0000;
-        }
-        //printf("get_tex_color: tex_x=%d, tex_y=%d, color=0x%X\n", tex_x, tex_y, color);
-    }
-    else
-    {
-        color = 0x808080; // Gris par défaut
-        printf("Out of bounds: tex_x=%d, tex_y=%d, width=%d, height=%d\n", tex_x, tex_y, tex->width, tex->height);
-    }
-    return (color);
+	if (!tex->data)
+		return (0xFF0000);
+	if (tex_x >= 0 && tex_x < tex->width && tex_y >= 0 && tex_y < tex->height)
+	{
+		dst = tex->data + (tex_y * tex->size_line + tex_x * (tex->bpp / 8));
+		if (tex->endian == 0)
+		{
+			unsigned char *pixel = (unsigned char *)dst;
+			color = (pixel[2] << 16) | (pixel[1] << 8) | pixel[0];
+		}
+		else
+			color = *(unsigned int *)dst;
+		if (color == 0)
+			color = 0xFF0000;
+	}
+	else
+		color = 0x808080;
+	return (color);
 }
 
-void draw_column(t_data *data, int x, int start, int end, t_texture *tex)
+// Dessine une colonne verticale de l'écran à l'indice x.
+// Utilise les hauteurs start/end pour dessiner :
+// - plafond (y < start) en couleur uniforme
+// - mur (start ≤ y ≤ end) avec texture mappée
+// - sol (y > end) en couleur uniforme
+// Calcul du mur à projeter : wall_x est le point exact de l'impact sur le mur.
+// Cela permet de savoir quelle colonne de la texture (tex_x) afficher.
+void	draw_column(t_data *data, int x, int start, int end, t_texture *tex)
 {
-    int y;
-    int tex_x;
-    int tex_y;
-    double wall_x;
+	int		y;
+	int		tex_x;
+	int		tex_y;
+	double	wall_x;
 
-    y = 0;
-    wall_x = data->player.pos_x + data->ray.perp_dist * data->ray.delta_dist_x;
-    if (data->ray.side == 1)
-        wall_x = data->player.pos_y + data->ray.perp_dist * data->ray.delta_dist_y;
-    wall_x -= (int)wall_x;
-    tex_x = (int)(wall_x * (double)tex->width);
-    if ((data->ray.side == 0 && data->ray.delta_dist_x < 0) || (data->ray.side == 1 && data->ray.delta_dist_y > 0))
-        tex_x = tex->width - tex_x - 1;
-    //printf("draw_column: x=%d, start=%d, end=%d, tex_x=%d, wall_x=%f\n", x, start, end, tex_x, wall_x);
-    while (y < WINDOW_HEIGHT)
-    {
-        if (y < start)
-            draw_pixel(&data->mlx, x, y, data->ceiling_color);
-        else if (y >= start && y <= end)
-        {
-            tex_y = (int)((y - start) * tex->height / (end - start + 1));
-            draw_pixel(&data->mlx, x, y, get_tex_color(tex, tex_x, tex_y));
-        }
-        else
-            draw_pixel(&data->mlx, x, y, data->floor_color);
-        y++;
-    }
+	y = 0;
+	wall_x = data->player.pos_x + data->ray.perp_dist * data->ray.delta_dist_x;
+	if (data->ray.side == 1)
+		wall_x = data->player.pos_y + data->ray.perp_dist * data->ray.delta_dist_y;
+	wall_x -= (int)wall_x;
+	tex_x = (int)(wall_x * (double)tex->width);
+	if ((data->ray.side == 0 && data->ray.delta_dist_x < 0)
+		|| (data->ray.side == 1 && data->ray.delta_dist_y > 0))
+		tex_x = tex->width - tex_x - 1;
+	while (y < data->screen.height)
+	{
+		if (y < start)
+			draw_pixel(&data->mlx, x, y, data->ceiling_color, data);
+		else if (y >= start && y <= end)
+		{
+			tex_y = (int)((y - start) * tex->height / (end - start + 1));
+			draw_pixel(&data->mlx, x, y, get_tex_color(tex, tex_x, tex_y), data);
+		}
+		else
+			draw_pixel(&data->mlx, x, y, data->floor_color, data);
+		y++;
+	}
 }
 
-static void init_ray(t_data *data, int x, double *ray_x, double *ray_y)
+// Initialise le rayon en fonction de la colonne x de l'écran.
+// camera_x ∈ [-1, 1] (gauche à droite).
+// Combine la direction du joueur + son plan caméra :
+// ray = dir + plane * camera_x (cf. Wiki Raycasting)
+static void	init_ray(t_data *data, int x, double *ray_x, double *ray_y)
 {
-    double camera_x;
+	double	camera_x;
 
-	camera_x = 2 * x / (double)WINDOW_WIDTH - 1;
+	camera_x = 2 * x / (double)data->screen.width - 1;
 	*ray_x = data->player.dir_x + data->player.plane_x * camera_x;
 	*ray_y = data->player.dir_y + data->player.plane_y * camera_x;
 }
 
-static void setup_ray(t_data *data, double ray_x, double ray_y, t_ray *ray)
+// Initialise les distances du rayon à chaque grille (delta_dist)
+// ainsi que les directions de pas (step_x/y).
+// side_dist = distance initiale à la première ligne/colonne de mur.
+// Exemple : si ray_x < 0, on va vers la gauche donc step_x = -1.
+static void	setup_ray(t_data *data, double ray_x, double ray_y, t_ray *ray)
 {
 	ray->map_x = (int)data->player.pos_x;
 	ray->map_y = (int)data->player.pos_y;
@@ -125,7 +136,13 @@ static void setup_ray(t_data *data, double ray_x, double ray_y, t_ray *ray)
 	}
 }
 
-static void cast_ray(t_data *data, t_ray *ray)
+// Envoie le rayon dans la map jusqu'à ce qu'il touche un mur ('1') ou dépasse.
+// À chaque étape, on choisit la plus courte distance à un côté de bloc :
+// - Si side_dist_x < side_dist_y, on avance en x
+// - Sinon, en y
+// On met ray->side = 0 (vertical) ou 1 (horizontal)
+// On s'arrête si on sort des limites de la map ou qu'on touche un mur.
+static void	cast_ray(t_data *data, t_ray *ray)
 {
 	ray->hit = 0;
 	while (!ray->hit)
@@ -142,49 +159,67 @@ static void cast_ray(t_data *data, t_ray *ray)
 			ray->map_y += ray->step_y;
 			ray->side = 1;
 		}
+		if (ray->map_y < 0 || ray->map_x < 0
+			|| ray->map_y >= data->height_map
+			|| ray->map_x >= (int)ft_strlen(data->map[ray->map_y]))
+		{
+			ray->hit = 1;
+			return;
+		}
 		if (data->map[ray->map_y][ray->map_x] == '1')
 			ray->hit = 1;
 	}
 }
 
-static void calc_wall(t_ray *ray, int *start, int *end)
+// Calcule la hauteur du mur à dessiner (proportionnelle à distance)
+// On utilise la distance perpendiculaire (perp_dist) pour éviter la distorsion
+// start/end = plage de lignes (pixels y) où le mur doit être dessiné
+static void	calc_wall(t_data *data, t_ray *ray, int *start, int *end)
 {
-    int height;
+	int	height;
 
 	if (ray->side == 0)
 		ray->perp_dist = (ray->side_dist_x - ray->delta_dist_x);
 	else
 		ray->perp_dist = (ray->side_dist_y - ray->delta_dist_y);
-	height = (int)(WINDOW_HEIGHT / ray->perp_dist);
-	*start = -height / 2 + WINDOW_HEIGHT / 2;
+	height = (int)(data->screen.height / ray->perp_dist);
+	*start = -height / 2 + data->screen.height / 2;
 	if (*start < 0)
 		*start = 0;
-	*end = height / 2 + WINDOW_HEIGHT / 2;
-	if (*end >= WINDOW_HEIGHT)
-		*end = WINDOW_HEIGHT - 1;
+	*end = height / 2 + data->screen.height / 2;
+	if (*end >= data->screen.height)
+		*end = data->screen.height - 1;
 }
 
-int render_frame(t_data *data)
+// Boucle de rendu : pour chaque colonne de l'écran (x)
+// - Initialise un rayon (init_ray)
+// - Calcule sa trajectoire (setup_ray)
+// - Trouve le point d'impact (cast_ray)
+// - Calcule la hauteur du mur à afficher (calc_wall)
+// - Détermine la bonne texture (get_wall_dir)
+// - Dessine la colonne (draw_column)
+// Puis affiche l'image dans la fenêtre.
+int	render_frame(t_data *data)
 {
-    int x;
-    double ray_x;
-    double ray_y;
-    t_texture *tex;
-    int start;
-    int end;
+	int			x;
+	double		ray_x;
+	double		ray_y;
+	t_texture	*tex;
+	int			start;
+	int			end;
 
-    data->ray.hit = 0;
-    x = 0;
-    while (x < WINDOW_WIDTH)
-    {
-        init_ray(data, x, &ray_x, &ray_y);
-        setup_ray(data, ray_x, ray_y, &data->ray);
-        cast_ray(data, &data->ray);
-        calc_wall(&data->ray, &start, &end);
-        get_wall_dir(&data->ray, ray_x, ray_y, data, &tex);
-        draw_column(data, x, start, end, tex);
-        x++;
-    }
-    mlx_put_image_to_window(data->mlx.mlx_ptr, data->mlx.win_ptr, data->mlx.img_ptr, 0, 0);
-    return (0);
+	x = 0;
+	while (x < data->screen.width)
+	{
+		init_ray(data, x, &ray_x, &ray_y);
+		setup_ray(data, ray_x, ray_y, &data->ray);
+		cast_ray(data, &data->ray);
+		calc_wall(data, &data->ray, &start, &end);
+		get_wall_dir(&data->ray, ray_x, ray_y, data, &tex);
+		draw_column(data, x, start, end, tex);
+		x++;
+	}
+	mlx_put_image_to_window(data->mlx.mlx_ptr, data->mlx.win_ptr,
+		data->mlx.img_ptr, 0, 0);
+	return (0);
 }

@@ -21,10 +21,25 @@
 # include "../minilibx_linux/mlx.h"
 #endif
 
-# define WINDOW_WIDTH    1280
-# define WINDOW_HEIGHT   720
-# define MOVE_SPEED      0.04
-# define ROT_SPEED       0.025
+# define BASE_MOVE_SPEED      0.055
+# define BASE_ROT_SPEED       0.03
+# define REFERENCE_WIDTH      1280.0
+# define CALC_MOVE_SPEED(data)  (BASE_MOVE_SPEED * (data->screen.width / REFERENCE_WIDTH))
+# define CALC_ROT_SPEED(data)   (BASE_ROT_SPEED * (data->screen.width / REFERENCE_WIDTH))
+
+// Optimisation: skip des pixels pour les grandes résolutions
+# define PIXEL_SKIP(data)       (data->screen.width > 1600 ? 2 : 1)
+
+// Valeurs si détection taille window échoue
+# define DEFAULT_WIDTH    1280
+# define DEFAULT_HEIGHT   720
+# define MOVE_SPEED       0.08
+# define ROT_SPEED        0.025
+
+typedef struct s_screen {
+	int	width;
+	int	height;
+} t_screen;
 
 typedef struct s_mlx {
 	void	*mlx_ptr;
@@ -97,6 +112,7 @@ typedef struct s_data {
     t_texture   tex_east;
     int         floor_color;
     int         ceiling_color;
+    t_screen    screen;
 } t_data;
 
 // utils.c
@@ -120,6 +136,7 @@ int		init_player(t_data *game);
 
 // mlx/init_mlx.c
 void	init_mlx(t_data *data);
+void	get_screen_size(t_data *data);
 
 // mlx/quit_clean.c
 int		close_window(t_data *data);
@@ -139,7 +156,7 @@ void    draw_column(t_data *data, int x, int start, int end, t_texture *tex);
 int     render_frame(t_data *data);
 
 // raycasting/pixel.c
-void    draw_pixel(t_mlx *mlx, int x, int y, int color);
+void	draw_pixel(t_mlx *mlx, int x, int y, int color, t_data *data);
 
 // raycasting/update.c
 int     update(t_data *data);

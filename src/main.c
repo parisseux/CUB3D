@@ -1,4 +1,4 @@
-#include "cub3d.h"
+#include "../inc/cub3d.h"
 
 int main(int ac, char **av)
 {
@@ -10,6 +10,11 @@ int main(int ac, char **av)
 	if (!game)
 		return (mess_error(1, "Échec malloc"));
 	ft_bzero(game, sizeof(t_data));
+	
+	// Initialiser les valeurs par défaut pour l'écran
+	game->screen.width = 1280;
+	game->screen.height = 720;
+	
 	game->map = ft_get_map(av[1], game);
 	if (ft_check_map(game, av[1]) == 0)
 	{

@@ -31,7 +31,8 @@ static int	parse_color(char *line, int *color)
         return (0);
     }
     *color = (r << 16) | (g << 8) | b;
-    printf("Parsed color: R=%d, G=%d, B=%d, color=0x%X\n", r, g, b, *color); // Débogage
+    //DEBUG
+	//printf("Parsed color: R=%d, G=%d, B=%d, color=0x%X\n", r, g, b, *color);
     ft_free_split(rgb);
     return (1);
 }

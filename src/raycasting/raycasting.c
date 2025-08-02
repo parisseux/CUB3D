@@ -1,5 +1,37 @@
 #include "../../inc/cub3d.h"
 
+
+// Initialise la direction du joueur + le plan de la caméra selon l'orientation
+// Le plan caméra :
+//		-> est perpendiculaire à la direction 
+//		-> et détermine le champ de vision.
+// Le vecteur direction (dir_x, dir_y) indique où regarde le joueur :
+//   - 'N' (nord) : dir = (0, -1), plane = (0.66, 0)
+//   - 'S' (sud)  : dir = (0,  1), plane = (-0.66, 0)
+//   - 'E' (est)  : dir = (1,  0), plane = (0, 0.66)
+//   - 'W' (ouest): dir = (-1, 0), plane = (0, -0.66)
+//
+// Le plan caméra est utilisé dans le raycasting pour générer le rendu 3D
+// La valeur 0.66 permet un FOV (Field of View) d'environ 66° (valeur courante)
+// Exemple en 2D (vue du dessus) :
+//
+//         y
+//         ↑
+//         |       dir = (0, -1)
+//         |       (le joueur regarde vers le haut)
+//         |
+//         |       champ de vision
+//         |    ↖------------O------------↗
+//         |     plane_x = ±0.66 (perp. à la dir_y)
+//         |
+//         +------------------------------→ x
+//
+// "O" = position du joueur
+//
+// Exemple : si on regarde vers le nord (0, -1),
+// le plan est horizontal (sur x) : (-0.66, 0) et (0.66, 0)
+//
+// Réinitialise aussi toutes les touches (WASD, flèches) à 0 (non pressées).
 void	init_camera(t_data *data)
 {
 	t_player	*p;
@@ -43,7 +75,8 @@ void	init_camera(t_data *data)
 
 int key_press(int keycode, t_data *data)
 {
-    //printf("Key pressed: %d\n", keycode); // Débogage
+	//debug
+    //printf("Key pressed: %d\n", keycode);
     if (keycode == 53 || keycode == 65307)
     {
         cleanup(data);
@@ -66,7 +99,8 @@ int key_press(int keycode, t_data *data)
 
 int key_release(int keycode, t_data *data)
 {
-    //printf("Key released: %d\n", keycode); // Débogage
+	//debug
+    //printf("Key released: %d\n", keycode);
     if (keycode == 13 || keycode == 119)
         data->keys.w = 0;
     if (keycode == 1 || keycode == 115)
