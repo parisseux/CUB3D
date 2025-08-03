@@ -13,10 +13,11 @@ void get_screen_size(t_data *data)
         {"tryhard", 800, 600, "Performance max"},
         {"balanced", 1280, 720, "Équilibrée"},
         {"quality", 1440, 900, "Deustsche qualität"},
-        {"fullscreen", 1920, 1080, "Peut lag, mais à peu pres taille pc école je pense"}
+        {"mid-screen-linux", 1920, 1080, "Moitie taille pc linux"},
+        {"full-screen-linux", 3840, 2160, "Taille pc école, lag de fou"}
     };
     
-    int choisis_la_resolution_chacal = 2;
+    int choisis_la_resolution_chacal = 3;
     
     data->screen.width = profiles[choisis_la_resolution_chacal].width;
     data->screen.height = profiles[choisis_la_resolution_chacal].height;
