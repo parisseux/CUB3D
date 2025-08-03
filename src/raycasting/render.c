@@ -53,29 +53,43 @@ static int	get_tex_color(t_texture *tex, int tex_x, int tex_y)
 	return (color);
 }
 
-// Dessine une colonne verticale de l'écran à l'indice x.
-// Utilise les hauteurs start/end pour dessiner :
-// - plafond (y < start) en couleur uniforme
-// - mur (start ≤ y ≤ end) avec texture mappée
-// - sol (y > end) en couleur uniforme
-// Calcul du mur à projeter : wall_x est le point exact de l'impact sur le mur.
-// Cela permet de savoir quelle colonne de la texture (tex_x) afficher.
+// Initialise le rayon en fonction de la colonne x de l'écran.
+// camera_x ∈ [-1, 1] (gauche à droite).
+// Combine la direction du joueur + son plan caméra :
+// ray = dir + plane * camera_x (cf. Wiki Raycasting)
+static void	init_ray(t_data *data, int x, double *ray_x, double *ray_y)
+{
+	double	camera_x;
+
+	camera_x = 2 * x / (double)data->screen.width - 1;
+	*ray_x = data->player.dir_x + data->player.plane_x * camera_x;
+	*ray_y = data->player.dir_y + data->player.plane_y * camera_x;
+}
+
+// init_ray : Récupérer la direction du rayon pour la colonne x
+//
+// Calculer la position exacte de l'impact sur le mur
+// if (data->ray.side == 0) :   -> Mur vertical
+// else                         -> Mur horizontal
+// wall_x -= (int)wall_x;       -> Prendre la partie fractionnaire
 void	draw_column(t_data *data, int x, int start, int end, t_texture *tex)
 {
 	int		y;
 	int		tex_x;
 	int		tex_y;
 	double	wall_x;
+	double	ray_x, ray_y;
 
-	y = 0;
-	wall_x = data->player.pos_x + data->ray.perp_dist * data->ray.delta_dist_x;
-	if (data->ray.side == 1)
-		wall_x = data->player.pos_y + data->ray.perp_dist * data->ray.delta_dist_y;
+	init_ray(data, x, &ray_x, &ray_y);
+	if (data->ray.side == 0)
+		wall_x = data->player.pos_y + data->ray.perp_dist * ray_y;
+	else
+		wall_x = data->player.pos_x + data->ray.perp_dist * ray_x;
 	wall_x -= (int)wall_x;
 	tex_x = (int)(wall_x * (double)tex->width);
-	if ((data->ray.side == 0 && data->ray.delta_dist_x < 0)
-		|| (data->ray.side == 1 && data->ray.delta_dist_y > 0))
+	if ((data->ray.side == 0 && ray_x < 0) || (data->ray.side == 1 && ray_y > 0))
 		tex_x = tex->width - tex_x - 1;
+	y = 0;
 	while (y < data->screen.height)
 	{
 		if (y < start)
@@ -89,19 +103,6 @@ void	draw_column(t_data *data, int x, int start, int end, t_texture *tex)
 			draw_pixel(&data->mlx, x, y, data->floor_color, data);
 		y++;
 	}
-}
-
-// Initialise le rayon en fonction de la colonne x de l'écran.
-// camera_x ∈ [-1, 1] (gauche à droite).
-// Combine la direction du joueur + son plan caméra :
-// ray = dir + plane * camera_x (cf. Wiki Raycasting)
-static void	init_ray(t_data *data, int x, double *ray_x, double *ray_y)
-{
-	double	camera_x;
-
-	camera_x = 2 * x / (double)data->screen.width - 1;
-	*ray_x = data->player.dir_x + data->player.plane_x * camera_x;
-	*ray_y = data->player.dir_y + data->player.plane_y * camera_x;
 }
 
 // Initialise les distances du rayon à chaque grille (delta_dist)
