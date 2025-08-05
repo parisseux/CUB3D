@@ -81,27 +81,39 @@ void	draw_column(t_data *data, int x, int start, int end, t_texture *tex)
 	double	ray_x, ray_y;
 
 	init_ray(data, x, &ray_x, &ray_y);
+
+	// Calculer position du point d'impact sur le mur
 	if (data->ray.side == 0)
 		wall_x = data->player.pos_y + data->ray.perp_dist * ray_y;
 	else
 		wall_x = data->player.pos_x + data->ray.perp_dist * ray_x;
 	wall_x -= (int)wall_x;
+
+	// Calculer tex_x (coord X de la texture murale)
 	tex_x = (int)(wall_x * (double)tex->width);
 	if ((data->ray.side == 0 && ray_x < 0) || (data->ray.side == 1 && ray_y > 0))
 		tex_x = tex->width - tex_x - 1;
-	y = 0;
-	while (y < data->screen.height)
+
+	// Parcours de toute la colonne de pixels
+	for (y = 0; y < data->screen.height; y++)
 	{
-		if (y < start)
-			draw_pixel(&data->mlx, x, y, data->ceiling_color, data);
-		else if (y >= start && y <= end)
+		if (y < start) // ---- CIEL ----
+		{
+			tex_y = (int)((double)y / start * data->tex_sky.height);
+			int tex_sky_x = (int)((double)x / data->screen.width * data->tex_sky.width);
+			draw_pixel(&data->mlx, x, y, get_tex_color(&data->tex_sky, tex_sky_x, tex_y), data);
+		}
+		else if (y >= start && y <= end) // ---- MUR ----
 		{
 			tex_y = (int)((y - start) * tex->height / (end - start + 1));
 			draw_pixel(&data->mlx, x, y, get_tex_color(tex, tex_x, tex_y), data);
 		}
-		else
-			draw_pixel(&data->mlx, x, y, data->floor_color, data);
-		y++;
+		else // ---- SOL ----
+		{
+			tex_y = (int)(((double)(y - end) / (data->screen.height - end)) * data->tex_floor.height);
+			int tex_floor_x = (int)((double)x / data->screen.width * data->tex_floor.width);
+			draw_pixel(&data->mlx, x, y, get_tex_color(&data->tex_floor, tex_floor_x, tex_y), data);
+		}
 	}
 }
 

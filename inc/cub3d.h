@@ -114,8 +114,8 @@ typedef struct s_data {
     t_texture   tex_east;
 	t_texture	tex_floor;
 	t_texture   tex_sky;
-    int         floor_color;
-    int         ceiling_color;
+    // int         floor_color;
+    // int         ceiling_color;
     t_screen    screen;
 } t_data;
 

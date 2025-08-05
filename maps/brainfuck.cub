@@ -2,7 +2,7 @@ NO ./textures2/wall.xpm
 SO ./textures2/wall.xpm
 WE ./textures2/wall.xpm
 EA ./textures2/wall.xpm
-F ./textures2/wall.xpm
+F ./textures2/floor.xpm
 C ./textures2/sky.xpm
 
 111111111111111111111111111
