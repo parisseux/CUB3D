@@ -18,7 +18,7 @@
 #ifdef __APPLE__
 # include "../../minilibx_macos/mlx.h"
 #else
-# include "../../minilibx_linux/mlx.h"
+# include "../../minilibx-linux/mlx.h"
 #endif
 
 #define MINIMAP_SCALE 10

@@ -18,7 +18,7 @@
 #ifdef __APPLE__
 # include "../minilibx_macos/mlx.h"
 #else
-# include "../minilibx_linux/mlx.h"
+# include "../minilibx-linux/mlx.h"
 #endif
 
 # define BASE_MOVE_SPEED      0.055
@@ -106,10 +106,14 @@ typedef struct s_data {
     char        *so_texture;
     char        *we_texture;
     char        *ea_texture;
+	char 		*floor_texture;
+	char 		*sky_texture;
     t_texture   tex_north;
     t_texture   tex_south;
     t_texture   tex_west;
     t_texture   tex_east;
+	t_texture	tex_floor;
+	t_texture   tex_sky;
     int         floor_color;
     int         ceiling_color;
     t_screen    screen;

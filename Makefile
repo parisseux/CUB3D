@@ -29,7 +29,7 @@ ifeq ($(UNAME_S), Darwin)
 endif
 
 ifeq ($(UNAME_S), Linux)
-    MLX_DIR = ./minilibx_linux
+    MLX_DIR = ./minilibx-linux
     LDFLAGS = -L$(MLX_DIR) -lmlx -lXext -lX11 -lm -lreadline
     CFLAGS += -I$(MLX_DIR)
     BONUS_CFLAGS += -I$(MLX_DIR)

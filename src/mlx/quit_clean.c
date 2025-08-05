@@ -35,6 +35,10 @@ void cleanup(t_data *data)
         free(data->we_texture);
     if (data->ea_texture)
         free(data->ea_texture);
+    if (data->sky_texture)
+        free(data->sky_texture);
+    if (data->floor_texture)
+        free(data->floor_texture);
     if (data->map)
         ft_free_split(data->map);
     if (data)
