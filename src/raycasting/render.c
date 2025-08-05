@@ -66,12 +66,66 @@ static void	init_ray(t_data *data, int x, double *ray_x, double *ray_y)
 	*ray_y = data->player.dir_y + data->player.plane_y * camera_x;
 }
 
+static void	draw_sky(t_data *data, int x, int y)
+{
+	int		tex_x;
+	int		tex_y;
+
+	double	camera_x = 2.0 * x / data->screen.width - 1.0;
+	double	dir_x = data->player.dir_x + data->player.plane_x * camera_x;
+	double	dir_y = data->player.dir_y + data->player.plane_y * camera_x;
+	double	angle = atan2(dir_y, dir_x); // [-π, π]
+
+	double	scale = data->sky_scale;
+
+	// Décalage horizontal du ciel en fonction du déplacement
+	double offset = data->sky_offset * data->tex_sky.width;
+
+	tex_x = (int)((((angle + M_PI) / (2 * M_PI)) * data->tex_sky.width * scale) + offset);
+	if (tex_x < 0)
+		tex_x += data->tex_sky.width;
+	tex_x %= data->tex_sky.width;
+
+	tex_y = (int)(((double)y / data->screen.height) * data->tex_sky.height * scale);
+	if (tex_y < 0)
+		tex_y += data->tex_sky.height;
+	tex_y %= data->tex_sky.height;
+
+	draw_pixel(&data->mlx, x, y, get_tex_color(&data->tex_sky, tex_x, tex_y), data);
+}
+
+
+static void	draw_floor(t_data *data, int x, int y)
+{
+	int		tex_x;
+	int		tex_y;
+	double	pos_x = data->player.pos_x;
+	double	pos_y = data->player.pos_y;
+	double	dir_x = data->player.dir_x;
+	double	dir_y = data->player.dir_y;
+	double	plane_x = data->player.plane_x;
+	double	plane_y = data->player.plane_y;
+
+	// Calculer la distance au point du sol
+	double row_distance = (data->screen.height / 2.0) / (y - data->screen.height / 2.0);
+	// Calculer le point dans le monde
+	double floor_x = pos_x + row_distance * (dir_x + plane_x * (2 * x / (double)data->screen.width - 1));
+	double floor_y = pos_y + row_distance * (dir_y + plane_y * (2 * x / (double)data->screen.width - 1));
+	// Mapper sur la texture du sol
+	tex_x = (int)(floor_x * data->tex_floor.width) % data->tex_floor.width;
+	tex_y = (int)(floor_y * data->tex_floor.height) % data->tex_floor.height;
+	if (tex_x < 0) tex_x += data->tex_floor.width;
+	if (tex_y < 0) tex_y += data->tex_floor.height;
+	draw_pixel(&data->mlx, x, y, get_tex_color(&data->tex_floor, tex_x, tex_y), data);
+}
+
 // init_ray : Récupérer la direction du rayon pour la colonne x
 //
 // Calculer la position exacte de l'impact sur le mur
 // if (data->ray.side == 0) :   -> Mur vertical
 // else                         -> Mur horizontal
 // wall_x -= (int)wall_x;       -> Prendre la partie fractionnaire
+// Dessine une colonne de l'écran avec des textures pour le ciel, le mur et le sol
 void	draw_column(t_data *data, int x, int start, int end, t_texture *tex)
 {
 	int		y;
@@ -95,25 +149,19 @@ void	draw_column(t_data *data, int x, int start, int end, t_texture *tex)
 		tex_x = tex->width - tex_x - 1;
 
 	// Parcours de toute la colonne de pixels
-	for (y = 0; y < data->screen.height; y++)
+	y = 0;
+	while (y < data->screen.height)
 	{
 		if (y < start) // ---- CIEL ----
-		{
-			tex_y = (int)((double)y / start * data->tex_sky.height);
-			int tex_sky_x = (int)((double)x / data->screen.width * data->tex_sky.width);
-			draw_pixel(&data->mlx, x, y, get_tex_color(&data->tex_sky, tex_sky_x, tex_y), data);
-		}
+			draw_sky(data, x, y);
 		else if (y >= start && y <= end) // ---- MUR ----
 		{
 			tex_y = (int)((y - start) * tex->height / (end - start + 1));
 			draw_pixel(&data->mlx, x, y, get_tex_color(tex, tex_x, tex_y), data);
 		}
 		else // ---- SOL ----
-		{
-			tex_y = (int)(((double)(y - end) / (data->screen.height - end)) * data->tex_floor.height);
-			int tex_floor_x = (int)((double)x / data->screen.width * data->tex_floor.width);
-			draw_pixel(&data->mlx, x, y, get_tex_color(&data->tex_floor, tex_floor_x, tex_y), data);
-		}
+			draw_floor(data, x, y);
+		y++;
 	}
 }
 

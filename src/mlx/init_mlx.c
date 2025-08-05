@@ -62,6 +62,8 @@ void init_mlx(t_data *data)
     
     // Configurer la résolution
     get_screen_size(data);
+    data->sky_scale = 4.0;
+    data->sky_offset = 0.0;
     
     load_texture(data, &data->tex_north, data->no_texture);
     load_texture(data, &data->tex_south, data->so_texture);
