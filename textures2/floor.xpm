@@ -1,5 +1,5 @@
 /* XPM */
-static char *_3aecbab79a64d72f74a0681d79c24692QbPiKoIcjZQ6o82[] = {
+static char * floor_xpm[] = {
 /* columns rows colors chars-per-pixel */
 "64 64 2 1 ",
 "  c black",

@@ -1,7 +1,7 @@
-NO ./textures1/north.xpm
-SO ./textures1/south.xpm
-WE ./textures1/west.xpm
-EA ./textures1/east.xpm
+NO ./textures2/wall.xpm
+SO ./textures2/wall.xpm
+WE ./textures2/wall.xpm
+EA ./textures2/wall.xpm
 F 255,255,0      // Sol jaune (corps)
 C 50,50,50       // Plafond gris
 
