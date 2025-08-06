@@ -1,5 +1,5 @@
 /* XPM */
-static char *_450a1a2b1054da3c2c0468b9336a871BaqNudT3ZerVGrik[] = {
+static char *cleanwall_xpm[] = {
 /* columns rows colors chars-per-pixel */
 "1024 1024 256 2 ",
 "   c #0D0000",
