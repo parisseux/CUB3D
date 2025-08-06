@@ -1,9 +1,9 @@
-NO ./textures4/bleuwall.xpm
-SO ./textures4/bleuwall.xpm
-WE ./textures4/bleuwall.xpm
-EA ./textures4/bleuwall.xpm
-F ./textures4/purplefloor.xpm
-C ./textures4/skydungeon.xpm
+NO ./texture_dungeon/cleanwall.xpm
+SO ./texture_dungeon/cleanwall.xpm
+WE ./texture_dungeon/cleanwall.xpm
+EA ./texture_dungeon/cleanwall.xpm
+F ./texture_dungeon/floorgrey.xpm
+C ./texture_dungeon/skydungeon.xpm
 
 111111111111111111111111111
 100000000000000000000000001
