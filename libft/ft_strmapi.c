@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strmapi.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: avarrett <avarrett@student.42.fr>          +#+  +:+       +#+        */
+/*   By: grohr <grohr@student.42lausanne.ch>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/08 16:02:34 by avarrett          #+#    #+#             */
-/*   Updated: 2024/10/17 15:54:01 by avarrett         ###   ########.fr       */
+/*   Created: 2024/10/03 13:05:47 by grohr             #+#    #+#             */
+/*   Updated: 2024/10/23 19:45:14 by grohr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,38 +14,41 @@
 
 char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
 {
-	char	*new_s;
-	size_t	taille;
-	int		i;
+	char			*new_str;
+	unsigned int	i;
 
-	taille = ft_strlen(s);
-	new_s = 0;
-	i = 0;
-	new_s = (char *)malloc((taille + 1) * sizeof(char));
-	if (new_s == 0)
+	if (!s || !f)
 		return (NULL);
+	new_str = (char *)malloc(sizeof(char) * (ft_strlen(s) + 1));
+	if (!new_str)
+		return (NULL);
+	i = 0;
 	while (s[i])
 	{
-		new_s[i] = f(i, s[i]);
+		new_str[i] = f(i, s[i]);
 		i++;
 	}
-	new_s[i] = '\0';
-	return (new_s);
+	new_str[i] = '\0';
+	return (new_str);
 }
 
-// #include <stdio.h>
-// char my_function(unsigned int index, char c)
-// {
-// 	if (index % 2 == 0 && c >= 'a' && c <= 'z')
-// 		return (c - 32);
-// 	return (c);
-// }
-// int main(void)
-// {
-// 	char s[] = "anais";
-// 	char *s2;
-// 	s2 = ft_strmapi(s, my_function);
-// 	printf("%s\n", s2);
-// 	free(s2);
-// 	return (0);
-// }
+/*
+//TEST A RETIRER HEIN
+char	transform(unsigned int i, char c)
+{
+	if (i % 2 == 0)
+		return (c - 32);
+	return (c);
+}
+
+int	main(void)
+{
+	char	*str = "abcdefg";
+	char	*result;
+
+	result = ft_strmapi(str, transform);
+	printf("Résultat : %s\n", result);
+	free(result);
+	return (0);
+}
+*/

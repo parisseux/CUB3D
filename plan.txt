@@ -8,3 +8,16 @@
 - verifier que tous les contour sont des murs OK
 - ouvrir la map OK
 
+
+
+    CHECK de map
+--------------------------
+
+- is a directory -- leaks OK
+- missing def -- leaks et error:succes???? OK
+- fichier inexistant: impossible douvrir le fichier -- leaks OK
+- mutliple def element -- lance la map et leaks OK
+-undefined texture -- leaks 
+-unknown texture -- leaks
+
+

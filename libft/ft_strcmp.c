@@ -1,26 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_str_digit.c                                     :+:      :+:    :+:   */
+/*   ft_strcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: avarrett <avarrett@student.42.fr>          +#+  +:+       +#+        */
+/*   By: grohr <grohr@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/11 18:56:14 by ninisse           #+#    #+#             */
-/*   Updated: 2025/01/20 19:00:48 by avarrett         ###   ########.fr       */
+/*   Created: 2025/04/23 22:05:46 by grohr             #+#    #+#             */
+/*   Updated: 2025/04/23 22:07:12 by grohr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	ft_str_digit(char *s)
+#include "libft.h"
+
+int	ft_strcmp(const char *s1, const char *s2)
 {
-	int	i;
+	size_t	i;
 
 	i = 0;
-	while (s[i])
-	{
-		if (s[i] >= '0' && s[i] <= '9')
-			i++;
-		else
-			return (0);
-	}
-	return (1);
+	while (s1[i] && s2[i] && s1[i] == s2[i])
+		i++;
+	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
 }

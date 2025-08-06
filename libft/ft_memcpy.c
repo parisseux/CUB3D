@@ -3,55 +3,48 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memcpy.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: avarrett <avarrett@student.42.fr>          +#+  +:+       +#+        */
+/*   By: grohr <grohr@student.42lausanne.ch>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/07 11:05:38 by gregorykoll       #+#    #+#             */
-/*   Updated: 2024/10/17 15:55:02 by avarrett         ###   ########.fr       */
+/*   Created: 2024/10/03 13:05:10 by grohr             #+#    #+#             */
+/*   Updated: 2024/10/24 12:08:37 by grohr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	*ft_memcpy(void *dest, const void *src, size_t size)
+void	*ft_memcpy(void *dest, const void *src, size_t n)
 {
-	unsigned char	*destination;
-	unsigned char	*source;
-	size_t			i;
+	size_t	i;
 
-	destination = (unsigned char *)dest;
-	source = (unsigned char *)src;
 	i = 0;
 	if (!dest && !src)
 		return (NULL);
-	if (destination > source)
+	if (dest != src)
 	{
-		while (size-- > 0)
-			destination[size] = source[size];
-	}
-	else
-	{
-		while (i < size)
+		while (i < n)
 		{
-			destination[i] = source[i];
+			((unsigned char *)dest)[i] = ((unsigned char *)src)[i];
 			i++;
 		}
 	}
-	return (destination);
+	return (dest);
 }
 
-// #include <stdio.h>
-// #include <string.h>
-// int main() 
-// {
-// 	char first_str[100] = "Hello World!";
-// 	char second_str[100] = "Welcome to Tutorialspoint";
-// 	printf("The Actual Statements:-\n");
-// 	printf("first_str: %s\n", first_str);
-// 	printf("second_str: %s\n", second_str);
-// 	//copying all bytes of second_str to first_str
-// 	ft_memcpy(first_str, second_str, strlen(second_str));
-// 	printf("After executing the function memcpy()\n");
-// 	printf("first_str: %s\n", first_str);
-// 	printf("second_str: %s\n", second_str);
-// 	return 0;
-// }
+/* #include <stdio.h>
+
+int	main(void)
+{
+	int		i = 10;
+	char	dst[18]="Salut beauté";
+	char	src[18]="Je te remplace";
+	
+	printf("dst avant : %s\n", dst);
+	printf("src avant : %s\n", src);
+	ft_memcpy(dst, src, i);
+	printf("dst après : %s\n", dst);
+	return(0);
+} */
+/* 
+Copie des octets d’une zone mémoire vers une autre jusqu’à ce qu’un caractère
+spécifique soit rencontré, ou jusqu’à ce que n octets aient été copiés.
+*/

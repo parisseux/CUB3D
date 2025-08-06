@@ -3,81 +3,73 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pchatagn <pchatagn@student.42.fr>          +#+  +:+       +#+        */
+/*   By: grohr <grohr@student.42lausanne.ch>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/08 14:31:55 by avarrett          #+#    #+#             */
-/*   Updated: 2025/04/07 20:19:46 by pchatagn         ###   ########.fr       */
+/*   Created: 2024/10/03 13:04:26 by grohr             #+#    #+#             */
+/*   Updated: 2024/10/24 11:50:59 by grohr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static int	ft_count(int n)
+static size_t	count_size(long nb)
 {
-	int	sign;
-	int	count;
+	size_t	size;
 
-	count = 0;
-	sign = 0;
-	if (n < 0)
+	size = 0;
+	if (nb < 0)
 	{
-		sign = 1;
-		n *= -1;
+		nb = nb * (-1);
+		size = 1;
 	}
-	if (n == 0)
-		return (1);
-	while (n != 0)
-	{
-		n = n / 10;
-		count++;
-	}
-	return (count + sign);
-}
-
-static char	*ft_fill_str(unsigned int num, char *number, int i, int len_number)
-{
-	i = len_number - 1;
-	if (num == 0)
-		number[i] = '0';
+	if (nb == 0)
+		size = 1;
 	else
 	{
-		while (num > 0)
+		while (nb)
 		{
-			number[i] = (num % 10) + '0';
-			num = num / 10;
-			i--;
+			nb = nb / 10;
+			size++;
 		}
 	}
-	number[len_number] = '\0';
-	return (number);
+	return (size);
 }
 
 char	*ft_itoa(int n)
 {
-	char			*number;
-	int				i;
-	int				len_number;
-	unsigned int	num;
+	size_t	size;
+	long	nb;
+	char	*str;
+	int		is_negative;
 
-	i = 0;
-	len_number = ft_count(n);
-	number = (char *)malloc((len_number + 1) * sizeof(char));
-	if (!number)
+	size = count_size((long) n);
+	str = (char *) malloc(sizeof(char) * (size + 1));
+	if (str == NULL)
 		return (NULL);
-	if (n < 0)
+	nb = (long) n;
+	is_negative = 0;
+	if (nb < 0)
 	{
-		number[0] = '-';
-		num = -n;
+		nb = nb * (-1);
+		str[0] = '-';
+		is_negative = 1;
 	}
-	else
-		num = n;
-	number = ft_fill_str(num, number, i, len_number);
-	return (number);
+	str[size] = '\0';
+	while (size > (size_t) is_negative)
+	{
+		str[size - 1] = nb % 10 + '0';
+		nb = nb / 10;
+		size--;
+	}
+	return (str);
 }
 
-// #include <stdio.h>
-// int main(void)
-// {
-// 	printf("%s", ft_itoa(-2147483648));
-// 	return (0);
-// }
+/* #include <stdio.h>
+
+int	main(void)
+{
+	int i = -123432543;
+
+	printf("%s", ft_itoa(i));
+	return (0);
+} */

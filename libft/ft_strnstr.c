@@ -3,48 +3,63 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strnstr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ninisse <ninisse@student.42.fr>            +#+  +:+       +#+        */
+/*   By: grohr <grohr@student.42lausanne.ch>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/04 10:36:31 by gregorykoll       #+#    #+#             */
-/*   Updated: 2025/02/05 11:55:25 by ninisse          ###   ########.fr       */
+/*   Created: 2024/10/24 12:26:19 by grohr             #+#    #+#             */
+/*   Updated: 2024/10/24 12:26:55 by grohr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strnstr(const char *foin, const char *aiguille, size_t a)
+char	*ft_strnstr(const char *haystack, const char *needle, size_t len)
 {
 	size_t	i;
 	size_t	j;
-	size_t	complet;
 
-	j = 0;
 	i = 0;
-	complet = ft_strlen(aiguille);
-	if (complet == 0)
-		return ((char *)foin);
-	while (foin[i] && i < a)
+	if (!haystack && !len)
+		return (0);
+	if (needle[0] == '\0' || needle == haystack)
+		return ((char *)haystack);
+	while (haystack[i] != '\0')
 	{
 		j = 0;
-		while (foin[i + j] == aiguille[j] && (i + j < a))
+		while (haystack[i + j] == needle[j] && (i + j) < len)
 		{
-			if (j == complet)
-				return ((char *)&foin[i]);
+			if (haystack[i + j] == '\0' && needle[j] == '\0')
+				return ((char *)&haystack[i]);
 			j++;
 		}
-		if (j == complet)
-			return ((char *)&foin[i]);
+		if (needle[j] == '\0')
+			return ((char *)(haystack + i));
 		i++;
 	}
 	return (0);
 }
 
-// #include <stdio.h>
-// int main(void)
-// {
-// 	const char str[80] = "lorem ipsum dolor sit amet";
-// 	const char str2[40] = "ipsum";
-//     size_t len = 15;
-// 	printf("%s", ft_strnstr(str, str2, len));
-// 	return (0);
-// }
+/*#include <stdio.h>
+
+int	main(void)
+{
+	const char	haystack[] = "Heyy ahah";
+	const char	needle[] = "ahah";
+	char		*result;
+
+	result = ft_haystacknhaystack(haystack, needle, 11);
+	if (result)
+		printf("Found: %s\n", result);
+	else
+		printf("Not Found\n");
+	return (0);
+}*/
+/*
+Recherche une sous-chaîne dans une chaîne jusqu’à une longueur max donnée.
+- - - -
+Cherche la première occurrence de la chaîne needle dans la chaîne haystack,
+mais en ne cherchant que dans les "len" premiers caractères de haystack.
+Si needle est trouvé, renvoie un pointeur sur la 1ère occurrence
+de needle dans haystack.
+Sinon, elle renvoie NULL.
+Si needle est une chaîne vide, haystacknhaystack retourne haystack.
+*/

@@ -16,6 +16,11 @@ int main(int ac, char **av)
 	game->screen.height = 720;
 	
 	game->map = ft_get_map(av[1], game);
+	if (!game->map)
+	{
+		cleanup(game);
+		return (mess_error(1, "loading map"));
+	}
 	if (ft_check_map(game, av[1]) == 0)
 	{
 		cleanup(game);

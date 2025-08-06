@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstnew_bonus.c                                  :+:      :+:    :+:   */
+/*   ft_lstnew.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: avarrett <avarrett@student.42.fr>          +#+  +:+       +#+        */
+/*   By: grohr <grohr@student.42lausanne.ch>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/17 14:19:16 by avarrett          #+#    #+#             */
-/*   Updated: 2024/10/17 18:22:06 by avarrett         ###   ########.fr       */
+/*   Created: 2024/10/03 13:04:54 by grohr             #+#    #+#             */
+/*   Updated: 2024/10/23 19:17:35 by grohr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,32 +14,29 @@
 
 t_list	*ft_lstnew(void *content)
 {
-	t_list	*liste;
+	t_list	*new_elem;
 
-	liste = malloc(sizeof(t_list));
-	if (!liste)
+	new_elem = (t_list *)malloc(sizeof(t_list));
+	if (!new_elem)
 		return (NULL);
-	liste->content = content;
-	liste->next = NULL;
-	return (liste);
+	new_elem->content = content;
+	new_elem->next = NULL;
+	return (new_elem);
 }
 
-// #include <stdio.h>
-// int	main(void)
-// {
-//     // Créer un contenu pour le nouvel élément de la liste
-//     char *content = "Hello, world!";
-//     // Créer un nouvel élément de la liste avec ce contenu
-//     t_list *new_elem = ft_lstnew(content);
-//     // Vérifier si l'allocation et la création se sont bien passées
-//     if (new_elem == NULL)
-//     {
-//         printf("Échec de la création de l'élément de la liste.\n");
-//         return (1);
-//     }
-//     // Afficher le contenu de l'élément pour vérifier
-//     printf("Contenu de l'élément : %s\n", (char *)new_elem->content);
-//     // Libérer la mémoire allouée
-//     free(new_elem);
-//     return (0);
-// }
+/* #include <stdio.h>
+
+int main(void)
+{
+	t_list *elem = ft_lstnew("Test 1");
+	if (elem)
+	{
+		printf("%s\n", (char *)elem->content);
+		free(elem);
+	}
+	else
+	{
+		printf("Failed to create element.\n");
+	}
+	return (0);
+} */

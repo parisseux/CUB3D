@@ -1,26 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_free_tab.c                                      :+:      :+:    :+:   */
+/*   ft_strcpy.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: avarrett <avarrett@student.42.fr>          +#+  +:+       +#+        */
+/*   By: grohr <grohr@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/20 13:11:48 by ninisse           #+#    #+#             */
-/*   Updated: 2025/01/20 19:00:36 by avarrett         ###   ########.fr       */
+/*   Created: 2025/07/02 14:24:31 by grohr             #+#    #+#             */
+/*   Updated: 2025/07/02 14:26:27 by grohr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_free_tab(char **strs, int count)
+char	*ft_strcpy(char *dest, const char *src)
 {
 	int	i;
 
 	i = 0;
-	while (i < count)
+	while (src[i])
 	{
-		free(strs[i]);
+		dest[i] = src[i];
 		i++;
 	}
-	free(strs);
+	dest[i] = '\0';
+	return (dest);
 }

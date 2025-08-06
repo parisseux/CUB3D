@@ -1,30 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_power.c                                         :+:      :+:    :+:   */
+/*   convert_s.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ninisse <ninisse@student.42.fr>            +#+  +:+       +#+        */
+/*   By: grohr <grohr@student.42lausanne.ch>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/15 14:15:32 by ninisse           #+#    #+#             */
-/*   Updated: 2024/12/15 14:30:57 by ninisse          ###   ########.fr       */
+/*   Created: 2024/11/07 21:50:06 by grohr             #+#    #+#             */
+/*   Updated: 2025/01/16 14:58:25 by grohr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../ft_printf.h"
 
-int	ft_power(int num, int power)
+int	convert_str(const char *str)
 {
-	int	result;
-
-	result = 1;
-	if (power < 0)
-		return (0);
-	else if (power == 0)
-		return (1);
-	else
-	{
-		while (power-- > 0)
-			result *= 1 * num;
-	}
-	return (result);
+	if (!str)
+		return (write(1, "(null)", 6));
+	return (write(1, str, ft_strlen(str)));
 }

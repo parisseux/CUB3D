@@ -3,75 +3,65 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strtrim.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: avarrett <avarrett@student.42.fr>          +#+  +:+       +#+        */
+/*   By: grohr <grohr@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/08 11:33:52 by avarrett          #+#    #+#             */
-/*   Updated: 2024/10/17 15:54:14 by avarrett         ###   ########.fr       */
+/*   Created: 2024/10/14 15:10:00 by grohr             #+#    #+#             */
+/*   Updated: 2025/04/13 15:48:13 by grohr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static int	trim_ou_pas(char lettre_s, char const *set)
+static int	in_set(char c, char const *set)
 {
-	int	i;
+	size_t	i;
 
 	i = 0;
 	while (set[i])
 	{
-		if (lettre_s == set[i])
-			return (0);
+		if (c == set[i])
+			return (1);
 		i++;
 	}
-	return (1);
-}
-
-static char	*ft_strcpy(char const *src, size_t a)
-{
-	size_t	i;
-	char	*ptn_de_mot;
-
-	i = 0;
-	if (a <= 0)
-		return (ft_strdup(""));
-	ptn_de_mot = (char *)malloc((a + 1) * sizeof(char));
-	if (!ptn_de_mot)
-		return (NULL);
-	while (i < a)
-	{
-		ptn_de_mot[i] = src[i];
-		i++;
-	}
-	ptn_de_mot[i] = '\0';
-	return (ptn_de_mot);
+	return (0);
 }
 
 char	*ft_strtrim(char const *s1, char const *set)
 {
-	int		i;
-	int		j;
+	char	*result;
+	size_t	start;
+	size_t	end;
+	size_t	len;
 
-	i = 0;
-	j = ft_strlen(s1) - 1;
-	if (!s1)
-		return (ft_strdup(""));
-	while (trim_ou_pas(s1[i], set) != 1)
-		i++;
-	while (j >= i && trim_ou_pas(s1[j], set) != 1)
-		j--;
-	if (i > j)
-		return (ft_strdup(""));
-	return (ft_strcpy(s1 + i, j - i + 1));
+	if (!s1 || !set)
+		return (NULL);
+	start = 0;
+	while (s1[start] && in_set(s1[start], set))
+		start++;
+	end = ft_strlen(s1);
+	while (end > start && in_set(s1[end - 1], set))
+		end--;
+	len = end - start + 1;
+	result = (char *)malloc(len * sizeof(char));
+	if (!result)
+		return (NULL);
+	ft_strlcpy(result, &s1[start], len);
+	return (result);
 }
 
-// #include <stdio.h>
-// int main(void)
-// {
-// 	const char s1[] = "";
-// 	const char s2[] = "";
-// 	char *new;
-// 	new = (char *)ft_strtrim(s1, s2);
-// 	printf("%s", new);
-// 	free(new);
-// 	return (0);
-// }
+/* int	main(void)
+{
+	char	*str = "   xpfwqwD!Arigato :){]}   ";
+	char	*set = " xpfqwD!{[]}";
+	char	*result = ft_strtrim(str, set);
+
+	printf("Avant trimming: \"%s\"\n", str);
+	printf("Après trimming: \"%s\"\n", result);
+	free(result);
+
+	return (0);
+} */
+/*
+Le trimming (ou trim) fait référence au processus de suppression des espaces
+ou de caractères non désirés au début et à la fin d’une chaîne de caractères.
+*/

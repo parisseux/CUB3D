@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_putnbr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: avarrett <avarrett@student.42.fr>          +#+  +:+       +#+        */
+/*   By: grohr <grohr@student.42lausanne.ch>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/08 17:04:08 by avarrett          #+#    #+#             */
-/*   Updated: 2024/10/17 15:55:37 by avarrett         ###   ########.fr       */
+/*   Created: 2024/10/03 13:05:22 by grohr             #+#    #+#             */
+/*   Updated: 2024/10/23 19:38:54 by grohr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,32 +14,37 @@
 
 void	ft_putnbr_fd(int n, int fd)
 {
-	char	nbr;
-
-	nbr = n + '0';
 	if (n == -2147483648)
-		write (fd, "-2147483648", 11);
-	else if (n == 2147483647)
-		write (fd, "2147483647", 10);
-	else if (n >= 0)
 	{
-		if (n < 10)
-			write (fd, &nbr, 1);
-		else if (n >= 10)
-		{
-			ft_putnbr_fd(n / 10, fd);
-			ft_putnbr_fd(n % 10, fd);
-		}
+		write(fd, "-2147483648", 11);
+		return ;
 	}
-	else if (n < 0)
+	if (n < 0)
 	{
-		write (fd, "-", 1);
-		ft_putnbr_fd(n *= -1, fd);
+		ft_putchar_fd('-', fd);
+		n = -n;
 	}
+	if (n > 9)
+		ft_putnbr_fd(n / 10, fd);
+	ft_putchar_fd(n % 10 + '0', fd);
 }
 
-// int main(void)
-// {
-// 	ft_putnbr_fd(-975100, 1);
-// 	return (0);
-// }
+/* #include <fcntl.h>
+
+int	main(void)
+{
+	int	fd = open("putnbr_output.txt", O_WRONLY | O_CREAT | O_TRUNC, 0644);
+
+	if (fd == -1)
+		return (1);
+	ft_putnbr_fd(0, fd);
+	ft_putchar_fd('\n', fd);
+	ft_putnbr_fd(-987654, fd);
+	ft_putchar_fd('\n', fd);
+	ft_putnbr_fd(2147483647, fd);
+	ft_putchar_fd('\n', fd);
+	ft_putnbr_fd(-2147483648, fd);
+	ft_putchar_fd('\n', fd);
+	close(fd);
+	return (0);
+} */

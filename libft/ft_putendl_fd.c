@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_putendl_fd.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: avarrett <avarrett@student.42.fr>          +#+  +:+       +#+        */
+/*   By: grohr <grohr@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/08 16:59:56 by avarrett          #+#    #+#             */
-/*   Updated: 2024/10/17 15:55:33 by avarrett         ###   ########.fr       */
+/*   Created: 2024/10/03 13:05:19 by grohr             #+#    #+#             */
+/*   Updated: 2024/10/15 10:46:13 by grohr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,20 +14,22 @@
 
 void	ft_putendl_fd(char *s, int fd)
 {
-	int	i;
-
-	i = 0;
-	while (s[i])
+	if (s)
 	{
-		write(fd, &s[i], 1);
-		i++;
+		ft_putstr_fd(s, fd);
+		ft_putchar_fd('\n', fd);
 	}
-	write (fd, "\n", 1);
 }
 
-// int main(void)
-// {
-// 	char s[] = "ana";
-// 	ft_putstr_fd(s, 1);
-// 	return (0);
-// }
+/* #include <fcntl.h>
+
+int	main(void)
+{
+	int	fd = open("putendl_output.txt", O_WRONLY | O_CREAT | O_TRUNC, 0644);
+
+	if (fd == -1)
+		return (1); // Erreur d'ouverture
+	ft_putendl_fd("Je putstr ton fichier + retour à la ligne", fd);
+	close(fd);
+	return (0);
+} */

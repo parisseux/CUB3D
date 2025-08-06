@@ -3,99 +3,120 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: avarrett <avarrett@student.42.fr>          +#+  +:+       +#+        */
+/*   By: grohr <grohr@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/08 13:17:37 by avarrett          #+#    #+#             */
-/*   Updated: 2025/03/17 17:04:11 by avarrett         ###   ########.fr       */
+/*   Created: 2024/10/03 13:05:27 by grohr             #+#    #+#             */
+/*   Updated: 2025/04/11 18:21:44 by grohr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static int	ft_occurence(char const *s, char c)
+static int	count_words(const char *s, char c)
 {
+	int	count;
 	int	i;
-	int	compte;
 
-	if (!s)
-		return (0);
+	count = 0;
 	i = 0;
-	compte = 0;
 	while (s[i])
 	{
-		while (s[i] == c)
+		while (s[i] && s[i] == c)
 			i++;
-		if (s[i])
-			compte++;
-		while (s[i] && s[i] != c)
-			i++;
+		if (s[i] && s[i] != c)
+		{
+			count++;
+			while (s[i] && s[i] != c)
+				i++;
+		}
 	}
-	return (compte);
+	return (count);
 }
 
-static char	*ft_strcpy(char const *src, size_t a)
+static char	*malloc_word(const char *s, int start, int finish)
 {
-	size_t	i;
-	char	*ptn_de_mot;
+	char	*word;
+	int		i;
 
-	i = 0;
-	ptn_de_mot = (char *)malloc((a + 1) * sizeof(char));
-	if (!ptn_de_mot)
+	word = (char *)malloc((finish - start + 1) * sizeof(char));
+	if (!word)
 		return (NULL);
-	while (i < a)
-	{
-		ptn_de_mot[i] = src[i];
-		i++;
-	}
-	ptn_de_mot[i] = '\0';
-	return (ptn_de_mot);
+	i = 0;
+	while (start < finish)
+		word[i++] = s[start++];
+	word[i] = '\0';
+	return (word);
 }
 
 char	**ft_split(char const *s, char c)
 {
-	size_t	end;
-	int		len;
-	size_t	start;
-	char	**tab;
+	char	**split;
+	int		i;
+	int		j;
+	int		start;
 
-	end = 0;
-	len = 0;
-	tab = malloc((ft_occurence(s, c) + 1) * sizeof(char *));
-	if (!tab)
+	if (!s)
 		return (NULL);
-	while (s[end])
+	split = (char **)malloc((count_words(s, c) + 1) * sizeof(char *));
+	if (!split)
+		return (NULL);
+	i = 0;
+	j = 0;
+	while (s[i])
 	{
-		while (s[end] == c)
-			end++;
-		start = end;
-		while (s[end] != c && s[end])
-			end++;
-		if (end > start)
-		{
-			tab[len] = ft_strcpy(s + start, end - start);
-			if (!tab[len++])
-				return (ft_free_tab(tab, len), NULL);
-		}
+		while (s[i] && s[i] == c)
+			i++;
+		start = i;
+		while (s[i] && s[i] != c)
+			i++;
+		if (i > start)
+			split[j++] = malloc_word(s, start, i);
 	}
-	return (tab[len] = NULL, tab);
+	split[j] = NULL;
+	return (split);
 }
 
-// #include <stdio.h>
+/* #include <stdio.h>
 
-// int main(void)
-// {
-// 	char const s[] = "  sp l it de merde";
-// 	char sep = ' ';
-// 	int i;
-// 	char **tab;
+int	main(void)
+{
+	char	**result;
+	int		i;
 
-// 	tab = ft_split(s, sep);
-// 	i = 0;
-// 	while (i < ft_occurence(s, sep))
-// 	{
-// 		printf("%s\n", tab[i]);
-// 		i++;
-// 	}
-// 	ft_free(tab, ft_occurence(s, sep));
-// 	return (0);
-// }
+	// Test 1 : Chaîne simple avec un espace comme délimiteur
+	result = ft_split("Bonjour tout le monde", ' ');
+	for (i = 0; result[i] != NULL; i++)
+		printf("Test 1 - Mot %d : %s\n", i, result[i]);
+
+	// Test 2 : Chaîne avec plusieurs délimiteurs consécutifs
+	result = ft_split("Ceci,,,est,,,un,,,test", ',');
+	for (i = 0; result[i] != NULL; i++)
+		printf("Test 2 - Mot %d : %s\n", i, result[i]);
+
+	// Test 3 : Chaîne avec délimiteurs en début et fin
+	result = ft_split(",,,42,,,School,,,", ',');
+	for (i = 0; result[i] != NULL; i++)
+		printf("Test 3 - Mot %d : %s\n", i, result[i]);
+
+	// Test 4 : Chaîne vide
+	result = ft_split("", ' ');
+	if (!result[0])
+		printf("Test 4 - Résultat : Chaîne vide\n");
+
+	// Test 5 : Délimiteur absent dans la chaîne
+	result = ft_split("Libft", ',');
+	for (i = 0; result[i] != NULL; i++)
+		printf("Test 5 - Mot %d : %s\n", i, result[i]);
+
+	// Test 6 : Délimiteur unique dans la chaîne
+	result = ft_split(",,,,,", ',');
+	if (!result[0])
+		printf("Test 6 - Résultat : Aucun mot trouvé\n");
+
+	// Libérer la mémoire
+	for (i = 0; result[i] != NULL; i++)
+		free(result[i]);
+	free(result);
+
+	return (0);
+} */

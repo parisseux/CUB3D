@@ -3,56 +3,55 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memmove.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: avarrett <avarrett@student.42.fr>          +#+  +:+       +#+        */
+/*   By: grohr <grohr@student.42lausanne.ch>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/07 13:33:16 by gregorykoll       #+#    #+#             */
-/*   Updated: 2024/10/15 13:40:40 by avarrett         ###   ########.fr       */
+/*   Created: 2024/10/03 13:05:13 by grohr             #+#    #+#             */
+/*   Updated: 2024/10/24 12:30:09 by grohr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	*ft_memmove(void *dest, const void *src, size_t size)
+void	*ft_memmove(void *dst, const void *src, size_t len)
 {
-	char	*destination;
-	char	*source;
 	size_t	i;
 
-	if (!dest && !src)
-		return (NULL);
-	destination = (char *)dest;
-	source = (char *)src;
-	i = 0;
-	if (destination > source)
+	if (!dst && !src)
+		return (0);
+	if (dst > src)
 	{
-		while (size-- > 0)
-			destination[size] = source[size];
+		i = len;
+		while (i > 0)
+		{
+			i--;
+			((unsigned char *)dst)[i] = ((unsigned char *)src)[i];
+		}
 	}
 	else
 	{
-		while (i < size)
+		i = 0;
+		while (i < len)
 		{
-			destination[i] = source[i];
+			((unsigned char *)dst)[i] = ((unsigned char *)src)[i];
 			i++;
 		}
 	}
-	return (dest);
+	return (dst);
 }
 
-// #include <stdio.h>
-// #include <string.h>
-// int main(void)
-// {
-// //    char str[90] = "aabbcc";
-// //    printf("The string: %s\n", str);
-// //    ft_memmove(str + 2, str, 4);
-// //    printf( "New string: %s\n", str );
-//    char str[90] = "memmove can be very useful......";
-//    printf( "The string: %s\n", str );
-//    printf( "The string: %s\n", str );
-//    ft_memmove(str+20,str+15,11);
-//    memmove(str+20,str+15,11);
-//    printf( "New string: %s\n", str );
-//    printf( "The string: %s\n", str );
-//    return (0);
-// }
+/* #include <stdio.h>
+
+int	main(void)
+{
+	int		i = 10;
+	char	dst[18]="Salut";
+	
+	printf("dst avant : %s\n", dst);
+	ft_memmove(dst, dst + 2, i);
+	printf("dst après : %s\n", dst);
+	return(0);
+} */
+/*
+Copie n octets d’une zone mémoire vers une autre, en prenant en compte
+le chevauchement possible des zones source et destination.
+*/
