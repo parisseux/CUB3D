@@ -21,6 +21,12 @@ int main(int ac, char **av)
 		cleanup(game);
 		return (mess_error(1, "loading map"));
 	}
+	int i = 0;
+	while(game->map[i])
+	{
+		printf("%s\n", game->map[i]);
+		i++;
+	}
 	if (ft_check_map(game, av[1]) == 0)
 	{
 		cleanup(game);
