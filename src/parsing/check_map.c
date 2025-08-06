@@ -68,8 +68,14 @@ int ft_check_tiles(char **map)
 		{
 			if (map[i][j] != '1' && map[i][j] != '0' &&
 				map[i][j] != 'N' && map[i][j] != 'S' &&
-				map[i][j] != 'E' && map[i][j] != 'W' && !is_space(map[i][j]))
-				return (0);
+				map[i][j] != 'E' && map[i][j] != 'W' && map[i][j] != '\n'
+				&& !is_space(map[i][j]))
+				{
+					printf("c = %c, (ascii:%i)\n", map[i][j], map[i][j]);
+					printf("%d, %d\n", i, j);
+					return (0);
+				}
+				
 			j++;
 		}
 		i++;

@@ -63,21 +63,14 @@ static int is_element_line(char *line)
 			ft_strncmp(line, "F ", 2) == 0 || ft_strncmp(line, "C ", 2) == 0);
 }
 
-int parse_elements(t_data *game, char *file_path)
+int parse_elements(t_data *game, int fd)
 {
 	char *line;
-	int fd;
 	int elements_found = 0;
 
-	fd = open(file_path, O_RDONLY);
-	if (fd < 0)
-		return (mess_error(0, "Impossible d'ouvrir le fichier"));
 	line = get_next_line(fd);
 	if (!line)
-	{
-		close (fd);
 		return (0);
-	}	
 	while (line && elements_found < 6)
 	{
 		if (is_element_line(line))
@@ -101,7 +94,6 @@ int parse_elements(t_data *game, char *file_path)
 			else
 			{
 				free(line);
-				close(fd);
 				return (mess_error(0, "Élément dup ou invalide"));
 			}
 		}
@@ -109,7 +101,5 @@ int parse_elements(t_data *game, char *file_path)
 		line = get_next_line(fd);
 	}
 	free(line);
-	close(fd);
-	printf("test\n");
 	return (elements_found == 6);
 }

@@ -138,7 +138,7 @@ char	**ft_get_map(char *file_path, t_data *game);
 int		is_space(char c);
 
 // parsing/parse_elements.c
-int		parse_elements(t_data *game, char *file_path);
+int		parse_elements(t_data *game, int fd);
 
 // player/player.c
 int		init_player(t_data *game);
