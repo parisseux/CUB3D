@@ -62,11 +62,15 @@ void init_mlx(t_data *data)
     
     // Configurer la résolution
     get_screen_size(data);
+    data->sky_scale = 4.0;
+    data->sky_offset = 0.0;
     
     load_texture(data, &data->tex_north, data->no_texture);
     load_texture(data, &data->tex_south, data->so_texture);
     load_texture(data, &data->tex_west, data->we_texture);
     load_texture(data, &data->tex_east, data->ea_texture);
+    load_texture(data, &data->tex_floor, data->floor_texture);
+    load_texture(data, &data->tex_sky, data->sky_texture);
     
     data->mlx.win_ptr = mlx_new_window(data->mlx.mlx_ptr, data->screen.width, data->screen.height, "cub3D");
     if (!data->mlx.win_ptr)

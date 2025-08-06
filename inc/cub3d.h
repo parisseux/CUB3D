@@ -18,9 +18,12 @@
 #ifdef __APPLE__
 # include "../minilibx_macos/mlx.h"
 #else
-# include "../minilibx_linux/mlx.h"
+# include "../minilibx-linux/mlx.h"
 #endif
 
+#ifndef M_PI
+# define M_PI 3.14159265358979323846
+#endif
 # define BASE_MOVE_SPEED      0.055
 # define BASE_ROT_SPEED       0.03
 # define REFERENCE_WIDTH      1280.0
@@ -106,12 +109,18 @@ typedef struct s_data {
     char        *so_texture;
     char        *we_texture;
     char        *ea_texture;
+	char 		*floor_texture;
+	char 		*sky_texture;
+	double		sky_scale;
+	double		sky_offset;
     t_texture   tex_north;
     t_texture   tex_south;
     t_texture   tex_west;
     t_texture   tex_east;
-    int         floor_color;
-    int         ceiling_color;
+	t_texture	tex_floor;
+	t_texture   tex_sky;
+    // int         floor_color;
+    // int         ceiling_color;
     t_screen    screen;
 } t_data;
 

@@ -75,10 +75,11 @@ int ft_check_tiles(char **map)
 
 int ft_check_elements(t_data *game)
 {
-	if (!game->no_texture || !game->so_texture || !game->we_texture || !game->ea_texture)
+	if (!game->no_texture || !game->so_texture || !game->we_texture || !game->ea_texture
+		|| !game->floor_texture || !game->sky_texture)
 		return (mess_error(0, "Texture manquante"));
-	if (game->floor_color == -1 || game->ceiling_color == -1)
-		return (mess_error(0, "Couleur manquante"));
+	// if (game->floor_color == -1 || game->ceiling_color == -1)
+	// 	return (mess_error(0, "Couleur manquante"));
 	return (1);
 }
 

@@ -2,8 +2,8 @@
 static char * floor_xpm[] = {
 /* columns rows colors chars-per-pixel */
 "64 64 2 1 ",
-"  c black",
-". c white",
+"  c #333333",
+". c #C9C9C9",
 /* pixels */
 "....    ....    ....    ....    ....    ....    ....    ....    ",
 "....    ....    ....    ....    ....    ....    ....    ....    ",

@@ -2,8 +2,8 @@ NO ./textures2/wall.xpm
 SO ./textures2/wall.xpm
 WE ./textures2/wall.xpm
 EA ./textures2/wall.xpm
-F 255,255,0      // Sol jaune (corps)
-C 50,50,50       // Plafond gris
+F ./textures2/grass.xpm
+C ./textures2/sky.xpm
 
 111111111111111111111111111
 100000000000000000000000001

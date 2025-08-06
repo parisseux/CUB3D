@@ -54,8 +54,6 @@ char	**ft_get_map(char *file_path, t_data *game)
 {
 	char	*map_temp;
 
-	game->floor_color = -1;
-	game->ceiling_color = -1;
 	if (!parse_elements(game, file_path))
 	{
 		perror("Error");
