@@ -1,10 +1,10 @@
-NO ./textures/north.xpm
-SO ./textures/south.xpm
-WE ./textures/west.xpm
-EA ./textures/east.xpm
-F 220,100,0
+NO ./texture_labirinthe/cleanwall.xpm
+SO ./texture_labirinthe/cleanwall.xpm
+WE ./texture_labirinthe/cleanwall.xpm
+EA ./texture_labirinthe/cleanwall.xpm
+F 220,200,0
 C 225,30,0
 
-1111
-1N01
-1111
+1111111
+1N00001
+1111111

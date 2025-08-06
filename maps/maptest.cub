@@ -1,12 +1,14 @@
-NO ./textures/test.xpm
-SO ./textures/test.xpm
-WE ./textures/test.xpm
-EA ./textures/test.xpm
-F 100,100,100
-C 50,50,200
+NO ./texture_labirinthe/cleanwall.xpm
+SO ./texture_labirinthe/cleanwall.xpm
+WE ./texture_labirinthe/cleanwall.xpm
+EA ./texture_labirinthe/cleanwall.xpm
+F 65,100,255
+C 255,0,255
 
-11111
-10001
-10N01
-10001
-11111
+1111111111
+100000000111
+10001111111011111
+10N00001  1001
+10000001111011111
+111110000000111111
+111111111111

@@ -6,11 +6,7 @@ int	ft_check_border_map(char **map, int i, int j)
 		return (0);
 	if (is_space(map[i - 1][j - 1]) || is_space(map[i - 1][j]) || is_space(map[i - 1][j + 1]))
 		return (0);
-	if ( map[i - 1][j] == '\0' || map[i + 1][j] == '\0')
-		return (0);
 	if (is_space(map[i][j - 1]) || is_space(map[i][j + 1]))
-		return (0);
-	if (map[i][j - 1] == '\0' || map[i][j + 1] == '\0')
 		return (0);
 	if (is_space(map[i + 1][j - 1]) || is_space(map[i + 1][j]) || is_space(map[i + 1][j + 1]))
 		return (0);
@@ -68,14 +64,8 @@ int ft_check_tiles(char **map)
 		{
 			if (map[i][j] != '1' && map[i][j] != '0' &&
 				map[i][j] != 'N' && map[i][j] != 'S' &&
-				map[i][j] != 'E' && map[i][j] != 'W' && map[i][j] != '\n'
-				&& !is_space(map[i][j]))
-				{
-					printf("c = %c, (ascii:%i)\n", map[i][j], map[i][j]);
-					printf("%d, %d\n", i, j);
-					return (0);
-				}
-				
+				map[i][j] != 'E' && map[i][j] != 'W' && !is_space(map[i][j]))
+				return (0);
 			j++;
 		}
 		i++;
@@ -85,9 +75,10 @@ int ft_check_tiles(char **map)
 
 int ft_check_elements(t_data *game)
 {
-	if (!game->no_texture || !game->so_texture || !game->we_texture || !game->ea_texture
-		|| game->floor_color == -1 || game->ceiling_color == -1)
-		return (0);
+	if (!game->no_texture || !game->so_texture || !game->we_texture || !game->ea_texture)
+		return (mess_error(0, "Texture manquante"));
+	if (game->floor_color == -1 || game->ceiling_color == -1)
+		return (mess_error(0, "Couleur manquante"));
 	return (1);
 }
 
@@ -96,7 +87,7 @@ int ft_check_map(t_data *game, char *file_name)
 	if (ft_check_format_cub(file_name) == 0)
 		return (mess_error(0, "Format de fichier invalide"));
 	if (ft_check_elements(game) == 0)
-		return (mess_error(0, "Textures manquantes"));
+		return (0);
 	if (ft_check_tiles(game->map) == 0)
 		return (mess_error(0, "Caractères invalides dans la carte"));
 	if (init_player(game) == 0)
