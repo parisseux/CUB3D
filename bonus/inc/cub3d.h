@@ -15,20 +15,24 @@
 # include <sys/types.h>
 # include <sys/stat.h>
 # include <fcntl.h>
-#ifdef __APPLE__
-# include "../../minilibx_macos/mlx.h"
-#else
-# include "../../minilibx-linux/mlx.h"
-#endif
+# ifdef __APPLE__
+#  include "../../minilibx_macos/mlx.h"
+# else
+#  include "../../minilibx-linux/mlx.h"
+# endif
 
-#define MINIMAP_SCALE 10
-#define MINIMAP_SIZE 128
-#define MINIMAP_OFFSET_X 20
-#define MINIMAP_OFFSET_Y 20
-#define MINIMAP_WALL_COLOR 0xFFFFFF
-#define MINIMAP_FLOOR_COLOR 0x000000
-#define MINIMAP_PLAYER_COLOR 0xFF0000
-#define MINIMAP_FOV_COLOR 0x00FFFF
+# ifndef M_PI
+#  define M_PI 3.14159265358979323846
+# endif
+
+# define MINIMAP_SCALE 10
+# define MINIMAP_SIZE 128
+# define MINIMAP_OFFSET_X 20
+# define MINIMAP_OFFSET_Y 20
+# define MINIMAP_WALL_COLOR 0xFFFFFF
+# define MINIMAP_FLOOR_COLOR 0x000000
+# define MINIMAP_PLAYER_COLOR 0xFF0000
+# define MINIMAP_FOV_COLOR 0x00FFFF
 
 # define BASE_MOVE_SPEED      0.055
 # define BASE_ROT_SPEED       0.03
@@ -115,12 +119,16 @@ typedef struct s_data {
     char        *so_texture;
     char        *we_texture;
     char        *ea_texture;
+	char 		*floor_texture;
+	char 		*sky_texture;
+	double		sky_scale;
+	double		sky_offset;
     t_texture   tex_north;
     t_texture   tex_south;
     t_texture   tex_west;
     t_texture   tex_east;
-    int         floor_color;
-    int         ceiling_color;
+	t_texture	tex_floor;
+	t_texture   tex_sky;
     t_screen    screen;
 } t_data;
 
@@ -141,7 +149,7 @@ char	**ft_get_map(char *file_path, t_data *game);
 int		is_space(char c);
 
 // parsing/parse_elements.c
-int		parse_elements(t_data *game, char *file_path);
+int		parse_elements(t_data *game, int fd);
 
 // player/player.c
 int		init_player(t_data *game);

@@ -48,13 +48,22 @@
 // A		pos += perpend(dir) * speed	→ strafe gauche
 // D		pos -= perpend(dir) * speed	→ strafe droite
 //
-// Et la perpendiculaire de (x, y) est (-y, x)
+// Et la perpendiculair de (x, y) est (-y, x)
+//
 void move_player(t_data *data)
 {
-	double	move_speed = CALC_MOVE_SPEED(data);
-	double	side_speed = move_speed * 0.6;
-	double	new_x;
-	double	new_y;
+	double move_speed = CALC_MOVE_SPEED(data);
+	double side_speed = move_speed * 0.6;
+	double new_x, new_y;
+
+	// Debug
+	// static int debug_counter = 0;
+	// if (debug_counter++ % 60 == 0) // Affiche toutes les 60 frames
+	// {
+	//     printf("BASE_MOVE_SPEED: %.4f\n", BASE_MOVE_SPEED);
+	//     printf("Calculated move_speed: %.4f\n", move_speed);
+	//     printf("Resolution: %dx%d\n", data->screen.width, data->screen.height);
+	// }
 
 	if (data->keys.w)
 	{
@@ -64,7 +73,6 @@ void move_player(t_data *data)
 			data->player.pos_x = new_x;
 		if (data->map[(int)new_y][(int)data->player.pos_x] != '1')
 			data->player.pos_y = new_y;
-		data->sky_offset += move_speed * 0.1; // Augmente l'offset pour que les nuages reculent
 	}
 	if (data->keys.s)
 	{
@@ -74,7 +82,6 @@ void move_player(t_data *data)
 			data->player.pos_x = new_x;
 		if (data->map[(int)new_y][(int)data->player.pos_x] != '1')
 			data->player.pos_y = new_y;
-		data->sky_offset -= move_speed * 0.1; // Diminue l'offset pour que les nuages avancent
 	}
 	if (data->keys.a)
 	{
@@ -94,11 +101,6 @@ void move_player(t_data *data)
 		if (data->map[(int)new_y][(int)data->player.pos_x] != '1')
 			data->player.pos_y = new_y;
 	}
-	
-	if (data->sky_offset < 0.0)
-		data->sky_offset += 1.0;
-	else if (data->sky_offset >= 1.0)
-		data->sky_offset -= 1.0;
 }
 
 // Tourner le joueur
@@ -139,3 +141,84 @@ void rotate_player(t_data *data)
 	               data->player.plane_x, data->player.plane_y);
 	}
 }
+
+//-----------------------OLD CODE-------------------------------
+/* #include "../../inc/cub3d.h"
+
+void move_player(t_data *data)
+{
+	double move_speed = CALC_MOVE_SPEED(data);
+	double side_speed = move_speed * 0.6;
+	double new_x, new_y;
+
+	// Debug
+	// static int debug_counter = 0;
+	// if (debug_counter++ % 60 == 0) // Affiche toutes les 60 frames
+	// {
+	//     printf("BASE_MOVE_SPEED: %.4f\n", BASE_MOVE_SPEED);
+	//     printf("Calculated move_speed: %.4f\n", move_speed);
+	//     printf("Resolution: %dx%d\n", data->screen.width, data->screen.height);
+	// }
+
+	if (data->keys.w)
+	{
+		new_x = data->player.pos_x + data->player.dir_x * move_speed;
+		new_y = data->player.pos_y + data->player.dir_y * move_speed;
+		if (data->map[(int)data->player.pos_y][(int)new_x] != '1')
+			data->player.pos_x = new_x;
+		if (data->map[(int)new_y][(int)data->player.pos_x] != '1')
+			data->player.pos_y = new_y;
+	}
+	if (data->keys.s)
+	{
+		new_x = data->player.pos_x - data->player.dir_x * move_speed;
+		new_y = data->player.pos_y - data->player.dir_y * move_speed;
+		if (data->map[(int)data->player.pos_y][(int)new_x] != '1')
+			data->player.pos_x = new_x;
+		if (data->map[(int)new_y][(int)data->player.pos_x] != '1')
+			data->player.pos_y = new_y;
+	}
+	if (data->keys.a)
+	{
+		new_x = data->player.pos_x + data->player.dir_y * side_speed;
+		new_y = data->player.pos_y - data->player.dir_x * side_speed;
+		if (data->map[(int)data->player.pos_y][(int)new_x] != '1')
+			data->player.pos_x = new_x;
+		if (data->map[(int)new_y][(int)data->player.pos_x] != '1')
+			data->player.pos_y = new_y;
+	}
+	if (data->keys.d)
+	{
+		new_x = data->player.pos_x - data->player.dir_y * side_speed;
+		new_y = data->player.pos_y + data->player.dir_x * side_speed;
+		if (data->map[(int)data->player.pos_y][(int)new_x] != '1')
+			data->player.pos_x = new_x;
+		if (data->map[(int)new_y][(int)data->player.pos_x] != '1')
+			data->player.pos_y = new_y;
+	}
+}
+
+void rotate_player(t_data *data)
+{
+	double rot_speed = CALC_ROT_SPEED(data);
+	double old_dir_x, old_plane_x;
+
+	if (data->keys.left)
+	{
+		old_dir_x = data->player.dir_x;
+		data->player.dir_x = data->player.dir_x * cos(-rot_speed) - data->player.dir_y * sin(-rot_speed);
+		data->player.dir_y = old_dir_x * sin(-rot_speed) + data->player.dir_y * cos(-rot_speed);
+		old_plane_x = data->player.plane_x;
+		data->player.plane_x = data->player.plane_x * cos(-rot_speed) - data->player.plane_y * sin(-rot_speed);
+		data->player.plane_y = old_plane_x * sin(-rot_speed) + data->player.plane_y * cos(-rot_speed);
+	}
+	if (data->keys.right)
+	{
+		old_dir_x = data->player.dir_x;
+		data->player.dir_x = data->player.dir_x * cos(rot_speed) - data->player.dir_y * sin(rot_speed);
+		data->player.dir_y = old_dir_x * sin(rot_speed) + data->player.dir_y * cos(rot_speed);
+		old_plane_x = data->player.plane_x;
+		data->player.plane_x = data->player.plane_x * cos(rot_speed) - data->player.plane_y * sin(rot_speed);
+		data->player.plane_y = old_plane_x * sin(rot_speed) + data->player.plane_y * cos(rot_speed);
+	}
+} */

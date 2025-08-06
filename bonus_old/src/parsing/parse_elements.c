@@ -41,10 +41,7 @@ static int	parse_texture(char *line, char **texture)
 {
 	char	*trimmed;
 
-	if (ft_strncmp(line, "C ", 2) == 0 || ft_strncmp(line, "F ", 2) == 0)
-		trimmed = ft_strtrim(line + 2, " \t\n");
-	else
-		trimmed = ft_strtrim(line + 3, " \t\n");
+	trimmed = ft_strtrim(line + 3, " \t\n");
 	if (!trimmed || !*trimmed)
 	{
 		free(trimmed);
@@ -63,16 +60,16 @@ static int is_element_line(char *line)
 			ft_strncmp(line, "F ", 2) == 0 || ft_strncmp(line, "C ", 2) == 0);
 }
 
-int parse_elements(t_data *game, int fd)
+int parse_elements(t_data *game, char *file_path)
 {
 	char *line;
+	int fd;
 	int elements_found = 0;
 
+	fd = open(file_path, O_RDONLY);
+	if (fd < 0)
+		return (mess_error(0, "Impossible d'ouvrir le fichier"));
 	line = get_next_line(fd);
-	if (!line)
-		return (0);
-	game->floor_color = -1;
-	game->ceiling_color = -1;
 	while (line && elements_found < 6)
 	{
 		if (is_element_line(line))
@@ -85,10 +82,6 @@ int parse_elements(t_data *game, int fd)
 				elements_found += parse_texture(line, &game->we_texture);
 			else if (ft_strncmp(line, "EA ", 3) == 0 && !game->ea_texture)
 				elements_found += parse_texture(line, &game->ea_texture);
-			// else if (ft_strncmp(line, "F ", 2) == 0 && !game->floor_texture)
-			// 	elements_found += parse_texture(line, &game->floor_texture);
-			// else if (ft_strncmp(line, "C ", 2) == 0 && !game->sky_texture)
-			// 	elements_found += parse_texture(line, &game->sky_texture);
 			else if (ft_strncmp(line, "F ", 2) == 0 && game->floor_color == -1)
 				elements_found += parse_color(line, &game->floor_color);
 			else if (ft_strncmp(line, "C ", 2) == 0 && game->ceiling_color == -1)
@@ -96,6 +89,7 @@ int parse_elements(t_data *game, int fd)
 			else
 			{
 				free(line);
+				close(fd);
 				return (mess_error(0, "Élément dup ou invalide"));
 			}
 		}
@@ -103,5 +97,6 @@ int parse_elements(t_data *game, int fd)
 		line = get_next_line(fd);
 	}
 	free(line);
+	close(fd);
 	return (elements_found == 6);
 }
