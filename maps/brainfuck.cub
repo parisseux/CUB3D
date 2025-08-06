@@ -1,9 +1,9 @@
-NO ./textures2/wall.xpm
-SO ./textures2/wall.xpm
-WE ./textures2/wall.xpm
-EA ./textures2/wall.xpm
-F ./textures2/grass.xpm
-C ./textures2/sky.xpm
+NO ./texture_labirinthe/wall.xpm
+SO ./texture_labirinthe/wall.xpm
+WE ./texture_labirinthe/wall.xpm
+EA ./texture_labirinthe/wall.xpm
+F ./texture_labirinthe/grass.xpm
+C ./texture_labirinthe/sky.xpm
 
 
 111111111111111111111111111

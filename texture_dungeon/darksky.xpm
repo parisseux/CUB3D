@@ -1,5 +1,5 @@
 /* XPM */
-static char *_a011c5c3a294568b89d5caf4fd245f2li2Ok9Mea2bzVpNm[] = {
+static char *darksky_xpm[] = {
 /* columns rows colors chars-per-pixel */
 "562 772 173 2 ",
 "   c #0D1217",

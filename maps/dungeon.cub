@@ -3,7 +3,7 @@ SO ./texture_dungeon/cleanwall.xpm
 WE ./texture_dungeon/cleanwall.xpm
 EA ./texture_dungeon/cleanwall.xpm
 F ./texture_dungeon/floorgrey.xpm
-C ./texture_dungeon/skydungeon.xpm
+C ./texture_dungeon/darksky.xpm
 
 111111111111111111111111111
 100000000000000000000000001
