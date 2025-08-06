@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: avarrett <avarrett@student.42.fr>          +#+  +:+       +#+        */
+/*   By: grohr <grohr@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/08 16:59:56 by avarrett          #+#    #+#             */
-/*   Updated: 2024/10/17 15:55:41 by avarrett         ###   ########.fr       */
+/*   Created: 2024/10/03 13:05:24 by grohr             #+#    #+#             */
+/*   Updated: 2024/10/15 13:43:35 by grohr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,19 @@
 
 void	ft_putstr_fd(char *s, int fd)
 {
-	int	i;
-
-	i = 0;
-	while (s[i])
-	{
-		write(fd, &s[i], 1);
-		i++;
-	}
+	if (s)
+		write(fd, s, ft_strlen(s));
 }
 
-// int main(void)
-// {
-// 	char s[] = "ana";
-// 	ft_putstr_fd(s, 1);
-// 	return (0);
-// }
+/* #include <fcntl.h>
+
+int	main(void)
+{
+	int	fd = open("putstr_output.txt", O_WRONLY | O_CREAT | O_TRUNC, 0644);
+
+	if (fd == -1)
+		return (1);
+	ft_putstr_fd("Je putstr ton fichier\n", fd);
+	close(fd);
+	return (0);
+} */

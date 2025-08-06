@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstmap_bonus.c                                  :+:      :+:    :+:   */
+/*   ft_lstmap.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: avarrett <avarrett@student.42.fr>          +#+  +:+       +#+        */
+/*   By: grohr <grohr@student.42lausanne.ch>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/17 16:56:27 by avarrett          #+#    #+#             */
-/*   Updated: 2024/10/17 18:21:53 by avarrett         ###   ########.fr       */
+/*   Created: 2024/10/03 13:04:51 by grohr             #+#    #+#             */
+/*   Updated: 2024/10/23 19:19:06 by grohr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,53 @@
 
 t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *))
 {
-	t_list	*element_liste;
-	t_list	*the_list;
+	t_list	*new_list;
+	t_list	*new_elem;
 
-	if (!lst || !f || !del)
-		return (NULL);
-	the_list = 0;
+	new_list = NULL;
 	while (lst)
 	{
-		element_liste = ft_lstnew(f(lst->content));
-		if (!element_liste)
+		new_elem = ft_lstnew(f(lst->content));
+		if (!new_elem)
 		{
-			ft_lstclear(&the_list, del);
+			ft_lstclear(&new_list, del);
 			return (NULL);
 		}
-		ft_lstadd_back(&the_list, element_liste);
+		ft_lstadd_back(&new_list, new_elem);
 		lst = lst->next;
 	}
-	return (the_list);
+	return (new_list);
 }
+
+/* #include <stdio.h>
+
+void *duplicate_content(void *content)
+{
+	return strdup((char *)content);
+}
+
+void del_content(void *content)
+{
+	free(content);
+}
+
+void print_content(void *content)
+{
+	printf("%s\n", (char *)content);
+}
+
+int main(void)
+{
+	t_list *list = ft_lstnew(strdup("First"));
+	ft_lstadd_back(&list, ft_lstnew(strdup("Second")));
+	ft_lstadd_back(&list, ft_lstnew(strdup("Third")));
+
+	t_list *new_list = ft_lstmap(list, duplicate_content, del_content);
+	printf("Mapped list contents:\n");
+	ft_lstiter(new_list, print_content);
+
+	// Free the lists
+	ft_lstclear(&list, del_content);
+	ft_lstclear(&new_list, del_content);
+	return (0);
+} */

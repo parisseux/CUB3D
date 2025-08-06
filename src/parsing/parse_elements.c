@@ -73,6 +73,11 @@ int parse_elements(t_data *game, char *file_path)
 	if (fd < 0)
 		return (mess_error(0, "Impossible d'ouvrir le fichier"));
 	line = get_next_line(fd);
+	if (!line)
+	{
+		close (fd);
+		return (0);
+	}	
 	while (line && elements_found < 6)
 	{
 		if (is_element_line(line))
@@ -105,5 +110,6 @@ int parse_elements(t_data *game, char *file_path)
 	}
 	free(line);
 	close(fd);
+	printf("test\n");
 	return (elements_found == 6);
 }

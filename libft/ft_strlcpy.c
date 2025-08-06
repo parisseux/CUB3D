@@ -3,55 +3,53 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strlcpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: avarrett <avarrett@student.42.fr>          +#+  +:+       +#+        */
+/*   By: grohr <grohr@student.42lausanne.ch>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/03 14:39:51 by avarrett          #+#    #+#             */
-/*   Updated: 2025/04/23 16:37:05 by avarrett         ###   ########.fr       */
+/*   Created: 2024/10/03 13:05:42 by grohr             #+#    #+#             */
+/*   Updated: 2024/10/24 12:29:15 by grohr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-// size_t	ft_strlcpy(char *dest, const char *src, size_t size)
-// {
-//     size_t	i;
-
-//     i = ft_strlen(src);
-//     if (size > 0)
-//     {
-//         if (i + 1 < size)
-//             ft_memcpy(dest, src, i + 1); // Copie toute la chaîne avec '\0'
-//         else
-//         {
-//             ft_memcpy(dest, src, size - 1); // Copie partielle
-//             dest[size - 1] = '\0';         // Ajoute le '\0'
-//         }
-//     }
-//     return (i);
-// }
-
-size_t	ft_strlcpy(char *dest, const char *src, size_t size)
+size_t	ft_strlcpy(char	*restrict dst, const char *restrict src, size_t dstsize)
 {
 	size_t	i;
 
-	i = ft_strlen(src);
-	if (i + 1 < size)
-		ft_memcpy(dest, src, i + 1);
-	else if (size != 0)
+	i = 0;
+	if (dstsize > 0)
 	{
-		ft_memcpy(dest, src, size - 1);
-		dest[size - 1] = '\0';
+		while (src[i] && i < (dstsize - 1))
+		{
+			dst[i] = src[i];
+			i++;
+		}
+		dst[i] = '\0';
 	}
+	while (src[i])
+		i++;
 	return (i);
 }
 
-// #include <stdio.h>
-// int main(void)
-// {
-// 	char b[] = "anabanana";
-// 	char *a;
+/* #include <stdio.h>
 
-// 	a = malloc(9);
-// 	printf("%zu", ft_strlcpy(a, b, 10));
-// 	printf("\n%s", a);
-// }
+int	main(void)
+{
+	char	dst[50] = "Salut les gars!!!";
+	char	*src = "Merci";
+	size_t	ah;
+
+	printf("src: %s\n", src);
+	printf("dst: %s\n", dst);
+	ah = ft_strlcpy(dst, src, -1);
+
+	printf("src: %s\n", src);
+	printf("dst: %s\n", dst);
+	printf("size of src: %zu\n", ah);
+
+	return (0);
+} */
+/*
+Copie une chaîne de caractères dans une autre avec une taille max prédéfinie.
+Assure que la destination est toujours null-terminée.
+*/

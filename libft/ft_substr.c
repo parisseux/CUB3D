@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_substr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: avarrett <avarrett@student.42.fr>          +#+  +:+       +#+        */
+/*   By: grohr <grohr@student.42lausanne.ch>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/08 09:58:03 by avarrett          #+#    #+#             */
-/*   Updated: 2024/10/17 15:54:19 by avarrett         ###   ########.fr       */
+/*   Created: 2024/10/03 13:06:06 by grohr             #+#    #+#             */
+/*   Updated: 2024/10/23 19:49:17 by grohr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,38 +14,52 @@
 
 char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
-	char			*new_s;
-	size_t			i;
+	char	*sub;
+	size_t	i;
 
-	i = 0;
 	if (!s)
 		return (NULL);
-	if (ft_strlen(s) < start)
-		return (ft_strdup(""));
-	if (len > ft_strlen(s + start))
+	else if (start >= ft_strlen(s))
+		len = 0;
+	else if (len > ft_strlen(s + start))
 		len = ft_strlen(s + start);
-	new_s = (char *)malloc((len + 1) * sizeof(char));
-	if (new_s == 0)
+	sub = (char *)malloc((len + 1) * sizeof(char));
+	if (!sub)
 		return (NULL);
+	i = 0;
 	while (i < len)
 	{
-		new_s[i] = s[start];
+		sub[i] = s[start + i];
 		i++;
-		start++;
 	}
-	new_s[i] = '\0';
-	return (new_s);
+	sub[i] = '\0';
+	return (sub);
 }
 
-// #include <stdio.h>
-// int main(void)
-// {
-// 	char str[] = "coucou anais anais";
-// 	char *new_s;
-// 	unsigned int start = 7;
-// 	size_t len = 10;
-// 	new_s = (char *)ft_substr(str, start, len);
-// 	printf("%s", new_s);
-// 	free(new_s);
-// 	return (0);
-// }
+/* #include <stdio.h>
+
+int main(void)
+{
+    char	*str = "How are you ?";
+    char	*substr;
+	int		start = 4;
+	int		len = 3;
+
+    substr = ft_substr(str, start, len);
+    printf("Sous-chaîne extraite : \"%s\"\n", substr);
+
+    free(substr);
+    return 0;
+} */
+/*
+	1.	Alloue et retourne une nouvelle chaîne :
+		crée un nouvel espace en mémoire pour une sous-chaîne.
+	2.	Extrait une partie d’une chaîne de caractères :
+		La sous-chaîne est extraite de la chaîne s à partir de l’index start.
+	3.	Limite la longueur de la sous-chaîne :
+		Sous-chaîne de longueur max, même si la chaîne source est + longue.
+	4.	Gestion des erreurs :
+		Si la chaîne s est nulle ou si l’allocation échoue, retourne NULL.
+	5.	Gère les cas où start est trop grand :
+		Si start dépasse la longueur de s, elle renvoie une chaîne vide.
+*/

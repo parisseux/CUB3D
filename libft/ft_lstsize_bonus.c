@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstsize_bonus.c                                 :+:      :+:    :+:   */
+/*   ft_lstsize.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: avarrett <avarrett@student.42.fr>          +#+  +:+       +#+        */
+/*   By: grohr <grohr@student.42lausanne.ch>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/17 15:11:36 by avarrett          #+#    #+#             */
-/*   Updated: 2024/10/17 18:19:43 by avarrett         ###   ########.fr       */
+/*   Created: 2024/10/03 13:04:57 by grohr             #+#    #+#             */
+/*   Updated: 2024/10/23 19:18:21 by grohr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,29 @@
 
 int	ft_lstsize(t_list *lst)
 {
-	int		count;
-	t_list	*liste;
+	int	count;
 
-	liste = lst;
 	count = 0;
-	while (liste)
+	while (lst)
 	{
-		liste = liste->next;
 		count++;
+		lst = lst->next;
 	}
 	return (count);
 }
+
+/* #include <stdio.h>
+
+int main(void)
+{
+	t_list *list = ft_lstnew("First");
+	ft_lstadd_back(&list, ft_lstnew("Second"));
+	ft_lstadd_back(&list, ft_lstnew("Third"));
+
+	int size = ft_lstsize(list);
+	printf("Size of the list: %d\n", size);
+
+	// Free the list
+	ft_lstclear(&list, free);
+	return (0);
+} */

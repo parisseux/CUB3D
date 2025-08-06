@@ -17,6 +17,10 @@ void cleanup(t_data *data)
         mlx_destroy_image(data->mlx.mlx_ptr, data->tex_west.img_ptr);
     if (data->tex_east.img_ptr)
         mlx_destroy_image(data->mlx.mlx_ptr, data->tex_east.img_ptr);
+    if (data->tex_floor.img_ptr)
+        mlx_destroy_image(data->mlx.mlx_ptr, data->tex_floor.img_ptr);
+    if (data->tex_sky.img_ptr)
+        mlx_destroy_image(data->mlx.mlx_ptr, data->tex_sky.img_ptr);
     if (data->mlx.img_ptr)
         mlx_destroy_image(data->mlx.mlx_ptr, data->mlx.img_ptr);
     if (data->mlx.win_ptr)

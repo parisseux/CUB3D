@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: avarrett <avarrett@student.42.fr>          +#+  +:+       +#+        */
+/*   By: grohr <grohr@student.42lausanne.ch>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/07 16:13:58 by gregorykoll       #+#    #+#             */
-/*   Updated: 2024/10/17 15:54:59 by avarrett         ###   ########.fr       */
+/*   Created: 2024/10/03 13:05:06 by grohr             #+#    #+#             */
+/*   Updated: 2024/10/23 19:38:28 by grohr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,22 @@
 
 int	ft_memcmp(const void *s1, const void *s2, size_t n)
 {
-	unsigned char	*str1;
-	unsigned char	*str2;
-	size_t			i;
+	size_t				i;
+	const unsigned char	*ptr1;
+	const unsigned char	*ptr2;
 
-	str1 = (unsigned char *)s1;
-	str2 = (unsigned char *)s2;
+	ptr1 = (const unsigned char *)s1;
+	ptr2 = (const unsigned char *)s2;
 	i = 0;
-	while (i < n)
+	while (i < n && ptr1[i] == ptr2[i])
 	{
-		if (str1[i] != str2[i])
-			return (str1[i] - str2[i]);
 		i++;
 	}
+	if (i < n)
+		return (ptr1[i] - ptr2[i]);
 	return (0);
 }
+/*
+Compare deux zones mémoire sur les n premiers octets.
+Retourne un entier basé sur les différences rencontrées.
+*/

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstadd_front_bonus.c                            :+:      :+:    :+:   */
+/*   ft_lstadd_front.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: avarrett <avarrett@student.42.fr>          +#+  +:+       +#+        */
+/*   By: grohr <grohr@student.42lausanne.ch>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/17 14:59:38 by avarrett          #+#    #+#             */
-/*   Updated: 2024/10/17 18:22:16 by avarrett         ###   ########.fr       */
+/*   Created: 2024/10/03 13:04:35 by grohr             #+#    #+#             */
+/*   Updated: 2024/10/23 19:15:56 by grohr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,25 @@
 
 void	ft_lstadd_front(t_list **lst, t_list *new)
 {
-	new->next = *lst;
-	*lst = new;
+	if (lst && new)
+	{
+		new->next = *lst;
+		*lst = new;
+	}
 }
+
+/* #include <stdio.h>
+
+int main(void)
+{
+	t_list *list = ft_lstnew("Second");
+	t_list *new_elem = ft_lstnew("First");
+
+	ft_lstadd_front(&list, new_elem);
+	printf("First element: %s\n", (char *)list->content);
+	printf("Second element: %s\n", (char *)list->next->content);
+
+	// Free the list
+	ft_lstclear(&list, free);
+	return (0);
+} */
