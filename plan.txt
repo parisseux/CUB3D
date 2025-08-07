@@ -9,7 +9,6 @@
 - ouvrir la map OK
 
 
-
     CHECK de map
 --------------------------
 
@@ -19,5 +18,11 @@
 - mutliple def element -- lance la map et leaks OK
 -undefined texture -- leaks 
 -unknown texture -- leaks
+- one still reachable when one empty line in map... !!!!!!
 
 
+    BONUS
+------------------
+introduire des porte --> Key press pour ouvrir 
+piece --> on marche dessus pour recolter + conteur sur le screen 
+minimap --> ameliorer un peu laffichage 

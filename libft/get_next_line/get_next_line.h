@@ -37,4 +37,5 @@ char	*ft_next_line(char *str);
 char	*ft_remove_str_1st_line(char *line);
 char	*get_next_line(int fd);
 
+
 #endif

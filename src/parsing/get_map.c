@@ -17,43 +17,26 @@ bool	start_of_map(char *line)
 	return (false);
 }
 
-// char	*ft_read_and_join(t_data *game)
-// {
-// 	char	*line;
-// 	char	*map_temp;
-// 	char	*temp;
-// 	int		height;
-
-// 	height = 0;
-// 	map_temp = NULL;
-// 	line = get_next_line(game->fd_map);
-// 	while (line && start_of_map(line) == false)
-// 	{
-// 		free(line);
-// 		line = get_next_line(game->fd_map);
-// 	}
-// 	printf("line: %s\n", line);
-// 	while (line && start_of_map(line) == true)
-// 	{
-// 		if (map_temp == NULL)
-// 			map_temp = ft_strdup(line);
-// 		else
-// 		{
-// 			temp = map_temp;
-// 			map_temp = ft_strjoin(map_temp, line);
-// 			free(temp);
-// 		}
-// 		free(line);
-// 		height++;
-// 		line = get_next_line(game->fd_map);
-// 	}
-// 	game->height_map = height;
-// 	return (map_temp);
-// }
+bool only_space(char *line)
+{
+    int i;
+    
+    i = 0;
+    while(line[i])
+    {
+        if (line[i]== '\t' || line[i] == '\n'
+                || line[i] == '\v' || line[i] == '\f'
+                || line[i] == '\r' || line[i] ==' ')
+            i++;
+        else
+            return (false);
+    }
+    return (true);
+}
 
 char	**ft_get_map(char *file_path, t_data *game)
 {
-	char	*map_temp;
+	char	*map_temp = NULL;
 	int fd;
 	char *line;
     char *temp;
@@ -74,9 +57,15 @@ char	**ft_get_map(char *file_path, t_data *game)
         free(line);
         line = get_next_line(fd);
     }
-
     while (line)
     {
+        if (only_space(line) == true)
+        {
+            free(line);
+            free(map_temp);
+            close(fd);
+            return (NULL);
+        }
         if (!map_temp)
             map_temp = ft_strdup(line);
         else
@@ -90,13 +79,10 @@ char	**ft_get_map(char *file_path, t_data *game)
         line = get_next_line(fd);
     }
     close(fd);
-
     game->height_map = height;
     if (!map_temp)
         return (NULL);
-
     game->map = ft_split(map_temp, '\n');
     free(map_temp);
-
     return (game->map);
 }
