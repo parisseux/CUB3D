@@ -49,6 +49,7 @@
 # define MOVE_SPEED       0.08
 # define ROT_SPEED        0.025
 
+
 typedef struct s_screen {
 	int	width;
 	int	height;

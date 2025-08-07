@@ -13,7 +13,8 @@ t_data	*init_data(void)
 	game->screen.width = 1280;
 	game->screen.height = 720;
 	game->sky_scale = 4.0;
-	game->sky_offset = 0.0;
+	game->move_speed = CALC_MOVE_SPEED(game);
+	game->rot_speed = CALC_ROT_SPEED(game);
 	return (game);
 }
 

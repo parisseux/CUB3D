@@ -39,6 +39,10 @@
 # define MOVE_SPEED       0.08
 # define ROT_SPEED        0.025
 
+#define ROTATE_VEC(x, y, angle, out_x, out_y)                                  \
+	(out_x) = (x) * cos(angle) - (y) * sin(angle);                             \
+	(out_y) = (x) * sin(angle) + (y) * cos(angle)
+
 typedef struct {
 	char	*name;
 	int		width;
@@ -116,19 +120,16 @@ typedef struct s_data {
     char        *so_texture;
     char        *we_texture;
     char        *ea_texture;
-	// char 		*floor_texture;
-	// char 		*sky_texture;
 	double		sky_scale;
-	double		sky_offset;
     t_texture   tex_north;
     t_texture   tex_south;
     t_texture   tex_west;
     t_texture   tex_east;
-	// t_texture	tex_floor;
-	// t_texture   tex_sky;
     int         floor_color;
     int         ceiling_color;
     t_screen    screen;
+	double move_speed;
+	double rot_speed;
 } t_data;
 
 // utils.c
