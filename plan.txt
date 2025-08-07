@@ -1,23 +1,10 @@
---- PARSING ---
-
-- skip les lignes qui ne commencent pas par un 1 (sans compter les espaces) OK
-- verifier que la map est le dernier element de map.cub OK
-- verifier .cub OK
-- verifier si cest un fichier et pas un dossier OK
-- verfier les types de char 0 1 N S E W OK
-- verifier que tous les contour sont des murs OK
-- ouvrir la map OK
 
 
-    CHECK de map
+    CHECK
 --------------------------
 
-- is a directory -- leaks OK
-- missing def -- leaks et error:succes???? OK
-- fichier inexistant: impossible douvrir le fichier -- leaks OK
-- mutliple def element -- lance la map et leaks OK
--undefined texture -- leaks 
--unknown texture -- leaks
+- quand on met des couleurs au lieu des textures dans floor 
+    and ceiling dans bonus ca seg fault 
 - one still reachable when one empty line in map... !!!!!!
 
 

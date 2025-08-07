@@ -1,20 +1,29 @@
 #include "../inc/cub3d.h"
 
+t_data *init_data()
+{
+	t_data *game;
+
+	game = malloc(sizeof(t_data));
+	if (!game)
+		return (NULL);
+	ft_bzero(game, sizeof(t_data));
+	game->screen.width = 1280;
+	game->screen.height = 720;
+	game->sky_scale = 4.0;
+    game->sky_offset = 0.0;
+	return (game);
+}
+
 int main(int ac, char **av)
 {
 	t_data	*game;
 
 	if (ac != 2)
 		return (mess_error(1, "usage ./cub3D <map>"));
-	game = malloc(sizeof(t_data));
+	game =  init_data();
 	if (!game)
-		return (mess_error(1, "Échec malloc"));
-	ft_bzero(game, sizeof(t_data));
-	
-	// Initialiser les valeurs par défaut pour l'écran
-	game->screen.width = 1280;
-	game->screen.height = 720;
-	
+		return (mess_error(1, "Échec initialisation structure data"));
 	game->map = ft_get_map(av[1], game);
 	if (!game->map)
 	{

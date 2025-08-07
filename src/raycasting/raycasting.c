@@ -32,39 +32,9 @@
 // le plan est horizontal (sur x) : (-0.66, 0) et (0.66, 0)
 //
 // Réinitialise aussi toutes les touches (WASD, flèches) à 0 (non pressées).
-void	init_camera(t_data *data)
-{
-	t_player	*p;
 
-	p = &data->player;
-	if (p->orientation == 'N')
-	{
-		p->dir_x = 0;
-		p->dir_y = -1;
-		p->plane_x = 0.66;
-		p->plane_y = 0;
-	}
-	else if (p->orientation == 'S')
-	{
-		p->dir_x = 0;
-		p->dir_y = 1;
-		p->plane_x = -0.66;
-		p->plane_y = 0;
-	}
-	else if (p->orientation == 'E')
-	{
-		p->dir_x = 1;
-		p->dir_y = 0;
-		p->plane_x = 0;
-		p->plane_y = 0.66;
-	}
-	else if (p->orientation == 'W')
-	{
-		p->dir_x = -1;
-		p->dir_y = 0;
-		p->plane_x = 0;
-		p->plane_y = -0.66;
-	}
+void init_keys(t_data *data)
+{
 	data->keys.w = 0;
 	data->keys.s = 0;
 	data->keys.a = 0;
@@ -73,10 +43,48 @@ void	init_camera(t_data *data)
 	data->keys.right = 0;
 }
 
+void init_dir(t_player *p, double x, double y)
+{
+	p->dir_x = x;
+	p->dir_y = y;
+}
+
+void init_plane(t_player *p, double x, double y)
+{
+	p->plane_x = x;
+	p->plane_y = y;
+}
+
+void	init_camera(t_data *data)
+{
+	t_player	*p;
+
+	p = &data->player;
+	if (p->orientation == 'N')
+	{
+		init_dir(p, 0, -1);
+		init_plane(p, 0.66, 0);
+	}
+	else if (p->orientation == 'S')
+	{
+		init_dir(p, 0, 1);
+		init_plane(p, -0.66, 0);
+	}
+	else if (p->orientation == 'E')
+	{
+		init_dir(p, 1, 0);
+		init_plane(p, 0, 0.66);
+	}
+	else if (p->orientation == 'W')
+	{
+		init_dir(p, -1, 0);
+		init_plane(p, 0, -0.66);
+	}
+	init_keys(data);
+}
+
 int key_press(int keycode, t_data *data)
 {
-	//debug
-	//printf("Key pressed: %d\n", keycode);
 	if (keycode == 53 || keycode == 65307)
 	{
 		cleanup(data);
@@ -103,8 +111,6 @@ int key_press(int keycode, t_data *data)
 
 int key_release(int keycode, t_data *data)
 {
-	//debug
-	//printf("Key released: %d\n", keycode);
 	if (keycode == 13 || keycode == 119)
 		data->keys.w = 0;
 	if (keycode == 1 || keycode == 115)

@@ -118,24 +118,24 @@ void move_player(t_data *data)
 // Le plan caméra (plane_x, plane_y) tourne avec la dir -> garder l'effet 3D.
 
 #define ROTATE_VEC(x, y, angle, out_x, out_y)                                  \
-    (out_x) = (x) * cos(angle) - (y) * sin(angle);                             \
-    (out_y) = (x) * sin(angle) + (y) * cos(angle)
+	(out_x) = (x) * cos(angle) - (y) * sin(angle);                             \
+	(out_y) = (x) * sin(angle) + (y) * cos(angle)
 
 void rotate_player(t_data *data)
 {
 	double rot_speed = CALC_ROT_SPEED(data);
 	if (data->keys.left)
 	{
-	    ROTATE_VEC(data->player.dir_x, data->player.dir_y, -rot_speed,
-	               data->player.dir_x, data->player.dir_y);
-	    ROTATE_VEC(data->player.plane_x, data->player.plane_y, -rot_speed,
-	               data->player.plane_x, data->player.plane_y);
+		ROTATE_VEC(data->player.dir_x, data->player.dir_y, -rot_speed,
+				   data->player.dir_x, data->player.dir_y);
+		ROTATE_VEC(data->player.plane_x, data->player.plane_y, -rot_speed,
+				   data->player.plane_x, data->player.plane_y);
 	}
 	if (data->keys.right)
 	{
-	    ROTATE_VEC(data->player.dir_x, data->player.dir_y, rot_speed,
-	               data->player.dir_x, data->player.dir_y);
-	    ROTATE_VEC(data->player.plane_x, data->player.plane_y, rot_speed,
-	               data->player.plane_x, data->player.plane_y);
+		ROTATE_VEC(data->player.dir_x, data->player.dir_y, rot_speed,
+				   data->player.dir_x, data->player.dir_y);
+		ROTATE_VEC(data->player.plane_x, data->player.plane_y, rot_speed,
+				   data->player.plane_x, data->player.plane_y);
 	}
 }

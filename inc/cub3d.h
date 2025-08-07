@@ -39,6 +39,13 @@
 # define MOVE_SPEED       0.08
 # define ROT_SPEED        0.025
 
+typedef struct {
+	char	*name;
+	int		width;
+	int		height;
+	char	*description;
+} t_resolution_profile;
+
 typedef struct s_screen {
 	int	width;
 	int	height;

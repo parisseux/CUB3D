@@ -32,6 +32,29 @@
 // le plan est horizontal (sur x) : (-0.66, 0) et (0.66, 0)
 //
 // Réinitialise aussi toutes les touches (WASD, flèches) à 0 (non pressées).
+
+void init_keys(t_data *data)
+{
+	data->keys.w = 0;
+	data->keys.s = 0;
+	data->keys.a = 0;
+	data->keys.d = 0;
+	data->keys.left = 0;
+	data->keys.right = 0;
+}
+
+void init_dir(t_player *p, double x, double y)
+{
+	p->dir_x = x;
+	p->dir_y = y;
+}
+
+void init_plane(t_player *p, double x, double y)
+{
+	p->plane_x = x;
+	p->plane_y = y;
+}
+
 void	init_camera(t_data *data)
 {
 	t_player	*p;
@@ -39,38 +62,25 @@ void	init_camera(t_data *data)
 	p = &data->player;
 	if (p->orientation == 'N')
 	{
-		p->dir_x = 0;
-		p->dir_y = -1;
-		p->plane_x = 0.66;
-		p->plane_y = 0;
+		init_dir(p, 0, -1);
+		init_plane(p, 0.66, 0);
 	}
 	else if (p->orientation == 'S')
 	{
-		p->dir_x = 0;
-		p->dir_y = 1;
-		p->plane_x = -0.66;
-		p->plane_y = 0;
+		init_dir(p, 0, 1);
+		init_plane(p, -0.66, 0);
 	}
 	else if (p->orientation == 'E')
 	{
-		p->dir_x = 1;
-		p->dir_y = 0;
-		p->plane_x = 0;
-		p->plane_y = 0.66;
+		init_dir(p, 1, 0);
+		init_plane(p, 0, 0.66);
 	}
 	else if (p->orientation == 'W')
 	{
-		p->dir_x = -1;
-		p->dir_y = 0;
-		p->plane_x = 0;
-		p->plane_y = -0.66;
+		init_dir(p, -1, 0);
+		init_plane(p, 0, -0.66);
 	}
-	data->keys.w = 0;
-	data->keys.s = 0;
-	data->keys.a = 0;
-	data->keys.d = 0;
-	data->keys.left = 0;
-	data->keys.right = 0;
+	init_keys(data);
 }
 
 int key_press(int keycode, t_data *data)

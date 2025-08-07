@@ -153,15 +153,15 @@ void	draw_column(t_data *data, int x, int start, int end, t_texture *tex)
 	while (y < data->screen.height)
 	{
 		if (y < start)
-            draw_pixel(&data->mlx, x, y, data->ceiling_color, data);
-        else if (y >= start && y <= end)
-        {
-            tex_y = (int)((y - start) * tex->height / (end - start + 1));
-            draw_pixel(&data->mlx, x, y, get_tex_color(tex, tex_x, tex_y), data);
-        }
-        else
-            draw_pixel(&data->mlx, x, y, data->floor_color, data);
-        y++;
+			draw_pixel(&data->mlx, x, y, data->ceiling_color, data);
+		else if (y >= start && y <= end)
+		{
+			tex_y = (int)((y - start) * tex->height / (end - start + 1));
+			draw_pixel(&data->mlx, x, y, get_tex_color(tex, tex_x, tex_y), data);
+		}
+		else
+			draw_pixel(&data->mlx, x, y, data->floor_color, data);
+		y++;
 	}
 }
 

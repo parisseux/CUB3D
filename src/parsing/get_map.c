@@ -31,9 +31,9 @@ char	*append_line_to_map_temp(char *map_temp, char *line)
 
 char *parse_map_lines(int fd, int *height, char *line)
 {
-    char *map_temp;
+	char *map_temp;
 
-    map_temp = NULL;
+	map_temp = NULL;
 	while (line)
 	{
 		if (only_space(line))
@@ -51,32 +51,32 @@ char *parse_map_lines(int fd, int *height, char *line)
 
 char **ft_get_map(char*file_path, t_data *game)
 {
-    char	*map_temp;
+	char	*map_temp;
 	int fd;
 	char *line;
 
-    fd =  open(file_path, O_RDONLY);
+	fd =  open(file_path, O_RDONLY);
 	if (fd < 0)
 		return (NULL);
 	if (!parse_elements(game, fd))
 		return (NULL);
-    line = get_next_line(fd);
-    while (line && only_space(line))
-    {
-        free(line);
-        line = get_next_line(fd);
-    }
+	line = get_next_line(fd);
+	while (line && only_space(line))
+	{
+		free(line);
+		line = get_next_line(fd);
+	}
 	if (!line || start_of_map(line) == false)
-    {
-        free(line);
-        close(fd);
-        return (NULL);
-    }
-    map_temp = parse_map_lines(fd, &game->height_map, line);
-    close(fd);
-    if (!map_temp)
-        return (NULL);
-    game->map = ft_split(map_temp, '\n');
-    free(map_temp);
-    return(game->map);
+	{
+		free(line);
+		close(fd);
+		return (NULL);
+	}
+	map_temp = parse_map_lines(fd, &game->height_map, line);
+	close(fd);
+	if (!map_temp)
+		return (NULL);
+	game->map = ft_split(map_temp, '\n');
+	free(map_temp);
+	return(game->map);
 }
