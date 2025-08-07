@@ -52,7 +52,18 @@
 
 static bool can_move(t_data *data, double x, double y)
 {
-	return(data->map[(int)y][(int)x] != '1');
+	double radius;
+
+	radius = 0.8; //marge de securit; avec le mur
+    if (data->map[(int)(y)][(int)(x - radius)] == '1')
+        return false;
+    if (data->map[(int)(y)][(int)(x + radius)] == '1')
+        return false;
+    if (data->map[(int)(y - radius)][(int)(x)] == '1')
+        return false;
+    if (data->map[(int)(y + radius)][(int)(x)] == '1')
+        return false;
+    return true;
 }
 
 static void move_forward_backward(t_data *data, int forward)

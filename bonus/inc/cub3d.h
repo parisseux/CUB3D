@@ -49,6 +49,10 @@
 # define MOVE_SPEED       0.08
 # define ROT_SPEED        0.025
 
+#define ROTATE_VEC(x, y, angle, out_x, out_y)                                  \
+    (out_x) = (x) * cos(angle) - (y) * sin(angle);                             \
+    (out_y) = (x) * sin(angle) + (y) * cos(angle)
+
 
 typedef struct s_screen {
 	int	width;
@@ -131,6 +135,8 @@ typedef struct s_data {
 	t_texture	tex_floor;
 	t_texture   tex_sky;
     t_screen    screen;
+	double move_speed;
+	double rot_speed;
 } t_data;
 
 //minimap

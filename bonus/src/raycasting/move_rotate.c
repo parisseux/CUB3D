@@ -49,57 +49,68 @@
 // D		pos -= perpend(dir) * speed	→ strafe droite
 //
 // Et la perpendiculaire de (x, y) est (-y, x)
-void move_player(t_data *data)
-{
-	double	move_speed = CALC_MOVE_SPEED(data);
-	double	side_speed = move_speed * 0.6;
-	double	new_x;
-	double	new_y;
 
-	if (data->keys.w)
-	{
-		new_x = data->player.pos_x + data->player.dir_x * move_speed;
-		new_y = data->player.pos_y + data->player.dir_y * move_speed;
-		if (data->map[(int)data->player.pos_y][(int)new_x] != '1')
-			data->player.pos_x = new_x;
-		if (data->map[(int)new_y][(int)data->player.pos_x] != '1')
-			data->player.pos_y = new_y;
-		data->sky_offset += move_speed * 0.1; // Augmente l'offset pour que les nuages reculent
-	}
-	if (data->keys.s)
-	{
-		new_x = data->player.pos_x - data->player.dir_x * move_speed;
-		new_y = data->player.pos_y - data->player.dir_y * move_speed;
-		if (data->map[(int)data->player.pos_y][(int)new_x] != '1')
-			data->player.pos_x = new_x;
-		if (data->map[(int)new_y][(int)data->player.pos_x] != '1')
-			data->player.pos_y = new_y;
-		data->sky_offset -= move_speed * 0.1; // Diminue l'offset pour que les nuages avancent
-	}
-	if (data->keys.a)
-	{
-		new_x = data->player.pos_x + data->player.dir_y * side_speed;
-		new_y = data->player.pos_y - data->player.dir_x * side_speed;
-		if (data->map[(int)data->player.pos_y][(int)new_x] != '1')
-			data->player.pos_x = new_x;
-		if (data->map[(int)new_y][(int)data->player.pos_x] != '1')
-			data->player.pos_y = new_y;
-	}
-	if (data->keys.d)
-	{
-		new_x = data->player.pos_x - data->player.dir_y * side_speed;
-		new_y = data->player.pos_y + data->player.dir_x * side_speed;
-		if (data->map[(int)data->player.pos_y][(int)new_x] != '1')
-			data->player.pos_x = new_x;
-		if (data->map[(int)new_y][(int)data->player.pos_x] != '1')
-			data->player.pos_y = new_y;
-	}
-	
+void update_sky_offset(t_data *data)
+{
 	if (data->sky_offset < 0.0)
 		data->sky_offset += 1.0;
 	else if (data->sky_offset >= 1.0)
 		data->sky_offset -= 1.0;
 }
+
+static bool can_move(t_data *data, double x, double y)
+{
+	return(data->map[(int)y][(int)x] != '1');
+}
+
+static void move_forward_backward(t_data *data, int forward)
+{
+	double new_x;
+	double new_y;
+	double move_speed;
+
+	move_speed = data->move_speed;
+	if (!forward)
+		move_speed = -move_speed;
+	new_x = data->player.pos_x + data->player.dir_x * move_speed;
+    new_y = data->player.pos_y + data->player.dir_y * move_speed;
+	if (can_move(data, new_x, data->player.pos_y))
+        data->player.pos_x = new_x;
+    if (can_move(data, data->player.pos_x, new_y))
+        data->player.pos_y = new_y;
+}
+
+static void strafe_left_right(t_data *data, int left)
+{
+	double new_x;
+	double new_y;
+	double side_speed;
+
+	side_speed = data->move_speed * 0.6;
+	if (!left)
+        side_speed = -side_speed;
+	new_x = data->player.pos_x + data->player.dir_y * side_speed;
+    new_y = data->player.pos_y - data->player.dir_x * side_speed;
+
+    if (can_move(data, new_x, data->player.pos_y))
+        data->player.pos_x = new_x;
+    if (can_move(data, data->player.pos_x, new_y))
+        data->player.pos_y = new_y;
+}
+
+void move_player(t_data *data)
+{
+	if (data->keys.w)
+		move_forward_backward(data, 1);
+	if (data->keys.s)
+		move_forward_backward(data, 0);
+	if (data->keys.a)
+		strafe_left_right(data, 1);
+	if (data->keys.d)
+		strafe_left_right(data, 0);
+	update_sky_offset(data);
+}
+
 
 // Tourner le joueur
 // Fait tourner :
@@ -117,9 +128,6 @@ void move_player(t_data *data)
 //
 // Le plan caméra (plane_x, plane_y) tourne avec la dir -> garder l'effet 3D.
 
-#define ROTATE_VEC(x, y, angle, out_x, out_y)                                  \
-    (out_x) = (x) * cos(angle) - (y) * sin(angle);                             \
-    (out_y) = (x) * sin(angle) + (y) * cos(angle)
 
 void rotate_player(t_data *data)
 {
