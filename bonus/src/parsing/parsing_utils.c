@@ -7,3 +7,20 @@ int	is_space(char c)
 	else 
 		return (0);
 }
+
+bool only_space(char *line)
+{
+    int i;
+    
+    i = 0;
+    while(line[i])
+    {
+        if (line[i]== '\t' || line[i] == '\n'
+                || line[i] == '\v' || line[i] == '\f'
+                || line[i] == '\r' || line[i] ==' ')
+            i++;
+        else
+            return (false);
+    }
+    return (true);
+}

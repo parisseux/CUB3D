@@ -70,7 +70,10 @@ int parse_elements(t_data *game, int fd)
 
 	line = get_next_line(fd);
 	if (!line)
+	{
+		close(fd);
 		return (0);
+	}
 	while (line && elements_found < 6)
 	{
 		if (is_element_line(line))
@@ -94,9 +97,12 @@ int parse_elements(t_data *game, int fd)
 			else
 			{
 				free(line);
+				close(fd);
 				return (mess_error(0, "Élément dup ou invalide"));
 			}
 		}
+        if (elements_found == 6)
+			break;
 		free(line);
 		line = get_next_line(fd);
 	}
