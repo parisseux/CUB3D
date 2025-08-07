@@ -111,3 +111,4 @@ char	*ft_remove_str_1st_line(char *line)
 	free(line);
 	return (string);
 }
+
