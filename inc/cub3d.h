@@ -43,7 +43,7 @@
 	(out_x) = (x) * cos(angle) - (y) * sin(angle);                             \
 	(out_y) = (x) * sin(angle) + (y) * cos(angle)
 
-typedef struct {
+typedef struct s_resolution_profil {
 	char	*name;
 	int		width;
 	int		height;
@@ -84,6 +84,29 @@ typedef struct s_keys {
 	int		right;
 } t_keys;
 
+typedef struct s_texture {
+    void    *img_ptr;
+    char    *data;
+    int     width;
+    int     height;
+    int     bpp;
+    int     size_line;
+    int     endian;
+} t_texture;
+
+typedef struct s_column
+{
+    double pdist;
+    int line_h;
+    int draw_start;
+    int draw_end;
+    int y0c;
+    int y1c;
+    int tex_x;
+    t_texture *tex;
+
+}t_column;
+
 typedef struct s_ray {
 	int		map_x;
 	int		map_y;
@@ -98,15 +121,7 @@ typedef struct s_ray {
 	double	perp_dist;
 } t_ray;
 
-typedef struct s_texture {
-    void    *img_ptr;
-    char    *data;
-    int     width;
-    int     height;
-    int     bpp;
-    int     size_line;
-    int     endian;
-} t_texture;
+
 
 typedef struct s_data {
     char        **map;
@@ -170,13 +185,26 @@ void	move_player(t_data *data);
 void	rotate_player(t_data *data);
 
 // raycasting/render.c
-void    draw_column(t_data *data, int x, int start, int end, t_texture *tex);
 int     render_frame(t_data *data);
 
 // raycasting/pixel.c
 void	draw_pixel(t_mlx *mlx, int x, int y, int color, t_data *data);
+int color_tex(t_texture *tex, int tx, int ty);
 
 // raycasting/update.c
 int     update(t_data *data);
+
+//raycasting1.c
+double  dabs(double x);
+void ray_dir(t_data *data, int x, double *rx, double *ry);
+void init_dda(t_data *data, double rx, double ry, t_ray *ray);
+void dda_walk(t_data *data, t_ray *ray);
+
+//raycasting2.c
+double dist_perp_wall(t_data *data, t_ray *ray, double rx, double ry);
+t_texture* wall_tex(t_data *data, t_ray *ray, double rx, double ry);
+void	draw_ceiling_floor(t_data *data, int y0, int y1, int x);
+void draw_wall(t_data *data, int x, t_column *col);
+
 
 #endif

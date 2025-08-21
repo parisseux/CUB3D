@@ -54,7 +54,7 @@ static bool can_move(t_data *data, double x, double y)
 {
 	double radius;
 
-	radius = 0.8; //marge de securit; avec le mur
+	radius = 0.2; //marge de securit; avec le mur
     if (data->map[(int)(y)][(int)(x - radius)] == '1')
         return false;
     if (data->map[(int)(y)][(int)(x + radius)] == '1')
@@ -130,7 +130,6 @@ void move_player(t_data *data)
 //
 // Le plan caméra (plane_x, plane_y) tourne avec la dir -> garder l'effet 3D.
 
-//parissa: de la peine a comprendre et lire cette fonction ??
 void rotate_player(t_data *data)
 {
 	double rot_speed = data->rot_speed;
