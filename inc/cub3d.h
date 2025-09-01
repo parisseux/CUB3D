@@ -155,6 +155,7 @@ void		ft_free_split(char **split);
 
 // parsing/check_map.c
 int			ft_check_map(t_data *game, char *file_name);
+int			ft_check_border_map(char **map, int i, int j);
 
 // parsing/get_map.c
 char		**ft_get_map(char *file_path, t_data *game);
@@ -162,6 +163,8 @@ char		**ft_get_map(char *file_path, t_data *game);
 // parsing/parsing_utils.c
 int			is_space(char c);
 bool		only_space(char *line);
+int			is_valid_rgb(int r, int g, int b);
+char		*skip_empty_lines(int fd);
 
 // parsing/parse_elements.c
 int			parse_elements(t_data *game, int fd);
@@ -182,6 +185,9 @@ void		init_camera(t_data *data);
 int			key_press(int keycode, t_data *data);
 int			key_release(int keycode, t_data *data);
 
+//raycastin/keys
+void		init_keys(t_data *data);
+
 // raycasting/move.c
 void		move_player(t_data *data);
 void		rotate_player(t_data *data);
@@ -197,7 +203,6 @@ int			color_tex(t_texture *tex, int tx, int ty);
 int			update(t_data *data);
 
 //raycasting1.c
-double		dabs(double x);
 void		ray_dir(t_data *data, int x, double *rx, double *ry);
 void		init_dda(t_data *data, double rx, double ry, t_ray *ray);
 void		dda_walk(t_data *data, t_ray *ray);
@@ -213,5 +218,6 @@ double		calc_move_speed(t_data *data);
 double		calc_rot_speed(t_data *data);
 int			pixel_skip(t_data *data);
 t_vec		rotate_vec(double x, double y, double angle);
+double		dabs(double x);
 
 #endif

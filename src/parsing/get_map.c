@@ -1,6 +1,6 @@
 #include "../../inc/cub3d.h"
 
-bool	start_of_map(char *line)
+static bool	start_of_map(char *line)
 {
 	int	i;
 
@@ -17,7 +17,7 @@ bool	start_of_map(char *line)
 	return (false);
 }
 
-char	*append_line_to_map_temp(char *map_temp, char *line)
+static char	*append_line_to_map_temp(char *map_temp, char *line)
 {
 	char	*temp;
 
@@ -29,9 +29,9 @@ char	*append_line_to_map_temp(char *map_temp, char *line)
 	return (map_temp);
 }
 
-char *parse_map_lines(int fd, int *height, char *line)
+static char	*parse_map_lines(int fd, int *height, char *line)
 {
-	char *map_temp;
+	char	*map_temp;
 
 	map_temp = NULL;
 	while (line)
@@ -49,34 +49,36 @@ char *parse_map_lines(int fd, int *height, char *line)
 	return (map_temp);
 }
 
-char **ft_get_map(char*file_path, t_data *game)
+static int	validate_map_start(char *line, int fd)
 {
-	char	*map_temp;
-	int fd;
-	char *line;
-
-	fd =  open(file_path, O_RDONLY);
-	if (fd < 0)
-		return (NULL);
-	if (!parse_elements(game, fd))
-		return (NULL);
-	line = get_next_line(fd);
-	while (line && only_space(line))
-	{
-		free(line);
-		line = get_next_line(fd);
-	}
 	if (!line || start_of_map(line) == false)
 	{
 		free(line);
 		close(fd);
-		return (NULL);
+		return (0);
 	}
+	return (1);
+}
+
+char	**ft_get_map(char *file_path, t_data *game)
+{
+	char	*map_temp;
+	int		fd;
+	char	*line;
+
+	fd = open(file_path, O_RDONLY);
+	if (fd < 0)
+		return (NULL);
+	if (!parse_elements(game, fd))
+		return (NULL);
+	line = skip_empty_lines(fd);
+	if (!validate_map_start(line, fd))
+		return (NULL);
 	map_temp = parse_map_lines(fd, &game->height_map, line);
 	close(fd);
 	if (!map_temp)
 		return (NULL);
 	game->map = ft_split(map_temp, '\n');
 	free(map_temp);
-	return(game->map);
+	return (game->map);
 }

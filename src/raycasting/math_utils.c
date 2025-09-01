@@ -25,3 +25,11 @@ t_vec	rotate_vec(double x, double y, double angle)
 	res.y = x * sin(angle) + y * cos(angle);
 	return (res);
 }
+
+double	dabs(double x)
+{
+	if (x < 0)
+		return (-x);
+	else
+		return (x);
+}

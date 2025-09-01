@@ -6,16 +6,17 @@ void	draw_pixel(int x, int y, int color, t_data *data)
 
 	if (x >= 0 && x < data->screen.width && y >= 0 && y < data->screen.height)
 	{
-		dst = data->mlx.img_data + (y * data->mlx.size_line + x * (data->mlx.bpp / 8));
+		dst = data->mlx.img_data
+			+ (y * data->mlx.size_line + x * (data->mlx.bpp / 8));
 		*(unsigned int *)dst = color;
 	}
 }
 
 //couleur de texture 
-int color_tex(t_texture *tex, int tx, int ty)
+int	color_tex(t_texture *tex, int tx, int ty)
 {
-	const char *p;
-	const unsigned char *px;
+	const char			*p;
+	const unsigned char	*px;
 
 	if (!tex->data)
 		return (0xFF0000);
@@ -25,7 +26,7 @@ int color_tex(t_texture *tex, int tx, int ty)
 	if (tex->endian == 0)
 	{
 		px = (const unsigned char *)p;
-		return (px[2] << 16) | (px[1] << 8) | px[0];
+		return ((px[2] << 16) | (px[1] << 8) | px[0]);
 	}
-	return *(const unsigned int*)p;
+	return (*(const unsigned int *)p);
 }
