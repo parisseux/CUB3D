@@ -13,3 +13,31 @@
 introduire des porte --> Key press pour ouvrir 
 piece --> on marche dessus pour recolter + conteur sur le screen 
 minimap --> ameliorer un peu laffichage 
+
+minimap
+---------------------
+ameliorer affichage 
+
+porte
+-------------------
+idee d'implementation 
+si 2 alors porte. pour ouvrir key press space 
+si fermer agit comme 1, si ouvert agit comme 0
+--> pas de porte sur les rebords
+
+wall colison 
+-----------------
+ok
+
+animated sprite
+------------------
+pieces qui tourne sur elle meme 
+on les recolte en allant sur la case 
+3 met une piece si on marche dessus la case devient 0
+compteur de pieces qlq part sur lecran 
+le jeu se termine quand les pieces sont termines
+--> potentiel plusieurs map 
+
+Rotate de point of view with mouse
+----------------------
+pour linstan un peu la flemme mais a voir si c est facile a implemnter 
