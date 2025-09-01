@@ -48,13 +48,13 @@ void	draw_ceiling_floor(t_data *data, int y0, int y1, int x)
 	y = 0;
 	while (y < y0)
 	{
-		draw_pixel(&data->mlx, x, y, data->ceiling_color, data);
+		draw_pixel(x, y, data->ceiling_color, data);
 		y++;
 	}
 	y = y1 + 1;
 	while (y < data->screen.height)
 	{
-		draw_pixel(&data->mlx, x, y, data->floor_color, data);
+		draw_pixel(x, y, data->floor_color, data);
 		y++;
 	}
 }
@@ -72,7 +72,7 @@ void draw_wall(t_data *data, int x, t_column *col)
         int ty = (int)tex_pos;
         if (ty < 0) ty = 0;
         if (ty >= col->tex->height) ty = col->tex->height - 1;
-        draw_pixel(&data->mlx, x, y, color_tex(col->tex, col->tex_x, ty), data);
+        draw_pixel(x, y, color_tex(col->tex, col->tex_x, ty), data);
         tex_pos += step;
         y++;
     }

@@ -130,21 +130,29 @@ void move_player(t_data *data)
 //
 // Le plan caméra (plane_x, plane_y) tourne avec la dir -> garder l'effet 3D.
 
-void rotate_player(t_data *data)
+void	rotate_player(t_data *data)
 {
-	double rot_speed = data->rot_speed;
+	double	rot_speed;
+	t_vec	new_dir;
+	t_vec	new_plane;
+
+	rot_speed = data->rot_speed;
 	if (data->keys.left)
 	{
-		ROTATE_VEC(data->player.dir_x, data->player.dir_y, -rot_speed,
-				   data->player.dir_x, data->player.dir_y);
-		ROTATE_VEC(data->player.plane_x, data->player.plane_y, -rot_speed,
-				   data->player.plane_x, data->player.plane_y);
+		new_dir = rotate_vec(data->player.dir_x, data->player.dir_y, -rot_speed);
+		new_plane = rotate_vec(data->player.plane_x, data->player.plane_y, -rot_speed);
+		data->player.dir_x = new_dir.x;
+		data->player.dir_y = new_dir.y;
+		data->player.plane_x = new_plane.x;
+		data->player.plane_y = new_plane.y;
 	}
 	if (data->keys.right)
 	{
-		ROTATE_VEC(data->player.dir_x, data->player.dir_y, rot_speed,
-				   data->player.dir_x, data->player.dir_y);
-		ROTATE_VEC(data->player.plane_x, data->player.plane_y, rot_speed,
-				   data->player.plane_x, data->player.plane_y);
+		new_dir = rotate_vec(data->player.dir_x, data->player.dir_y, rot_speed);
+		new_plane = rotate_vec(data->player.plane_x, data->player.plane_y, rot_speed);
+		data->player.dir_x = new_dir.x;
+		data->player.dir_y = new_dir.y;
+		data->player.plane_x = new_plane.x;
+		data->player.plane_y = new_plane.y;
 	}
 }
