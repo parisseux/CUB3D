@@ -2,8 +2,8 @@ NO ./texture_labirinthe/cleanwall.xpm
 SO ./texture_labirinthe/cleanwall.xpm
 WE ./texture_labirinthe/cleanwall.xpm
 EA ./texture_labirinthe/cleanwall.xpm
-F 220,100,0
-C 225,30,0
+F 255,0,255
+C 128,0,128
 
 1111111111111111111111111
 1000000000110000000000001
