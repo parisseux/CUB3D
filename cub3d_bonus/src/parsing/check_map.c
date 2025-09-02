@@ -1,23 +1,6 @@
 #include "../../inc/cub3d.h"
 
-int	ft_check_border_map(char **map, int i, int j)
-{
-	if (i <= 0 || j <= 0 || !map[i + 1] || !map[i][j + 1])
-		return (0);
-	if (is_space(map[i - 1][j - 1]) || is_space(map[i - 1][j]) || is_space(map[i - 1][j + 1]))
-		return (0);
-	if ( map[i - 1][j] == '\0' || map[i + 1][j] == '\0')
-		return (0);
-	if (is_space(map[i][j - 1]) || is_space(map[i][j + 1]))
-		return (0);
-	if (map[i][j - 1] == '\0' || map[i][j + 1] == '\0')
-		return (0);
-	if (is_space(map[i + 1][j - 1]) || is_space(map[i + 1][j]) || is_space(map[i + 1][j + 1]))
-		return (0);
-	return (1);
-}
-
-int	ft_check_walls(t_data *game)
+static int	ft_check_walls(t_data *game)
 {
 	int	i;
 	int	j;
@@ -31,10 +14,7 @@ int	ft_check_walls(t_data *game)
 			if (game->map[i][j] != '1' && is_space(game->map[i][j]) == 0)
 			{
 				if (ft_check_border_map(game->map, i, j) == 0)
-				{
-					printf("DEBUG\nChar \"%c\" found at pos : %d|%d (abs|ord)\n", game->map[i][j], i, j);
 					return (0);
-				}
 			}
 			j++;
 		}
@@ -43,7 +23,7 @@ int	ft_check_walls(t_data *game)
 	return (1);
 }
 
-int	ft_check_format_cub(char *file_name)
+static int	ft_check_format_cub(char *file_name)
 {
 	char	*ext;
 
@@ -55,10 +35,10 @@ int	ft_check_format_cub(char *file_name)
 	return (1);
 }
 
-int ft_check_tiles(char **map)
+static int	ft_check_tiles(char **map)
 {
-	int i;
-	int j;
+	int	i;
+	int	j;
 
 	i = 0;
 	while (map[i])
@@ -70,12 +50,7 @@ int ft_check_tiles(char **map)
 				map[i][j] != 'N' && map[i][j] != 'S' &&
 				map[i][j] != 'E' && map[i][j] != 'W' && map[i][j] != '\n'
 				&& !is_space(map[i][j]))
-				{
-					printf("c = %c, (ascii:%i)\n", map[i][j], map[i][j]);
-					printf("%d, %d\n", i, j);
-					return (0);
-				}
-				
+				return (0);
 			j++;
 		}
 		i++;
@@ -83,7 +58,7 @@ int ft_check_tiles(char **map)
 	return (1);
 }
 
-int ft_check_elements(t_data *game)
+static int	ft_check_elements(t_data *game)
 {
 	if (!game->no_texture || !game->so_texture || !game->we_texture || !game->ea_texture
 		|| !game->floor_texture || !game->sky_texture)
@@ -91,17 +66,22 @@ int ft_check_elements(t_data *game)
 	return (1);
 }
 
-int ft_check_map(t_data *game, char *file_name)
+int	ft_check_map(t_data *game, char *file_name)
 {
 	if (ft_check_format_cub(file_name) == 0)
 		return (mess_error(0, "Format de fichier invalide"));
+	printf("test\n");
 	if (ft_check_elements(game) == 0)
 		return (mess_error(0, "Textures manquantes"));
+	printf("test\n");
 	if (ft_check_tiles(game->map) == 0)
 		return (mess_error(0, "Caractères invalides dans la carte"));
+	printf("test\n");
 	if (init_player(game) == 0)
 		return (0);
+	printf("test\n");
 	if (ft_check_walls(game) == 0)
 		return (mess_error(0, "Murs invalides"));
+	printf("test\n");
 	return (1);
 }
