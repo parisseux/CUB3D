@@ -1,10 +1,10 @@
 NAME = cub3D
 NAME_BONUS = cub3D_bonus
 
-HEADERS = ./inc
-BONUS_HEADERS = ./bonus/inc
-SRC_DIR = ./src
-BONUS_SRC_DIR = ./bonus/src
+HEADERS = ./cub3d/inc
+BONUS_HEADERS = ./cub3d_bonus/inc
+SRC_DIR = ./cub3d/src
+BONUS_SRC_DIR = ./cub3d_bonus/src
 PARSING_DIR = $(SRC_DIR)/parsing
 BONUS_PARSING_DIR = $(BONUS_SRC_DIR)/parsing
 MLX_DIRR = $(SRC_DIR)/mlx
@@ -12,8 +12,8 @@ BONUS_MLX_DIRR = $(BONUS_SRC_DIR)/mlx
 RAYCASTING_DIR = $(SRC_DIR)/raycasting
 BONUS_RAYCASTING_DIR = $(BONUS_SRC_DIR)/raycasting
 LIBFT_DIR = ./libft
-OBJ_DIR = ./obj
-BONUS_OBJ_DIR = ./bonus/obj
+OBJ_DIR = ./cub3d/obj
+BONUS_OBJ_DIR = ./cub3d_bonus/obj
 
 CC = gcc
 CFLAGS = -Wall -Werror -Wextra -Iinclude -I$(HEADERS) -g3
