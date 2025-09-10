@@ -20,7 +20,7 @@ void	get_screen_size(t_data *data)
 	data->screen.height = profiles[profile_index].height;
 }
 
-static void	load_texture(t_data *data, t_texture *tex, char *path)
+static int	load_texture(t_data *data, t_texture *tex, char *path)
 {
 	int	width;
 	int	height;
@@ -32,6 +32,7 @@ static void	load_texture(t_data *data, t_texture *tex, char *path)
 		printf("Error: Failed to load image %s\n", path);
 		cleanup(data);
 		mess_error(1, "Invalid texture file");
+		return (0);
 	}
 	tex->data = mlx_get_data_addr(tex->img_ptr, &tex->bpp,
 			&tex->size_line, &tex->endian);
@@ -40,17 +41,24 @@ static void	load_texture(t_data *data, t_texture *tex, char *path)
 		printf("Error: Failed to get texture data for %s\n", path);
 		cleanup(data);
 		mess_error(1, "Failed to get texture data");
+		return (0);
 	}
 	tex->width = width;
 	tex->height = height;
+	return (1);
 }
 
-static void	load_all_textures(t_data *data)
+static int	load_all_textures(t_data *data)
 {
-	load_texture(data, &data->tex_north, data->no_texture);
-	load_texture(data, &data->tex_south, data->so_texture);
-	load_texture(data, &data->tex_west, data->we_texture);
-	load_texture(data, &data->tex_east, data->ea_texture);
+	if (!load_texture(data, &data->tex_north, data->no_texture))
+		return (0);
+	if (!load_texture(data, &data->tex_south, data->so_texture))
+		return (0);
+	if (!load_texture(data, &data->tex_west, data->we_texture))
+		return (0);
+	if (!load_texture(data, &data->tex_east, data->ea_texture))
+		return (0);
+	return (1);
 }
 
 static void	init_window(t_data *data)
@@ -78,13 +86,14 @@ static void	init_window(t_data *data)
 	}
 }
 
-void	init_mlx(t_data *data)
+void init_mlx(t_data *data)
 {
 	data->mlx.mlx_ptr = mlx_init();
 	if (!data->mlx.mlx_ptr)
 		mess_error(1, "MLX init failed");
 	get_screen_size(data);
-	load_all_textures(data);
+	if (!load_all_textures(data))
+		return ;
 	init_window(data);
 	mlx_loop_hook(data->mlx.mlx_ptr, update, data);
 }

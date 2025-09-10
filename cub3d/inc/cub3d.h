@@ -161,6 +161,7 @@ int			ft_check_border_map(char **map, int i, int j);
 char		**ft_get_map(char *file_path, t_data *game);
 
 // parsing/parsing_utils.c
+int			is_element_line(char *line);
 int			is_space(char c);
 bool		only_space(char *line);
 int			is_valid_rgb(int r, int g, int b);

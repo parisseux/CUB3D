@@ -19,6 +19,12 @@ void	destroy_texture(t_data *data)
 		mlx_destroy_image(data->mlx.mlx_ptr, data->tex_east.img_ptr);
 }
 
+//A SUPPRIMER pour l'eval car ne passe pas la norminette
+//#ifndef __APPLE__
+//	if (data->mlx.mlx_ptr)
+//		mlx_destroy_display(data->mlx.mlx_ptr);
+//#endif
+//
 void	cleanup(t_data *data)
 {
 	destroy_texture(data);
@@ -26,12 +32,6 @@ void	cleanup(t_data *data)
 		mlx_destroy_image(data->mlx.mlx_ptr, data->mlx.img_ptr);
 	if (data->mlx.win_ptr)
 		mlx_destroy_window(data->mlx.mlx_ptr, data->mlx.win_ptr);
-//A SUPPRIMER pour l'eval car ne passe pas la norminette
-#ifndef __APPLE__
-	if (data->mlx.mlx_ptr)
-		mlx_destroy_display(data->mlx.mlx_ptr);
-#endif
-//
 	if (data->mlx.mlx_ptr)
 		free(data->mlx.mlx_ptr);
 	if (data->no_texture)

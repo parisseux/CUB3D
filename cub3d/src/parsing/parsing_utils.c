@@ -1,5 +1,15 @@
 #include "../../inc/cub3d.h"
 
+int	is_element_line(char *line)
+{
+	if (!line || !*line || is_space(line[0]))
+		return (0);
+	return (ft_strncmp(line, "NO ", 3) == 0
+		|| ft_strncmp(line, "SO ", 3) == 0
+		|| ft_strncmp(line, "WE ", 3) == 0 || ft_strncmp(line, "EA ", 3) == 0
+		|| ft_strncmp(line, "F ", 2) == 0 || ft_strncmp(line, "C ", 2) == 0);
+}
+
 int	is_space(char c)
 {
 	if (c == '\t' || c == '\n' || c == '\v'

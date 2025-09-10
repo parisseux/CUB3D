@@ -1,11 +1,51 @@
 #include "../../inc/cub3d.h"
 
-//col[0] = r, col[1] = g, col[2] = b
-static int	parse_color(char *line, int *color)
+// Vérifie que le chemin de texture est valide (pas de chiffres/virgules, extension .xpm)
+static int validate_texture_path(char *trimmed)
 {
-	char	*trimmed;
-	char	**rgb;
-	int		col[3];
+	char *start = trimmed;
+
+	while (*start)
+	{
+		if (ft_isdigit(*start) || *start == ',')
+		{
+			free(trimmed);
+			return (mess_error(0, "Ligne de texture mal formée (caractères inattendus)"));
+		}
+		start++;
+	}
+	if (!ft_strrchr(trimmed, '.') || ft_strncmp(ft_strrchr(trimmed, '.'), ".xpm", 4) != 0)
+	{
+		free(trimmed);
+		return (mess_error(0, "Extension de texture invalide (doit être .xpm)"));
+	}
+	return (1);
+}
+
+static int parse_texture(char *line, char **texture)
+{
+	char *trimmed;
+
+	if (ft_strncmp(line, "C ", 2) == 0 || ft_strncmp(line, "F ", 2) == 0)
+		trimmed = ft_strtrim(line + 2, " \t\n");
+	else
+		trimmed = ft_strtrim(line + 3, " \t\n");
+	if (!trimmed || !*trimmed)
+	{
+		free(trimmed);
+		return (mess_error(0, "Chemin de texture vide ou invalide"));
+	}
+	if (!validate_texture_path(trimmed))
+		return (0);
+	*texture = trimmed;
+	return (1);
+}
+
+static int parse_color(char *line, int *color)
+{
+	char *trimmed;
+	char **rgb;
+	int col[3];
 
 	trimmed = ft_strtrim(line + 2, " \t\n");
 	if (!trimmed)
@@ -30,34 +70,7 @@ static int	parse_color(char *line, int *color)
 	return (1);
 }
 
-static int	parse_texture(char *line, char **texture)
-{
-	char	*trimmed;
-
-	if (ft_strncmp(line, "C ", 2) == 0 || ft_strncmp(line, "F ", 2) == 0)
-		trimmed = ft_strtrim(line + 2, " \t\n");
-	else
-		trimmed = ft_strtrim(line + 3, " \t\n");
-	if (!trimmed || !*trimmed)
-	{
-		free(trimmed);
-		return (0);
-	}
-	*texture = trimmed;
-	return (1);
-}
-
-static int	is_element_line(char *line)
-{
-	if (!line || !*line || is_space(line[0]))
-		return (0);
-	return (ft_strncmp(line, "NO ", 3) == 0
-		|| ft_strncmp(line, "SO ", 3) == 0
-		|| ft_strncmp(line, "WE ", 3) == 0 || ft_strncmp(line, "EA ", 3) == 0
-		|| ft_strncmp(line, "F ", 2) == 0 || ft_strncmp(line, "C ", 2) == 0);
-}
-
-static int	parse_element_line(t_data *game, char *line, int *elements_found)
+static int parse_element_line(t_data *game, char *line, int *elements_found)
 {
 	if (ft_strncmp(line, "NO ", 3) == 0 && !game->no_texture)
 		*elements_found += parse_texture(line, &game->no_texture);
@@ -76,10 +89,11 @@ static int	parse_element_line(t_data *game, char *line, int *elements_found)
 	return (1);
 }
 
-int	parse_elements(t_data *game, int fd)
+//is_element_line : in parsing_utils.c
+int parse_elements(t_data *game, int fd)
 {
-	char	*line;
-	int		elements_found;
+	char *line;
+	int elements_found;
 
 	elements_found = 0;
 	line = get_next_line(fd);

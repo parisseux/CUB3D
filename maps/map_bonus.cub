@@ -1,9 +1,9 @@
 NO ./texture_labirinthe/cleanwall.xpm
 SO ./texture_labirinthe/cleanwall.xpm
 WE ./texture_dungeon/cleanwall.xpm
-EA ./texture_dungeon/cleanwall.xpm        
-F 255,0,255
-C 128,0,128
+EA ./texture_dungeon/cleanwall.xpm
+F ./textures/test.xpm
+C ./textures/test.xpm
 
 1111111111111111111111111
 1000000000110000000000001

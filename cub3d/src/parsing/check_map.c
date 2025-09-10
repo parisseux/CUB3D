@@ -60,10 +60,13 @@ static int	ft_check_tiles(char **map)
 
 static int	ft_check_elements(t_data *game)
 {
-	if (!game->no_texture || !game->so_texture
-		|| !game->we_texture || !game->ea_texture
-		|| game->floor_color == -1 || game->ceiling_color == -1)
-		return (0);
+	if (!game->no_texture
+		|| !game->so_texture
+		|| !game->we_texture
+		|| !game->ea_texture
+		|| game->floor_color == -1
+		|| game->ceiling_color == -1)
+		return (mess_error(0, "Text ou couleurs. Vérifiez les chemins des fichiers."));
 	return (1);
 }
 
