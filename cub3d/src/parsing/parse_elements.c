@@ -1,30 +1,34 @@
 #include "../../inc/cub3d.h"
 
-// Vérifie que le chemin de texture est valide (pas de chiffres/virgules, extension .xpm)
-static int validate_texture_path(char *trimmed)
+// Vérifie que le chemin de texture est valide :
+// -> pas de chiffres/virgules
+// -> extension : .xpm)
+static int	validate_texture_path(char *trimmed)
 {
-	char *start = trimmed;
+	char	*start;
 
+	start = trimmed;
 	while (*start)
 	{
 		if (ft_isdigit(*start) || *start == ',')
 		{
 			free(trimmed);
-			return (mess_error(0, "Ligne de texture mal formée (caractères inattendus)"));
+			return (mess_error(0, "Texture : caractères inattendus"));
 		}
 		start++;
 	}
-	if (!ft_strrchr(trimmed, '.') || ft_strncmp(ft_strrchr(trimmed, '.'), ".xpm", 4) != 0)
+	if (!ft_strrchr(trimmed, '.')
+		|| ft_strncmp(ft_strrchr(trimmed, '.'), ".xpm", 4) != 0)
 	{
 		free(trimmed);
-		return (mess_error(0, "Extension de texture invalide (doit être .xpm)"));
+		return (mess_error(0, "Extension de texture invalide (try .xpm)"));
 	}
 	return (1);
 }
 
-static int parse_texture(char *line, char **texture)
+static int	parse_texture(char *line, char **texture)
 {
-	char *trimmed;
+	char	*trimmed;
 
 	if (ft_strncmp(line, "C ", 2) == 0 || ft_strncmp(line, "F ", 2) == 0)
 		trimmed = ft_strtrim(line + 2, " \t\n");
@@ -41,11 +45,44 @@ static int parse_texture(char *line, char **texture)
 	return (1);
 }
 
-static int parse_color(char *line, int *color)
+// Skip whitespaces (au cas où, même si trimmed)
+// Optionnel + ou - (exactement un signe)
+// Si un autre signe suit, c'est invalide (ex: ++60, --60)
+// Doit avoir au moins un digit
+// Check que le reste est seulement digits
+static int	is_valid_number(char *str)
 {
-	char *trimmed;
-	char **rgb;
-	int col[3];
+	int	i;
+	int	has_digit;
+
+	if (!str || !*str)
+		return (0);
+	i = 0;
+	while (is_space(str[i]))
+		i++;
+	if (str[i] == '+' || str[i] == '-')
+		i++;
+	if (str[i] == '+' || str[i] == '-')
+		return (0);
+	if (!ft_isdigit(str[i]))
+		return (0);
+	has_digit = 0;
+	while (str[i])
+	{
+		if (!ft_isdigit(str[i]))
+			return (0);
+		has_digit = 1;
+		i++;
+	}
+	return (has_digit);
+}
+
+static int	parse_color(char *line, int *color)
+{
+	char	*trimmed;
+	char	**rgb;
+	int		col[3];
+	int		i;
 
 	trimmed = ft_strtrim(line + 2, " \t\n");
 	if (!trimmed)
@@ -56,6 +93,16 @@ static int parse_color(char *line, int *color)
 	{
 		ft_free_split(rgb);
 		return (0);
+	}
+	i = 0;
+	while (i < 3)
+	{
+		if (!is_valid_number(rgb[i]))
+		{
+			ft_free_split(rgb);
+			return (0);
+		}
+		i++;
 	}
 	col[0] = ft_atoi(rgb[0]);
 	col[1] = ft_atoi(rgb[1]);
@@ -70,7 +117,7 @@ static int parse_color(char *line, int *color)
 	return (1);
 }
 
-static int parse_element_line(t_data *game, char *line, int *elements_found)
+static int	parse_element_line(t_data *game, char *line, int *elements_found)
 {
 	if (ft_strncmp(line, "NO ", 3) == 0 && !game->no_texture)
 		*elements_found += parse_texture(line, &game->no_texture);
@@ -90,10 +137,10 @@ static int parse_element_line(t_data *game, char *line, int *elements_found)
 }
 
 //is_element_line : in parsing_utils.c
-int parse_elements(t_data *game, int fd)
+int	parse_elements(t_data *game, int fd)
 {
-	char *line;
-	int elements_found;
+	char	*line;
+	int		elements_found;
 
 	elements_found = 0;
 	line = get_next_line(fd);

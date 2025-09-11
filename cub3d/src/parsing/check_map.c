@@ -66,7 +66,7 @@ static int	ft_check_elements(t_data *game)
 		|| !game->ea_texture
 		|| game->floor_color == -1
 		|| game->ceiling_color == -1)
-		return (mess_error(0, "Text ou couleurs. Vérifiez les chemins des fichiers."));
+		return (mess_error(0, "Text/colors : check files paths"));
 	return (1);
 }
 
