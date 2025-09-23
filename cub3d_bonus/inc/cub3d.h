@@ -33,6 +33,31 @@
 # define MOVE_SPEED       0.08
 # define ROT_SPEED        0.025
 
+typedef struct s_sky
+{
+	double	camera_x;
+	double	dir_x;
+	double	dir_y;
+	double	angle;
+	double	scale;
+	double	offset;
+}	t_sky;
+
+typedef struct s_floor
+{
+	double	pos_x;
+	double	pos_y;
+	double	dir_x;
+	double	dir_y;
+	double	plane_x;
+	double	plane_y;
+	double	denom;
+	double	row_distance;
+	double	cam;
+	double	floor_x;
+	double	floor_y;
+}	t_floor;
+
 typedef struct s_vec
 {
 	double	x;
@@ -137,8 +162,8 @@ typedef struct s_data
 	char		*so_texture;
 	char		*we_texture;
 	char		*ea_texture;
-	char 		*floor_texture;
-	char 		*sky_texture;
+	char		*floor_texture;
+	char		*sky_texture;
 	double		sky_scale;
 	double		sky_offset;
 	t_texture	tex_north;
@@ -146,7 +171,7 @@ typedef struct s_data
 	t_texture	tex_west;
 	t_texture	tex_east;
 	t_texture	tex_floor;
-	t_texture   tex_sky;
+	t_texture	tex_sky;
 	t_screen	screen;
 	double		move_speed;
 	double		rot_speed;
@@ -213,9 +238,10 @@ void		dda_walk(t_data *data, t_ray *ray);
 //raycasting2.c
 double		dist_perp_wall(t_data *data, t_ray *ray, double rx, double ry);
 t_texture	*wall_tex(t_data *data, t_ray *ray, double rx, double ry);
- void draw_floor(t_data *data, int x, int y);
+void		draw_floor(t_data *data, int x, int y);
 void		draw_wall(t_data *data, int x, t_column *col);
-void draw_sky(t_data *data, int x, int y);
+void		draw_sky(t_data *data, int x, int y);
+int			get_tex_color(t_texture *tex, int tex_x, int tex_y);
 
 //maths_utils 
 double		calc_move_speed(t_data *data);

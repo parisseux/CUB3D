@@ -42,15 +42,21 @@ static void	compute_texture(t_data *data, t_column *col, double rx, double ry)
 
 static void	draw_column(t_data *data, int x, t_column *col)
 {
-	for (int y = 0; y < col->y0c; ++y)
-        draw_sky(data, x, y);
+	int	y;
 
-    // mur (ta version mandatory est OK; elle dessine toute la tranche)
-    draw_wall(data, x, col);
-
-    // sol
-    for (int y = col->y1c + 1; y < data->screen.height; ++y)
-        draw_floor(data, x, y);
+	y = 0;
+	while (y < col->y0c)
+	{
+		draw_sky(data, x, y);
+		y++;
+	}
+	draw_wall(data, x, col);
+	y = col->y1c + 1;
+	while (y < data->screen.height)
+	{
+		draw_floor(data, x, y);
+		++y;
+	}
 }
 
 int	render_frame(t_data *data)

@@ -49,7 +49,7 @@
 //
 // Et la perpendiculaire de (x, y) est (-y, x)
 
-static void update_sky_offset(t_data *data)
+static void	update_sky_offset(t_data *data)
 {
 	if (data->sky_offset < 0.0)
 		data->sky_offset += 1.0;

@@ -51,8 +51,8 @@ static void	load_all_textures(t_data *data)
 	load_texture(data, &data->tex_south, data->so_texture);
 	load_texture(data, &data->tex_west, data->we_texture);
 	load_texture(data, &data->tex_east, data->ea_texture);
-    load_texture(data, &data->tex_floor, data->floor_texture);
-    load_texture(data, &data->tex_sky, data->sky_texture);
+	load_texture(data, &data->tex_floor, data->floor_texture);
+	load_texture(data, &data->tex_sky, data->sky_texture);
 }
 
 static void	init_window(t_data *data)

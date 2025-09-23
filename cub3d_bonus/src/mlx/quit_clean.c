@@ -18,9 +18,9 @@ void	destroy_texture(t_data *data)
 	if (data->tex_east.img_ptr)
 		mlx_destroy_image(data->mlx.mlx_ptr, data->tex_east.img_ptr);
 	if (data->tex_floor.img_ptr)
-        mlx_destroy_image(data->mlx.mlx_ptr, data->tex_floor.img_ptr);
-    if (data->tex_sky.img_ptr)
-        mlx_destroy_image(data->mlx.mlx_ptr, data->tex_sky.img_ptr);
+		mlx_destroy_image(data->mlx.mlx_ptr, data->tex_floor.img_ptr);
+	if (data->tex_sky.img_ptr)
+		mlx_destroy_image(data->mlx.mlx_ptr, data->tex_sky.img_ptr);
 }
 
 void	cleanup(t_data *data)
@@ -46,11 +46,11 @@ void	cleanup(t_data *data)
 		free(data->we_texture);
 	if (data->ea_texture)
 		free(data->ea_texture);
-    if (data->sky_texture)
-        free(data->sky_texture);
-    if (data->floor_texture)
-        free(data->floor_texture);
-    if (data->map)
+	if (data->sky_texture)
+		free(data->sky_texture);
+	if (data->floor_texture)
+		free(data->floor_texture);
+	if (data->map)
 		ft_free_split(data->map);
 	if (data)
 		free(data);

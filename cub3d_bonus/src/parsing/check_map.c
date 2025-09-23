@@ -60,7 +60,8 @@ static int	ft_check_tiles(char **map)
 
 static int	ft_check_elements(t_data *game)
 {
-	if (!game->no_texture || !game->so_texture || !game->we_texture || !game->ea_texture
+	if (!game->no_texture || !game->so_texture
+		|| !game->we_texture || !game->ea_texture
 		|| !game->floor_texture || !game->sky_texture)
 		return (0);
 	return (1);
