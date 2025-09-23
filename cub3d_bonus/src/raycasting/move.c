@@ -1,5 +1,4 @@
 #include "../../inc/cub3d.h"
-#include <math.h>
 
 // direction : vecteur (dir_x, dir_y) qui pointe vers où on regarde
 // W/S : avance ou recule selon dir_x / dir_y
@@ -50,7 +49,7 @@
 //
 // Et la perpendiculaire de (x, y) est (-y, x)
 
-void update_sky_offset(t_data *data)
+static void	update_sky_offset(t_data *data)
 {
 	if (data->sky_offset < 0.0)
 		data->sky_offset += 1.0;
@@ -58,47 +57,57 @@ void update_sky_offset(t_data *data)
 		data->sky_offset -= 1.0;
 }
 
-static bool can_move(t_data *data, double x, double y)
+static bool	can_move(t_data *data, double x, double y)
 {
-	return(data->map[(int)y][(int)x] != '1');
+	double	radius;
+
+	radius = 0.2;
+	if (data->map[(int)(y)][(int)(x - radius)] == '1')
+		return (false);
+	if (data->map[(int)(y)][(int)(x + radius)] == '1')
+		return (false);
+	if (data->map[(int)(y - radius)][(int)(x)] == '1')
+		return (false);
+	if (data->map[(int)(y + radius)][(int)(x)] == '1')
+		return (false);
+	return (true);
 }
 
-static void move_forward_backward(t_data *data, int forward)
+static void	move_forward_backward(t_data *data, int forward)
 {
-	double new_x;
-	double new_y;
-	double move_speed;
+	double	new_x;
+	double	new_y;
+	double	move_speed;
 
 	move_speed = data->move_speed;
 	if (!forward)
 		move_speed = -move_speed;
 	new_x = data->player.pos_x + data->player.dir_x * move_speed;
-    new_y = data->player.pos_y + data->player.dir_y * move_speed;
+	new_y = data->player.pos_y + data->player.dir_y * move_speed;
 	if (can_move(data, new_x, data->player.pos_y))
-        data->player.pos_x = new_x;
-    if (can_move(data, data->player.pos_x, new_y))
-        data->player.pos_y = new_y;
+		data->player.pos_x = new_x;
+	if (can_move(data, data->player.pos_x, new_y))
+		data->player.pos_y = new_y;
 }
 
-static void strafe_left_right(t_data *data, int left)
+static void	strafe_left_right(t_data *data, int left)
 {
-	double new_x;
-	double new_y;
-	double side_speed;
+	double	new_x;
+	double	new_y;
+	double	side_speed;
 
 	side_speed = data->move_speed * 0.6;
 	if (!left)
-        side_speed = -side_speed;
+		side_speed = -side_speed;
 	new_x = data->player.pos_x + data->player.dir_y * side_speed;
-    new_y = data->player.pos_y - data->player.dir_x * side_speed;
-
-    if (can_move(data, new_x, data->player.pos_y))
-        data->player.pos_x = new_x;
-    if (can_move(data, data->player.pos_x, new_y))
-        data->player.pos_y = new_y;
+	new_y = data->player.pos_y - data->player.dir_x * side_speed;
+	if (can_move(data, new_x, data->player.pos_y))
+		data->player.pos_x = new_x;
+	if (can_move(data, data->player.pos_x, new_y))
+		data->player.pos_y = new_y;
 }
 
-void move_player(t_data *data)
+void	move_player(t_data *data)
 {
 	if (data->keys.w)
 		move_forward_backward(data, 1);
@@ -109,41 +118,4 @@ void move_player(t_data *data)
 	if (data->keys.d)
 		strafe_left_right(data, 0);
 	update_sky_offset(data);
-}
-
-
-// Tourner le joueur
-// Fait tourner :
-//  - son vecteur direction (dir_x, dir_y)
-//  - le plan caméra (plane_x, plane_y) : définit le champ de vision.
-//
-// On fait une rotation 2D autour de l'origine (formule wiki).
-// On a θ = rot_speed (vitesse de rotation ecran):
-//
-// x' = x * cos(θ) - y * sin(θ)
-// y' = x * sin(θ) + y * cos(θ)
-//
-// Si angle négatif -> tourne à gauche
-// Si angle positif -> tourne à droite.
-//
-// Le plan caméra (plane_x, plane_y) tourne avec la dir -> garder l'effet 3D.
-
-
-void rotate_player(t_data *data)
-{
-	double rot_speed = CALC_ROT_SPEED(data);
-	if (data->keys.left)
-	{
-	    ROTATE_VEC(data->player.dir_x, data->player.dir_y, -rot_speed,
-	               data->player.dir_x, data->player.dir_y);
-	    ROTATE_VEC(data->player.plane_x, data->player.plane_y, -rot_speed,
-	               data->player.plane_x, data->player.plane_y);
-	}
-	if (data->keys.right)
-	{
-	    ROTATE_VEC(data->player.dir_x, data->player.dir_y, rot_speed,
-	               data->player.dir_x, data->player.dir_y);
-	    ROTATE_VEC(data->player.plane_x, data->player.plane_y, rot_speed,
-	               data->player.plane_x, data->player.plane_y);
-	}
 }
