@@ -49,14 +49,6 @@
 //
 // Et la perpendiculaire de (x, y) est (-y, x)
 
-static void	update_sky_offset(t_data *data)
-{
-	if (data->sky_offset < 0.0)
-		data->sky_offset += 1.0;
-	else if (data->sky_offset >= 1.0)
-		data->sky_offset -= 1.0;
-}
-
 static bool	can_move(t_data *data, double x, double y)
 {
 	double	radius;
@@ -117,5 +109,4 @@ void	move_player(t_data *data)
 		strafe_left_right(data, 1);
 	if (data->keys.d)
 		strafe_left_right(data, 0);
-	update_sky_offset(data);
 }

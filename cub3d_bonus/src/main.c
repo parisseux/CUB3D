@@ -13,6 +13,8 @@ t_data	*init_data(void)
 	game->sky_scale = 4.0;
 	game->move_speed = calc_move_speed(game);
 	game->rot_speed = calc_rot_speed(game);
+	game->mouse_sensitivity = 0.003;
+	game->prev_mouse_x = game->screen.width / 2;
 	return (game);
 }
 
@@ -40,6 +42,9 @@ int	main(int ac, char **av)
 	init_camera(game);
 	mlx_hook(game->mlx.win_ptr, 2, 1L << 0, key_press, game);
 	mlx_hook(game->mlx.win_ptr, 3, 1L << 1, key_release, game);
+	mlx_hook(game->mlx.win_ptr, 6, 1L<<6, mouse_move, game);
+	mlx_mouse_hook(game->mlx.win_ptr, mouse_press, game);
+	mlx_hook(game->mlx.win_ptr, 5, 0L, mouse_release, game);
 	mlx_hook(game->mlx.win_ptr, 17, 0, close_window, game);
 	mlx_loop(game->mlx.mlx_ptr);
 	return (0);

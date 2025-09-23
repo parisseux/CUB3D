@@ -175,6 +175,9 @@ typedef struct s_data
 	t_screen	screen;
 	double		move_speed;
 	double		rot_speed;
+	int			prev_mouse_x;
+	bool mouse_rotating;  
+	double		mouse_sensitivity;
 }	t_data;
 
 // utils.c
@@ -212,6 +215,11 @@ void		cleanup(t_data *data);
 void		init_camera(t_data *data);
 int			key_press(int keycode, t_data *data);
 int			key_release(int keycode, t_data *data);
+
+//mouse.c
+int			mouse_move(int x, int y, t_data *data);
+int			mouse_release(int button, int x, int y, void *param);
+int			mouse_press(int button, int x, int y, void *param);
 
 //raycastin/keys
 void		init_keys(t_data *data);
