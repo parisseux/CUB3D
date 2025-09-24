@@ -35,6 +35,9 @@
 # define ROT_SPEED        0.025
 # define FPS			  30
 # define FRAME_TIME 	  (1000 / FPS)
+#define MINIMAP_MARGIN     10
+#define MINIMAP_SCALE 		10
+#define PLAYER_SIZE 4  
 
 typedef struct s_img
 {
@@ -192,6 +195,9 @@ typedef struct s_data
 	double		mouse_sensitivity;
 	t_img 		img;
 }	t_data;
+
+//minimap.c
+void draw_minimap(t_data *data);
 
 // utils.c
 int			mess_error(int exit_code, char *message);
