@@ -53,7 +53,7 @@ static bool	can_move(t_data *data, double x, double y)
 {
 	double	radius;
 
-	radius = 0.2;
+	radius = 0.02;
 	if (data->map[(int)(y)][(int)(x - radius)] == '1')
 		return (false);
 	if (data->map[(int)(y)][(int)(x + radius)] == '1')

@@ -39,6 +39,14 @@
 # define MINIMAP_SCALE 		10
 # define PLAYER_SIZE 4  
 
+typedef struct s_sprite
+{
+    void    *img_ptr;
+    int     *pixels;
+    int     width;
+    int     height;
+} t_sprite;
+
 typedef struct s_sky
 {
 	double	camera_x;
@@ -184,6 +192,8 @@ typedef struct s_data
 	double		rot_speed;
 	int			prev_mouse_x;
 	double		mouse_sensitivity;
+	t_sprite arms;
+    int      arm_frame;
 }	t_data;
 
 //minimap.c
@@ -269,5 +279,8 @@ double		dabs(double x);
 
 //time.c 
 long		get_time_ms(void);
+
+//arms.c
+void draw_arm(t_data *data);
 
 #endif

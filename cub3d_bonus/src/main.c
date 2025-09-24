@@ -13,7 +13,7 @@ static t_data	*init_data(void)
 	data->sky_scale = 4.0;
 	data->move_speed = calc_move_speed(data);
 	data->rot_speed = calc_rot_speed(data);
-	data->mouse_sensitivity = 0.0001;
+	data->mouse_sensitivity = 0.0005;
 	data->prev_mouse_x = data->screen.width / 2;
 	return (data);
 }

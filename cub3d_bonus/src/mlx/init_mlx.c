@@ -53,6 +53,7 @@ static void	load_all_textures(t_data *data)
 	load_texture(data, &data->tex_east, data->ea_texture);
 	load_texture(data, &data->tex_floor, data->floor_texture);
 	load_texture(data, &data->tex_sky, data->sky_texture);
+
 }
 
 static void	init_window(t_data *data)
@@ -79,14 +80,33 @@ static void	init_window(t_data *data)
 		mess_error(1, "Image data retrieval failed");
 	}
 }
-
-void	init_mlx(t_data *data)
+static t_sprite init_arms(t_data *data)
 {
-	data->mlx.mlx_ptr = mlx_init();
-	if (!data->mlx.mlx_ptr)
-		mess_error(1, "MLX init failed");
-	get_screen_size(data);
-	load_all_textures(data);
-	init_window(data);
-	mlx_loop_hook(data->mlx.mlx_ptr, update, data);
+    t_sprite arms;
+    int bpp;
+    int line_length;
+    int endian;
+
+    arms.img_ptr = mlx_xpm_file_to_image(data->mlx.mlx_ptr,
+                                         "./texture_arms/arm1.xpm",
+                                         &arms.width, &arms.height);
+    if (!arms.img_ptr)
+        mess_error(1, "Error loading arms texture");
+
+    arms.pixels = (int *)mlx_get_data_addr(arms.img_ptr, &bpp, &line_length, &endian);
+    return (arms);
 }
+
+void init_mlx(t_data *data)
+{
+    data->mlx.mlx_ptr = mlx_init();
+    if (!data->mlx.mlx_ptr)
+        mess_error(1, "MLX init failed");
+
+    get_screen_size(data);
+    load_all_textures(data);
+    init_window(data);
+    data->arms = init_arms(data);
+    mlx_loop_hook(data->mlx.mlx_ptr, update, data);
+}
+

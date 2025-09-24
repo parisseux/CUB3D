@@ -76,6 +76,8 @@ int	render_frame(t_data *data)
 		x++;
 	}
 	draw_minimap(data);
+	draw_arm(data);
+	data->arm_frame = (data->arm_frame + 1) % 2;
 	mlx_put_image_to_window(data->mlx.mlx_ptr, data->mlx.win_ptr,
 		data->mlx.img_ptr, 0, 0);
 	return (0);
