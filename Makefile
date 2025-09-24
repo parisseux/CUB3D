@@ -16,7 +16,7 @@ OBJ_DIR = ./cub3d/obj
 BONUS_OBJ_DIR = ./cub3d_bonus/obj
 
 CC = gcc
-CFLAGS = -Wall -Werror -Wextra -Iinclude -I$(HEADERS) -g3
+CFLAGS = -Wall -Werror -Wextra -Iinclude -I$(HEADERS) -g3 -lrt
 BONUS_CFLAGS = -Wall -Werror -Wextra -Iinclude -I$(BONUS_HEADERS) -g3
 
 UNAME_S := $(shell uname -s)
