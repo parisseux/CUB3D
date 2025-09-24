@@ -65,13 +65,13 @@ static bool	can_move(t_data *data, double x, double y)
 	return (true);
 }
 
-static void	move_forward_backward(t_data *data, int forward)
+static void	move_forward_backward(t_data *data, int forward, double speed)
 {
 	double	new_x;
 	double	new_y;
 	double	move_speed;
 
-	move_speed = data->move_speed;
+	move_speed = data->move_speed *speed;
 	if (!forward)
 		move_speed = -move_speed;
 	new_x = data->player.pos_x + data->player.dir_x * move_speed;
@@ -82,13 +82,13 @@ static void	move_forward_backward(t_data *data, int forward)
 		data->player.pos_y = new_y;
 }
 
-static void	strafe_left_right(t_data *data, int left)
+static void	strafe_left_right(t_data *data, int left, double speed)
 {
 	double	new_x;
 	double	new_y;
 	double	side_speed;
 
-	side_speed = data->move_speed * 0.6;
+	side_speed = data->move_speed * 0.6 * speed;
 	if (!left)
 		side_speed = -side_speed;
 	new_x = data->player.pos_x + data->player.dir_y * side_speed;
@@ -101,12 +101,17 @@ static void	strafe_left_right(t_data *data, int left)
 
 void	move_player(t_data *data)
 {
+	double speed;
+
+	speed = 1.0;
+	if (data->keys.run == 1)
+		speed = 4;
 	if (data->keys.w)
-		move_forward_backward(data, 1);
+		move_forward_backward(data, 1, speed);
 	if (data->keys.s)
-		move_forward_backward(data, 0);
+		move_forward_backward(data, 0, speed);
 	if (data->keys.a)
-		strafe_left_right(data, 1);
+		strafe_left_right(data, 1, speed);
 	if (data->keys.d)
-		strafe_left_right(data, 0);
+		strafe_left_right(data, 0, speed);
 }

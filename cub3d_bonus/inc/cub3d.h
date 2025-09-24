@@ -15,6 +15,7 @@
 # include <sys/types.h>
 # include <sys/stat.h>
 # include <fcntl.h>
+# include <time.h>
 
 # ifdef __APPLE__
 #  include "../../minilibx_macos/mlx.h"
@@ -32,6 +33,17 @@
 # define DEFAULT_HEIGHT   720
 # define MOVE_SPEED       0.08
 # define ROT_SPEED        0.025
+# define FPS			  30
+# define FRAME_TIME 	  (1000 / FPS)
+
+typedef struct s_img
+{
+    void    *ptr;
+    char    *data;
+    int     bpp;
+    int     size_line;
+    int     endian;
+}   t_img;
 
 typedef struct s_sky
 {
@@ -108,6 +120,7 @@ typedef struct s_keys
 	int		d;
 	int		left;
 	int		right;
+	int		run;
 }	t_keys;
 
 typedef struct s_texture
@@ -176,8 +189,8 @@ typedef struct s_data
 	double		move_speed;
 	double		rot_speed;
 	int			prev_mouse_x;
-	bool mouse_rotating;  
 	double		mouse_sensitivity;
+	t_img 		img;
 }	t_data;
 
 // utils.c
@@ -257,5 +270,8 @@ double		calc_rot_speed(t_data *data);
 int			pixel_skip(t_data *data);
 t_vec		rotate_vec(double x, double y, double angle);
 double		dabs(double x);
+
+//time.c 
+long    get_time_ms(void);
 
 #endif
