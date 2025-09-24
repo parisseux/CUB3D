@@ -11,7 +11,6 @@ int	update(t_data *data)
 	if (elapsed < FRAME_TIME)
 		return (0);
 	last_time = current_time;
-
 	move_player(data);
 	rotate_player(data);
 	render_frame(data);

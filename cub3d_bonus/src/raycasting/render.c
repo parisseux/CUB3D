@@ -75,6 +75,7 @@ int	render_frame(t_data *data)
 		draw_column(data, x, &col);
 		x++;
 	}
+	draw_minimap(data);
 	mlx_put_image_to_window(data->mlx.mlx_ptr, data->mlx.win_ptr,
 		data->mlx.img_ptr, 0, 0);
 	return (0);

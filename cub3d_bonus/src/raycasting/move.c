@@ -71,7 +71,7 @@ static void	move_forward_backward(t_data *data, int forward, double speed)
 	double	new_y;
 	double	move_speed;
 
-	move_speed = data->move_speed *speed;
+	move_speed = data->move_speed * speed;
 	if (!forward)
 		move_speed = -move_speed;
 	new_x = data->player.pos_x + data->player.dir_x * move_speed;
@@ -101,7 +101,7 @@ static void	strafe_left_right(t_data *data, int left, double speed)
 
 void	move_player(t_data *data)
 {
-	double speed;
+	double	speed;
 
 	speed = 1.0;
 	if (data->keys.run == 1)

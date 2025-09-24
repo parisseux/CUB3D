@@ -34,16 +34,10 @@
 # define MOVE_SPEED       0.08
 # define ROT_SPEED        0.025
 # define FPS			  30
-# define FRAME_TIME 	  (1000 / FPS)
-
-typedef struct s_img
-{
-    void    *ptr;
-    char    *data;
-    int     bpp;
-    int     size_line;
-    int     endian;
-}   t_img;
+# define FRAME_TIME 	  33.33
+# define MINIMAP_MARGIN     10
+# define MINIMAP_SCALE 		10
+# define PLAYER_SIZE 4  
 
 typedef struct s_sky
 {
@@ -190,8 +184,10 @@ typedef struct s_data
 	double		rot_speed;
 	int			prev_mouse_x;
 	double		mouse_sensitivity;
-	t_img 		img;
 }	t_data;
+
+//minimap.c
+void		draw_minimap(t_data *data);
 
 // utils.c
 int			mess_error(int exit_code, char *message);
@@ -272,6 +268,6 @@ t_vec		rotate_vec(double x, double y, double angle);
 double		dabs(double x);
 
 //time.c 
-long    get_time_ms(void);
+long		get_time_ms(void);
 
 #endif

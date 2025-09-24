@@ -71,18 +71,13 @@ int	ft_check_map(t_data *game, char *file_name)
 {
 	if (ft_check_format_cub(file_name) == 0)
 		return (mess_error(0, "Format de fichier invalide"));
-	printf("test\n");
 	if (ft_check_elements(game) == 0)
 		return (mess_error(0, "Textures manquantes"));
-	printf("test\n");
 	if (ft_check_tiles(game->map) == 0)
 		return (mess_error(0, "Caractères invalides dans la carte"));
-	printf("test\n");
 	if (init_player(game) == 0)
 		return (0);
-	printf("test\n");
 	if (ft_check_walls(game) == 0)
 		return (mess_error(0, "Murs invalides"));
-	printf("test\n");
 	return (1);
 }
