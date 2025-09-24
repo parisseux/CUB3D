@@ -15,7 +15,7 @@ int	key_release(int keycode, t_data *data)
 	if (keycode == 124 || keycode == 65363)
 		data->keys.right = 0;
 	if (keycode == 49 || keycode == 32)
-    	data->keys.run = 0;
+		data->keys.run = 0;
 	return (0);
 }
 
@@ -43,7 +43,7 @@ int	key_press(int keycode, t_data *data)
 	if ((keycode == 27 || keycode == 45) && data->sky_scale > 1)
 		data->sky_scale -= 1;
 	if (keycode == 49 || keycode == 32)
-    	data->keys.run = 1;
+		data->keys.run = 1;
 	return (0);
 }
 

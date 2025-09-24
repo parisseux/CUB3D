@@ -22,7 +22,7 @@ static void	init_mlx_hook(t_data *data)
 {
 	mlx_hook(data->mlx.win_ptr, 2, 1L << 0, key_press, data);
 	mlx_hook(data->mlx.win_ptr, 3, 1L << 1, key_release, data);
-	mlx_hook(data->mlx.win_ptr, 6, 1L<<6, mouse_move, data);
+	mlx_hook(data->mlx.win_ptr, 6, 1L << 6, mouse_move, data);
 	mlx_mouse_hide(data->mlx.mlx_ptr, data->mlx.win_ptr);
 	mlx_hook(data->mlx.win_ptr, 17, 0, close_window, data);
 	mlx_loop(data->mlx.mlx_ptr);
