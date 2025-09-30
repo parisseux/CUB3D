@@ -70,7 +70,7 @@ static void	update_case_visited(t_ray *ray)
 	}
 }
 
-//avance le rayon "case par Case" dans lam ap jusqu'à qu'il touche un mur
+//avance le rayon "case par Case" dans la map jusqu'à qu'il touche un mur
 //ou qu'il sorte des limites
 //a chaque étape, on franchit la prochaine frontière verticale/horizontale 
 //la plus proche et on met a jour la case visité

@@ -1,5 +1,5 @@
 /* XPM */
-static char * west_xpm[] = {
+static char *west_xpm[] = {
 "64 64 128 2",
 "  	c #303030",
 ". 	c #414141",

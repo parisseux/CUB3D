@@ -1,5 +1,5 @@
 /* XPM */
-static char * east_xpm[] = {
+static char *east_xpm[] = {
 "64 64 75 1",
 " 	c #FFFFFF",
 ".	c #F5F5F5",
