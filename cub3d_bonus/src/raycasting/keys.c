@@ -21,7 +21,7 @@ int	key_release(int keycode, t_data *data)
 
 int	key_press(int keycode, t_data *data)
 {
-	if (keycode == 53 || keycode == 65307)
+	if (keycode == 65307)
 	{
 		cleanup(data);
 		exit(0);
