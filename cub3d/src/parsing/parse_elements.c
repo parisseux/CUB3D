@@ -136,6 +136,18 @@ static int	parse_element_line(t_data *game, char *line, int *elements_found)
 	return (1);
 }
 
+void	gnl_clear(int fd)
+{
+	char	*temp;
+
+	temp = get_next_line(fd);
+	while(temp)
+	{
+		free(temp);
+		temp = get_next_line(fd);
+	}
+}
+
 //is_element_line : in parsing_utils.c
 int	parse_elements(t_data *game, int fd)
 {
@@ -151,7 +163,7 @@ int	parse_elements(t_data *game, int fd)
 		if (is_element_line(line))
 		{
 			if (!parse_element_line(game, line, &elements_found))
-				return (free(line), close(fd), 0);
+				return (free(line), gnl_clear(fd), close(fd), 0);
 		}
 		if (elements_found == 6)
 			break ;
@@ -161,3 +173,4 @@ int	parse_elements(t_data *game, int fd)
 	free(line);
 	return (elements_found == 6);
 }
+
