@@ -9,7 +9,6 @@ int	mess_error(int exit_code, char *message)
 		ft_putstr_fd(message, 2);
 	}
 	ft_putstr_fd("\n", 2);
-	exit(exit_code);
 	return (exit_code);
 }
 
