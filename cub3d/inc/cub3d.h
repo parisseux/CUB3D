@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cub3d.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: grohr <grohr@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/10/07 17:36:13 by grohr             #+#    #+#             */
+/*   Updated: 2025/10/08 15:45:41 by grohr            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef CUB3D_H
 # define CUB3D_H
 
@@ -16,11 +28,7 @@
 # include <sys/stat.h>
 # include <fcntl.h>
 
-# ifdef __APPLE__
-#  include "../../minilibx_macos/mlx.h"
-# else
-#  include "../../minilibx-linux/mlx.h"
-# endif
+# include "../../minilibx-linux/mlx.h"
 
 # ifndef M_PI
 #  define M_PI 3.14159265358979323846
@@ -152,6 +160,7 @@ typedef struct s_data
 // utils.c
 int			mess_error(int exit_code, char *message);
 void		ft_free_split(char **split);
+void		gnl_clear(int fd);
 
 // parsing/check_map.c
 int			ft_check_map(t_data *game, char *file_name);
@@ -159,6 +168,10 @@ int			ft_check_border_map(char **map, int i, int j);
 
 // parsing/get_map.c
 char		**ft_get_map(char *file_path, t_data *game);
+
+// parsing/get_map2.c
+int			open_and_parse_elements(char *file_path, t_data *game, int *fd);
+char		*get_first_map_line(int fd);
 
 // parsing/parsing_utils.c
 int			is_element_line(char *line);
@@ -169,6 +182,8 @@ char		*skip_empty_lines(int fd);
 
 // parsing/parse_elements.c
 int			parse_elements(t_data *game, int fd);
+int			validate_texture_path(char *trimmed);
+int			parse_texture(char *line, char **texture);
 
 // player/player.c
 int			init_player(t_data *game);

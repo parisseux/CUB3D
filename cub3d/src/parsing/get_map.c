@@ -1,21 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_map.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: grohr <grohr@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/10/07 17:17:53 by grohr             #+#    #+#             */
+/*   Updated: 2025/10/09 14:08:59 by grohr            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../inc/cub3d.h"
-
-static bool	start_of_map(char *line)
-{
-	int	i;
-
-	i = 0;
-	while (line[i])
-	{
-		if (is_space(line[i]))
-			i++;
-		else if (line[i] == '1')
-			return (true);
-		else
-			return (false);
-	}
-	return (false);
-}
 
 static char	*append_line_to_map_temp(char *map_temp, char *line)
 {
@@ -38,7 +33,9 @@ static char	*parse_map_lines(int fd, int *height, char *line)
 	{
 		if (only_space(line))
 		{
+			free(line);
 			free(map_temp);
+			gnl_clear(fd);
 			return (NULL);
 		}
 		map_temp = append_line_to_map_temp(map_temp, line);
@@ -49,33 +46,20 @@ static char	*parse_map_lines(int fd, int *height, char *line)
 	return (map_temp);
 }
 
-static int	validate_map_start(char *line, int fd)
-{
-	if (!line || start_of_map(line) == false)
-	{
-		free(line);
-		close(fd);
-		return (0);
-	}
-	return (1);
-}
-
 char	**ft_get_map(char *file_path, t_data *game)
 {
 	char	*map_temp;
-	int		fd;
 	char	*line;
+	int		fd;
 
-	fd = open(file_path, O_RDONLY);
-	if (fd < 0)
+	if (!open_and_parse_elements(file_path, game, &fd))
 		return (NULL);
-	if (!parse_elements(game, fd))
-		return (NULL);
-	line = skip_empty_lines(fd);
-	if (!validate_map_start(line, fd))
+	line = get_first_map_line(fd);
+	if (!line)
 		return (NULL);
 	map_temp = parse_map_lines(fd, &game->height_map, line);
 	close(fd);
+	gnl_clear(fd);
 	if (!map_temp)
 		return (NULL);
 	game->map = ft_split(map_temp, '\n');

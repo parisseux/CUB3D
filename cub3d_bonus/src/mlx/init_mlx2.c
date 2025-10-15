@@ -1,30 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   mlx_loop.c                                         :+:      :+:    :+:   */
+/*   init_mlx2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: grohr <grohr@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/07 17:18:48 by grohr             #+#    #+#             */
-/*   Updated: 2025/10/07 17:21:03 by grohr            ###   ########.fr       */
+/*   Created: 2025/10/08 15:48:51 by grohr             #+#    #+#             */
+/*   Updated: 2025/10/08 15:49:00 by grohr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/cub3d.h"
 
-int	update(t_data *data)
+int	is_texture_path(char *str)
 {
-	static long	last_time = 0;
-	long		current_time;
-	long		elapsed;
-
-	current_time = get_time_ms();
-	elapsed = current_time - last_time;
-	if (elapsed < FRAME_TIME)
+	if (!str)
 		return (0);
-	last_time = current_time;
-	move_player(data);
-	rotate_player(data);
-	render_frame(data);
-	return (0);
+	return (ft_strstr(str, ".xpm") != NULL);
 }

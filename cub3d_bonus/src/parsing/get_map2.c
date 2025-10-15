@@ -1,52 +1,60 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing_utils.c                                    :+:      :+:    :+:   */
+/*   get_map2.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: grohr <grohr@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/08 14:58:53 by grohr             #+#    #+#             */
-/*   Updated: 2025/10/08 14:58:54 by grohr            ###   ########.fr       */
+/*   Created: 2025/10/08 15:55:44 by grohr             #+#    #+#             */
+/*   Updated: 2025/10/09 14:13:01 by grohr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/cub3d.h"
 
-int	is_space(char c)
-{
-	if (c == '\t' || c == '\n' || c == '\v'
-		|| c == '\f' || c == '\r' || c == ' ')
-		return (1);
-	else
-		return (0);
-}
-
-bool	only_space(char *line)
+static bool	start_of_map(char *line)
 {
 	int	i;
 
 	i = 0;
 	while (line[i])
 	{
-		if (line[i] == '\t' || line[i] == '\n'
-			|| line[i] == '\v' || line[i] == '\f'
-			|| line[i] == '\r' || line[i] == ' ')
+		if (is_space(line[i]))
 			i++;
+		else if (line[i] == '1')
+			return (true);
 		else
 			return (false);
 	}
-	return (true);
+	return (false);
 }
 
-char	*skip_empty_lines(int fd)
+int	open_and_parse(char *file_path, t_data *game, int *fd)
+{
+	*fd = open(file_path, O_RDONLY);
+	if (*fd < 0)
+		return (0);
+	if (!parse_elements(game, *fd))
+	{
+		gnl_clear(*fd);
+		close(*fd);
+		return (0);
+	}
+	return (1);
+}
+
+char	*get_first_map_line(int fd)
 {
 	char	*line;
 
-	line = get_next_line(fd);
-	while (line && only_space(line))
+	line = skip_empty_lines(fd);
+	if (!line || !start_of_map(line))
 	{
-		free(line);
-		line = get_next_line(fd);
+		if (line)
+			free(line);
+		gnl_clear(fd);
+		close(fd);
+		return (NULL);
 	}
 	return (line);
 }

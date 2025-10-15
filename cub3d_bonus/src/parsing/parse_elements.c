@@ -1,4 +1,34 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse_elements.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: grohr <grohr@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/10/08 14:58:40 by grohr             #+#    #+#             */
+/*   Updated: 2025/10/08 15:38:37 by grohr            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../inc/cub3d.h"
+
+// Vérifie si c'est un chemin de texture valide (contient .xpm)
+static int	is_valid_texture_path(char *str)
+{
+	int	i;
+
+	if (!str || !*str)
+		return (0);
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == '.' && str[i + 1] == 'x'
+			&& str[i + 2] == 'p' && str[i + 3] == 'm')
+			return (1);
+		i++;
+	}
+	return (0);
+}
 
 static int	parse_texture(char *line, char **texture)
 {
@@ -12,6 +42,15 @@ static int	parse_texture(char *line, char **texture)
 	{
 		free(trimmed);
 		return (0);
+	}
+	if ((ft_strncmp(line, "C ", 2) == 0 || ft_strncmp(line, "F ", 2) == 0))
+	{
+		if (!is_valid_texture_path(trimmed))
+		{
+			free(trimmed);
+			printf("Error: F and C must be texture paths (.xpm) in bonus\n");
+			return (0);
+		}
 	}
 	*texture = trimmed;
 	return (1);
@@ -54,13 +93,17 @@ int	parse_elements(t_data *game, int fd)
 	elements_found = 0;
 	line = get_next_line(fd);
 	if (!line)
-		return (close(fd), 0);
+		return (0);
 	while (line && elements_found < 6)
 	{
 		if (is_element_line(line))
 		{
 			if (!parse_element_line(game, line, &elements_found))
-				return (free(line), close(fd), 0);
+			{
+				free(line);
+				gnl_clear(fd);
+				return (0);
+			}
 		}
 		if (elements_found == 6)
 			break ;

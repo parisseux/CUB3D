@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: grohr <grohr@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/10/07 17:18:34 by grohr             #+#    #+#             */
+/*   Updated: 2025/10/07 17:25:24 by grohr            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../inc/cub3d.h"
 
 int	mess_error(int exit_code, char *message)
@@ -25,4 +37,16 @@ void	ft_free_split(char **split)
 		i++;
 	}
 	free(split);
+}
+
+void	gnl_clear(int fd)
+{
+	char	*temp;
+
+	temp = get_next_line(fd);
+	while (temp)
+	{
+		free(temp);
+		temp = get_next_line(fd);
+	}
 }

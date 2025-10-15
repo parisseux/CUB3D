@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cub3d.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: pchatagn <pchatagn@42.com>                 +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/10/07 17:22:04 by grohr             #+#    #+#             */
+/*   Updated: 2025/10/13 14:43:56 by pchatagn         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef CUB3D_H
 # define CUB3D_H
 
@@ -192,6 +204,9 @@ void		draw_minimap(t_data *data);
 // utils.c
 int			mess_error(int exit_code, char *message);
 void		ft_free_split(char **split);
+void		gnl_clear(int fd);
+char		*ft_strstr(const char *haystack, const char *needle);
+void		exit_tex_error(t_data *data, char *msg);
 
 // parsing/check_map.c
 int			ft_check_map(t_data *game, char *file_name);
@@ -199,6 +214,10 @@ int			ft_check_border_map(char **map, int i, int j);
 
 // parsing/get_map.c
 char		**ft_get_map(char *file_path, t_data *game);
+
+// parsing/get_map2.c
+int			open_and_parse(char *file_path, t_data *game, int *fd);
+char		*get_first_map_line(int fd);
 
 // parsing/parsing_utils.c
 int			is_space(char c);
@@ -215,6 +234,9 @@ int			init_player(t_data *game);
 // mlx/init_mlx.c
 void		init_mlx(t_data *data);
 void		get_screen_size(t_data *data);
+
+// mlx/init_mlx2.c
+int			is_texture_path(char *str);
 
 // mlx/quit_clean.c
 int			close_window(t_data *data);

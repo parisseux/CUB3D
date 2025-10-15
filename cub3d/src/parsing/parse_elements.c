@@ -1,49 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse_elements.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: grohr <grohr@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/10/03 18:12:08 by pchatagn          #+#    #+#             */
+/*   Updated: 2025/10/07 17:33:19 by grohr            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../inc/cub3d.h"
-
-// Vérifie que le chemin de texture est valide :
-// -> pas de chiffres/virgules
-// -> extension : .xpm)
-static int	validate_texture_path(char *trimmed)
-{
-	char	*start;
-
-	start = trimmed;
-	while (*start)
-	{
-		if (ft_isdigit(*start) || *start == ',')
-		{
-			free(trimmed);
-			return (mess_error(0, "Texture : caractères inattendus"));
-		}
-		start++;
-	}
-	if (!ft_strrchr(trimmed, '.')
-		|| ft_strncmp(ft_strrchr(trimmed, '.'), ".xpm", 4) != 0)
-	{
-		free(trimmed);
-		return (mess_error(0, "Extension de texture invalide (try .xpm)"));
-	}
-	return (1);
-}
-
-static int	parse_texture(char *line, char **texture)
-{
-	char	*trimmed;
-
-	if (ft_strncmp(line, "C ", 2) == 0 || ft_strncmp(line, "F ", 2) == 0)
-		trimmed = ft_strtrim(line + 2, " \t\n");
-	else
-		trimmed = ft_strtrim(line + 3, " \t\n");
-	if (!trimmed || !*trimmed)
-	{
-		free(trimmed);
-		return (mess_error(0, "Chemin de texture vide ou invalide"));
-	}
-	if (!validate_texture_path(trimmed))
-		return (0);
-	*texture = trimmed;
-	return (1);
-}
 
 // Skip whitespaces (au cas où, même si trimmed)
 // Optionnel + ou - (exactement un signe)
@@ -77,18 +44,10 @@ static int	is_valid_number(char *str)
 	return (has_digit);
 }
 
-static int	parse_color(char *line, int *color)
+static int	validate_rgb_values(char **rgb, int col[3])
 {
-	char	*trimmed;
-	char	**rgb;
-	int		col[3];
-	int		i;
+	int	i;
 
-	trimmed = ft_strtrim(line + 2, " \t\n");
-	if (!trimmed)
-		return (0);
-	rgb = ft_split(trimmed, ',');
-	free(trimmed);
 	if (!rgb || !rgb[0] || !rgb[1] || !rgb[2] || rgb[3])
 	{
 		ft_free_split(rgb);
@@ -102,16 +61,25 @@ static int	parse_color(char *line, int *color)
 			ft_free_split(rgb);
 			return (0);
 		}
+		col[i] = ft_atoi(rgb[i]);
 		i++;
 	}
-	col[0] = ft_atoi(rgb[0]);
-	col[1] = ft_atoi(rgb[1]);
-	col[2] = ft_atoi(rgb[2]);
-	if (!is_valid_rgb(col[0], col[1], col[2]))
-	{
-		ft_free_split(rgb);
+	return (1);
+}
+
+static int	parse_color(char *line, int *color)
+{
+	char	*trimmed;
+	char	**rgb;
+	int		col[3];
+
+	trimmed = ft_strtrim(line + 2, " \t\n");
+	if (!trimmed)
 		return (0);
-	}
+	rgb = ft_split(trimmed, ',');
+	free(trimmed);
+	if (!validate_rgb_values(rgb, col) || !is_valid_rgb(col[0], col[1], col[2]))
+		return (0);
 	*color = (col[0] << 16) | (col[1] << 8) | col[2];
 	ft_free_split(rgb);
 	return (1);
@@ -134,18 +102,6 @@ static int	parse_element_line(t_data *game, char *line, int *elements_found)
 	else
 		return (mess_error(0, "Élément dup ou invalide"));
 	return (1);
-}
-
-void	gnl_clear(int fd)
-{
-	char	*temp;
-
-	temp = get_next_line(fd);
-	while(temp)
-	{
-		free(temp);
-		temp = get_next_line(fd);
-	}
 }
 
 //is_element_line : in parsing_utils.c
@@ -173,4 +129,3 @@ int	parse_elements(t_data *game, int fd)
 	free(line);
 	return (elements_found == 6);
 }
-

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: grohr <grohr@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/10/07 17:23:14 by grohr             #+#    #+#             */
+/*   Updated: 2025/10/09 14:14:32 by grohr            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../inc/cub3d.h"
 
 static t_data	*init_data(void)
@@ -18,12 +30,12 @@ static t_data	*init_data(void)
 	return (data);
 }
 
+//mlx_mouse_hide(data->mlx.mlx_ptr, data->mlx.win_ptr);
 static void	init_mlx_hook(t_data *data)
 {
 	mlx_hook(data->mlx.win_ptr, 2, 1L << 0, key_press, data);
 	mlx_hook(data->mlx.win_ptr, 3, 1L << 1, key_release, data);
 	mlx_hook(data->mlx.win_ptr, 6, 1L << 6, mouse_move, data);
-	mlx_mouse_hide(data->mlx.mlx_ptr, data->mlx.win_ptr);
 	mlx_hook(data->mlx.win_ptr, 17, 0, close_window, data);
 	mlx_loop(data->mlx.mlx_ptr);
 }

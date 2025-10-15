@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   init_mlx.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: pchatagn <pchatagn@42.com>                 +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/10/07 17:17:22 by grohr             #+#    #+#             */
+/*   Updated: 2025/10/13 14:28:24 by pchatagn         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../inc/cub3d.h"
 
 void	get_screen_size(t_data *data)
@@ -32,7 +44,7 @@ static int	load_texture(t_data *data, t_texture *tex, char *path)
 		printf("Error: Failed to load image %s\n", path);
 		cleanup(data);
 		mess_error(1, "Invalid texture file");
-		return (0);
+		exit (0);
 	}
 	tex->data = mlx_get_data_addr(tex->img_ptr, &tex->bpp,
 			&tex->size_line, &tex->endian);
@@ -41,7 +53,7 @@ static int	load_texture(t_data *data, t_texture *tex, char *path)
 		printf("Error: Failed to get texture data for %s\n", path);
 		cleanup(data);
 		mess_error(1, "Failed to get texture data");
-		return (0);
+		exit (0);
 	}
 	tex->width = width;
 	tex->height = height;
@@ -86,7 +98,7 @@ static void	init_window(t_data *data)
 	}
 }
 
-void init_mlx(t_data *data)
+void	init_mlx(t_data *data)
 {
 	data->mlx.mlx_ptr = mlx_init();
 	if (!data->mlx.mlx_ptr)
