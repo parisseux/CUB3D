@@ -1,9 +1,9 @@
-NO ./textures5/wall.xpm
-SO ./textures5/wall.xpm
-WE ./textures5/wall.xpm
-EA ./textures5/wall.xpm
-F ./textures5/floor.xpm
-C ./textures5/sky.xpm
+NO ./textures_D/wall.xpm
+SO ./textures_D/wall.xpm
+WE ./textures_D/wall.xpm
+EA ./textures_D/wall.xpm
+F ./textures_D/floor.xpm
+C ./textures_D/sky.xpm
 
 
 111111111111111111111111111

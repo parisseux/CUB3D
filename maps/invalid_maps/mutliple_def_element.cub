@@ -1,10 +1,10 @@
-NO ./textures2/wall.xpm
-SO ./textures2/wall.xpm
-WE ./textures2/wall.xpm
-EA ./textures2/wall.xpm
-F ./textures2/grass.xpm
-C ./textures2/sky.xpm
-EA ./textures2/wall.xpm
+NO ./textures_B/wall.xpm
+SO ./textures_B/wall.xpm
+WE ./textures_B/wall.xpm
+EA ./textures_B/wall.xpm
+F ./textures_B/grass.xpm
+C ./textures_B/sky.xpm
+EA ./textures_B/wall.xpm
 
 111111111111111111111111111
 100000000000000000000000001

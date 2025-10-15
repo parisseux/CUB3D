@@ -2,8 +2,8 @@ NO ./texture_labirinthe/cleanwall.xpm
 SO ./texture_labirinthe/cleanwall.xpm
 WE ./texture_dungeon/cleanwall.xpm
 EA ./texture_dungeon/cleanwall.xpm
-F ./textures/test.xpm
-C ./textures/test.xpm
+F ./texture_dungeon/floorgrey.xpm
+C ./texture_dungeon/darksky.xpm
 
 1111111111111111111111111
 1000000000110000000000001

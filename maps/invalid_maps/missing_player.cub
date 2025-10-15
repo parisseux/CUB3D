@@ -1,9 +1,9 @@
-NO ./textures4/bleuwall.xpm
-SO ./textures4/bleuwall.xpm
-WE ./textures4/bleuwall.xpm
-EA ./textures4/bleuwall.xpm
-F ./textures4/purplefloor.xpm
-C ./textures4/purplesky.xpm
+NO ./textures_C/bleuwall.xpm
+SO ./textures_C/bleuwall.xpm
+WE ./textures_C/bleuwall.xpm
+EA ./textures_C/bleuwall.xpm
+F ./textures_C/purplefloor.xpm
+C ./textures_C/purplesky.xpm
 
 111111
 100001
