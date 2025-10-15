@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: grohr <grohr@student.42.fr>                +#+  +:+       +#+        */
+/*   By: pchatagn <pchatagn@42.com>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 14:16:31 by grohr             #+#    #+#             */
-/*   Updated: 2025/03/13 21:44:26 by grohr            ###   ########.fr       */
+/*   Updated: 2025/10/13 14:13:00 by pchatagn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,5 @@ char	*ft_add_line(int fd, char *str);
 char	*ft_next_line(char *str);
 char	*ft_remove_str_1st_line(char *line);
 char	*get_next_line(int fd);
-
 
 #endif
